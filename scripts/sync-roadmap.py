@@ -19,7 +19,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "roadmap-q3.json"
-SHEET_URL = "https://docs.google.com/spreadsheets/d/1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8/edit"
+# Source of truth — PLG Roadmap 2026, Sheet1 (gid=0)
+SHEET_URL = "https://docs.google.com/spreadsheets/d/1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8/edit?gid=0#gid=0"
+SHEET_TAB = "Sheet1"
 
 
 def slug(name: str) -> str:
@@ -78,8 +80,11 @@ def main() -> None:
 
     payload = {
         "source": "PLG Roadmap 2026",
+        "sourceOfTruth": SHEET_URL,
         "sheetUrl": SHEET_URL,
+        "sheetTab": SHEET_TAB,
         "quarter": "Q3",
+        "quarterField": "Expected Launch Quarter",
         "syncedAt": date.today().isoformat(),
         "items": sorted(items, key=lambda x: (x["designer"], x["state"], x["name"])),
     }

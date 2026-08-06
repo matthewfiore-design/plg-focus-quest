@@ -17,6 +17,7 @@ const els = {
   count: null,
   filters: null,
   subtitle: null,
+  sourceLink: null,
 };
 
 let roadmapData = null;
@@ -214,6 +215,7 @@ function openPanel(id) {
         ${detailLink("PRD", item.prdLink)}
         ${detailLink("Jira / plan", item.jiraLink)}
         ${detailLink("Figma", item.figmaLinks)}
+        ${roadmapData?.sheetUrl ? detailLink("Roadmap sheet (source of truth)", roadmapData.sheetUrl) : ""}
       </dl>
     </section>
   `;
@@ -249,6 +251,7 @@ export async function initRoadmap(dom) {
   els.count = dom.count;
   els.filters = dom.filters;
   els.subtitle = dom.subtitle;
+  els.sourceLink = dom.sourceLink;
 
   dom.panelClose?.addEventListener("click", closePanel);
   dom.scrim?.addEventListener("click", closePanel);
@@ -257,8 +260,13 @@ export async function initRoadmap(dom) {
   });
 
   roadmapData = await loadRoadmap();
+  const sheetUrl = roadmapData.sourceOfTruth || roadmapData.sheetUrl;
   if (els.subtitle) {
-    els.subtitle.textContent = `${roadmapData.quarter} · synced ${roadmapData.syncedAt}`;
+    els.subtitle.textContent = `${roadmapData.quarter} from ${roadmapData.sheetTab || "Sheet1"} · synced ${roadmapData.syncedAt}`;
+  }
+  if (els.sourceLink && sheetUrl) {
+    els.sourceLink.href = sheetUrl;
+    els.sourceLink.classList.remove("hidden");
   }
   renderFilters();
   renderGrid();

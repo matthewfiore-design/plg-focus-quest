@@ -9,7 +9,7 @@ Gamified weekly focus tracker for PLG design leadership, plus a **PLG Roadmap** 
 | Tab | Audience | Source |
 |-----|----------|--------|
 | **My Tasks** | Manager personal quests | `seed.json` + localStorage |
-| **PLG Roadmap** | All PLG designers | `roadmap-q3.json` (Q3 rows from [PLG Roadmap 2026](https://docs.google.com/spreadsheets/d/1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8/edit)) |
+| **PLG Roadmap** | All PLG designers | [PLG Roadmap 2026 — Sheet1](https://docs.google.com/spreadsheets/d/1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8/edit?gid=0#gid=0) (**source of truth**) → cached in `roadmap-q3.json` |
 
 Roadmap cards show **Project name, description, state, designer**. Click a card for the side panel (status, people, timeline, links).
 
@@ -36,7 +36,11 @@ python3 -m http.server 8080
 
 ## Sync roadmap from Google Sheet
 
-1. Export **Sheet1** from PLG Roadmap 2026 (or fetch via Drive MCP).
+**Source of truth:** [PLG Roadmap 2026 — Sheet1 (gid=0)](https://docs.google.com/spreadsheets/d/1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8/edit?gid=0#gid=0)
+
+The app caches Q3 rows (`Expected Launch Quarter = Q3`) in `roadmap-q3.json`. Re-sync when the sheet changes:
+
+1. Export **Sheet1** (or fetch via Drive MCP).
 2. Run:
 
 ```bash

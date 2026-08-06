@@ -1,7 +1,10 @@
 {
   "source": "PLG Roadmap 2026",
-  "sheetUrl": "https://docs.google.com/spreadsheets/d/1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8/edit",
+  "sourceOfTruth": "https://docs.google.com/spreadsheets/d/1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8/edit?gid=0#gid=0",
+  "sheetUrl": "https://docs.google.com/spreadsheets/d/1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8/edit?gid=0#gid=0",
+  "sheetTab": "Sheet1",
   "quarter": "Q3",
+  "quarterField": "Expected Launch Quarter",
   "syncedAt": "2026-08-06",
   "items": [
     {
@@ -260,7 +263,7 @@
     {
       "id": "interactive-plan-recommendation-from-plans-page",
       "name": "Interactive plan recommendation from plans page",
-      "description": "Plan recommendation flow from \"see all plans\" page to Zea (or admin copilot)~ This needs to be scoped to Small - Scott to scope down with Artha. If it can't be scoped down we will likely deprioritize.",
+      "description": "Plan recommendation flow from \"see all plans\" page to Zea (or admin copilot)\n\n~ This needs to be scoped to Small - Scott to scope down with Artha. If it can't be scoped down we will likely deprioritize.",
       "state": "2. Definition / Discovery",
       "designer": "Ankit Bansod",
       "l2": "New business",
@@ -283,7 +286,7 @@
     {
       "id": "coupon-enhancement-prevent-coupon-overuse-by-limiting-seat-count",
       "name": "Coupon Enhancement - prevent coupon overuse by limiting seat count.",
-      "description": "Marketing frequently launches acquisition campaigns targeting small businesses with offers such as 100% off for 3 months or similar introductory promotions. While these campaigns are intended for customers purchasing only a few seats, coupons can currently be redeemed against significantly larger purchases because there is no maximum seat restriction.For example, a promotion intended for customers purchasing up to 3 seats can also be applied to a 20-seat purchase, resulting in substantial unintended discounts and ARR leakage.This limitation prevents Marketing from confidently running targeted promotions and increases the risk of coupon abuse.",
+      "description": "Marketing frequently launches acquisition campaigns targeting small businesses with offers such as 100% off for 3 months or similar introductory promotions. While these campaigns are intended for customers purchasing only a few seats, coupons can currently be redeemed against significantly larger purchases because there is no maximum seat restriction.\nFor example, a promotion intended for customers purchasing up to 3 seats can also be applied to a 20-seat purchase, resulting in substantial unintended discounts and ARR leakage.\nThis limitation prevents Marketing from confidently running targeted promotions and increases the risk of coupon abuse.",
       "state": "1. Planned",
       "designer": "Dheeraj Kumar",
       "l2": "New business",
@@ -628,7 +631,7 @@
     {
       "id": "expired-trial-ux-redesign-phase-1-non-dismissable-recommended-plan-modal",
       "name": "Expired Trial UX Redesign (Phase 1: Non-Dismissable Recommended Plan Modal)",
-      "description": "Goal: Redesign 4-year old expired trial UX. Solution: Redirect to product, display non-dismissable Recommended Plan Modal (via growth engine). Remove \"extend trial\" CTA.",
+      "description": "Goal: Redesign 4-year old expired trial UX. \nSolution: Redirect to product, display non-dismissable Recommended Plan Modal (via growth engine).\n Remove \"extend trial\" CTA.",
       "state": "4. Development",
       "designer": "Dheeraj Kumar",
       "l2": "New business",
@@ -720,7 +723,7 @@
     {
       "id": "magic-links-launching-on-trial-sign-up",
       "name": "Magic Links Launching on Trial Sign Up",
-      "description": "The Account Services Team is removing the need to require a password during sign up - instead a user will get a magic link in order to login, sent to their email. This change is going live on August 3. In order for that change to launch, we need to remove the PW step from sign up globally.",
+      "description": "The Account Services Team is removing the need to require a password during sign up - instead a user will get a magic link in order to login, sent to their email. This change is going live on August 3. \n\nIn order for that change to launch, we need to remove the PW step from sign up globally.",
       "state": "1. Planned",
       "designer": "N/A",
       "l2": "New business",
@@ -743,7 +746,7 @@
     {
       "id": "simplify-startup-sign-up-via-clearbit",
       "name": "Simplify Startup Sign-Up via Clearbit",
-      "description": "Goal: Reduce the number of form fields. Solution: Rollout Clearbit enrichment on the startup sign-up experience, reducing the number of questions from 17 to 7. (Note: Although the # of questions is high, most are asked 2 questions per step)",
+      "description": "Goal: Reduce the number of form fields. \nSolution: Rollout Clearbit enrichment on the startup sign-up experience, reducing the number of questions from 17 to 7. (Note: Although the # of questions is high, most are asked 2 questions per step)",
       "state": "6. Launched",
       "designer": "N/A",
       "l2": "New business",
@@ -789,7 +792,7 @@
     {
       "id": "add-knowledge-step-in-trial",
       "name": "Add knowledge step in trial",
-      "description": "Give trialists an ingress to the new knowledge sources page (coming Q2), making it easier to connect external knowledge sources and manage crawled websites ~ Dependency on knowledge team",
+      "description": "Give trialists an ingress to the new knowledge sources page (coming Q2), making it easier to connect external knowledge sources and manage crawled websites \n\n~ Dependency on knowledge team",
       "state": "1. Planned",
       "designer": "Nicaela Rivera",
       "l2": "AI penetration",
@@ -950,7 +953,7 @@
     {
       "id": "allow-users-to-enter-product-without-immediate-verification",
       "name": "Allow Users to Enter Product Without Immediate Verification",
-      "description": "Problem: We stop users immediately after sign up to verify their account, without allowing them to see immediate valueSolution: Allow users to sign up and get started with Zendesk. Share verification email in their inbox, which they can passively access in the next 24hrs. ~ Ideally we know by the end of the quarter what and who would be involved here and have possibly have found a shortcut that would get us most of the value.",
+      "description": "Problem: We stop users immediately after sign up to verify their account, without allowing them to see immediate value\nSolution: Allow users to sign up and get started with Zendesk. Share verification email in their inbox, which they can passively access in the next 24hrs. \n\n~ Ideally we know by the end of the quarter what and who would be involved here and have possibly have found a shortcut that would get us most of the value.",
       "state": "2. Definition / Discovery",
       "designer": "Suhail Shaikh",
       "l2": "New business",
@@ -973,13 +976,13 @@
     {
       "id": "collect-company-domain-for-personal-emails",
       "name": "Collect Company Domain for Personal Emails",
-      "description": "Problem: Personal email leads are unscored/not routed to sales. Solution: Add question during sign-up to capture company domain/website for Clearbit enrichment.",
+      "description": "Problem: Personal email leads are unscored/not routed to sales. \nSolution: Add question during sign-up to capture company domain/website for Clearbit enrichment.",
       "state": "2. Definition / Discovery",
       "designer": "Suhail Shaikh",
       "l2": "New business",
       "successMetric": "Company domain sign ups",
       "statusUpdated": "7/28/2026",
-      "status": "Marketing Ops is prioritizing for Q3. Larger ask (Asana ticket). Reprioritizing for Q3Blocked till Marketing Ops comes back",
+      "status": "Marketing Ops is prioritizing for Q3. Larger ask (Asana ticket). Reprioritizing for Q3\nBlocked till Marketing Ops comes back",
       "launchDate": "",
       "expectedLaunchMonth": "10. October",
       "expectedLaunchQuarter": "Q3",
@@ -996,7 +999,7 @@
     {
       "id": "optimize-tooltip-for-company-email-mix-shift",
       "name": "Optimize Tooltip for Company Email Mix Shift",
-      "description": "Goal: Drive a mix shift toward company email domain sign-ups. Solution: Update tooltip design and messaging on /register. (Excludes mobile web traffic)",
+      "description": "Goal: Drive a mix shift toward company email domain sign-ups. \nSolution: Update tooltip design and messaging on /register. (Excludes mobile web traffic)",
       "state": "3. Design",
       "designer": "Suhail Shaikh",
       "l2": "New business",
@@ -1019,7 +1022,7 @@
     {
       "id": "reduce-duplicate-trials-reroute-users",
       "name": "Reduce Duplicate Trials & Reroute Users",
-      "description": "Problem: ~20% of sign-ups are duplicate trials which leads to spam and lower \"Extend Trial\" wins and overall win rateSolution: Prompt returning users to loginOutcome: Increase extend trial win rate and overall win rate",
+      "description": "Problem: ~20% of sign-ups are duplicate trials which leads to spam and lower \"Extend Trial\" wins and overall win rate\nSolution: Prompt returning users to login\nOutcome: Increase extend trial win rate and overall win rate",
       "state": "3. Design",
       "designer": "Suhail Shaikh",
       "l2": "New business",
@@ -1042,7 +1045,7 @@
     {
       "id": "retest-value-based-message-test-variant-a",
       "name": "Retest Value Based Message Test Variant A",
-      "description": "Goal: Retesting the leading test variant that drove a ~2% increase in sign up rate (not stat sig)Solution: Pop-up abandonment modal (previous test variant A) with improved messagingDependent: Trial Type test concluding.",
+      "description": "Goal: Retesting the leading test variant that drove a ~2% increase in sign up rate (not stat sig)\nSolution: Pop-up abandonment modal (previous test variant A) with improved messaging\nDependent: Trial Type test concluding.",
       "state": "4. Development",
       "designer": "Suhail Shaikh",
       "l2": "New business",
@@ -1065,7 +1068,7 @@
     {
       "id": "company-email-nudge-while-form-filling",
       "name": "Company email nudge while form filling",
-      "description": "Goal: Improve company email mix improvementSolution: Nudge users to enter company email by showing a \"name@company.com\" indicator in text box",
+      "description": "Goal: Improve company email mix improvement\nSolution: Nudge users to enter company email by showing a \"name@company.com\" indicator in text box",
       "state": "6. Launched",
       "designer": "Suhail Shaikh",
       "l2": "Bookings",
@@ -1295,7 +1298,7 @@
     {
       "id": "partner-with-performance-marketing-web-to-carry-forward-messaging-on-paid-media-",
       "name": "Partner with Performance Marketing & Web to carry forward messaging on paid media sign up throughout trial sign up experience",
-      "description": "Today we exclude paid media from all experimentation - yet changes to budget and campaigns directly influences the sign up rate and sign up performance. Goal of this project is to partner more closely with the performance marketing team to ensure their campaigns are supported through the end to end experience. Rather than excluding them, we should be including them in their separate tests and improvements",
+      "description": "Today we exclude paid media from all experimentation - yet changes to budget and campaigns directly influences the sign up rate and sign up performance. \n\nGoal of this project is to partner more closely with the performance marketing team to ensure their campaigns are supported through the end to end experience. Rather than excluding them, we should be including them in their separate tests and improvements",
       "state": "2. Definition / Discovery",
       "designer": "Unassigned",
       "l2": "Bookings",
@@ -1318,7 +1321,7 @@
     {
       "id": "pilot-company-domain-requirement-for-10-of-audience",
       "name": "Pilot: Company domain requirement for 10% of audience",
-      "description": "Today, only company domain trial sign ups MQL yet we allow users to sign up with a personal domain. Personal domain sign ups are required to go through the entire sign up experience (personal domains aren't enriched with Clearbit), and purchase at a lower rate - yet make up 70% of total trial sign ups. Goal of this test is to require a company email domain in order to sign up for a trial, to a small subset of users, to understand the impact on sign ups, sign up rate, MQLs, win rate, etc. when we required a company domain.",
+      "description": "Today, only company domain trial sign ups MQL yet we allow users to sign up with a personal domain. Personal domain sign ups are required to go through the entire sign up experience (personal domains aren't enriched with Clearbit), and purchase at a lower rate - yet make up 70% of total trial sign ups. \n\nGoal of this test is to require a company email domain in order to sign up for a trial, to a small subset of users, to understand the impact on sign ups, sign up rate, MQLs, win rate, etc. when we required a company domain.",
       "state": "2. Definition / Discovery",
       "designer": "Unassigned",
       "l2": "Bookings",
@@ -1341,7 +1344,7 @@
     {
       "id": "reduce-duplicate-trials-for-startups",
       "name": "Reduce duplicate trials for startups",
-      "description": "Users today can sign up for a CS/ES trial, and then sign up the startup application form to redeem the offer. This leads to duplicate trials - users signing up for both trial experiences. Goal of this improvement is to reduce the number of duplicate trial sign ups and startup sign ups and reduce customer confusion",
+      "description": "Users today can sign up for a CS/ES trial, and then sign up the startup application form to redeem the offer. This leads to duplicate trials - users signing up for both trial experiences. \n\nGoal of this improvement is to reduce the number of duplicate trial sign ups and startup sign ups and reduce customer confusion",
       "state": "2. Definition / Discovery",
       "designer": "Unassigned",
       "l2": "Bookings",

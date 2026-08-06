@@ -585,6 +585,7 @@ async function init() {
     filters: document.getElementById("roadmap-filters"),
     count: document.getElementById("roadmap-count"),
     subtitle: document.getElementById("roadmap-subtitle"),
+    sourceLink: document.getElementById("roadmap-source-link"),
     panel: document.getElementById("roadmap-panel"),
     panelBody: document.getElementById("roadmap-panel-body"),
     panelTitle: document.getElementById("roadmap-panel-title"),

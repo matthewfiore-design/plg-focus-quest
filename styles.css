@@ -649,6 +649,19 @@ h1 {
   font-size: 0.9rem;
 }
 
+.roadmap-source-link {
+  display: inline-block;
+  margin-top: 0.45rem;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.roadmap-source-link:hover {
+  text-decoration: underline;
+}
+
 .roadmap-filters {
   display: flex;
   flex-wrap: wrap;
