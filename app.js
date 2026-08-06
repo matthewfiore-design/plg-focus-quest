@@ -1,4 +1,7 @@
+import { initRoadmap } from "./roadmap.js";
+
 const STORAGE_KEY = "plg-focus-quest-v1";
+const VIEW_KEY = "plg-focus-quest-view";
 const LEVELS = [
   { level: 1, title: "Rookie", xp: 0 },
   { level: 2, title: "Scout", xp: 100 },
@@ -35,7 +38,14 @@ const els = {
   btnExport: document.getElementById("btn-export"),
   btnReset: document.getElementById("btn-reset"),
   taskCancel: document.getElementById("task-cancel"),
+  viewTasks: document.getElementById("view-tasks"),
+  viewRoadmap: document.getElementById("view-roadmap"),
+  navTabs: document.querySelectorAll(".nav-tab"),
+  hudStats: document.querySelector(".hud__stats"),
+  hudEyebrow: document.querySelector(".hud__eyebrow"),
 };
+
+let currentView = localStorage.getItem(VIEW_KEY) || "tasks";
 
 let state = null;
 let viewDate = todayISO();
@@ -513,6 +523,32 @@ async function resetWeek() {
   showToast("Week reset from seed");
 }
 
+function setView(view) {
+  currentView = view === "roadmap" ? "roadmap" : "tasks";
+  localStorage.setItem(VIEW_KEY, currentView);
+
+  els.viewTasks?.classList.toggle("view--active", currentView === "tasks");
+  els.viewRoadmap?.hidden = currentView !== "roadmap";
+
+  els.navTabs.forEach((tab) => {
+    tab.classList.toggle("is-active", tab.dataset.view === currentView);
+  });
+
+  const onRoadmap = currentView === "roadmap";
+  els.btnAddTop?.classList.toggle("hidden", onRoadmap);
+  els.hudStats?.classList.toggle("hidden", onRoadmap);
+  if (els.hudEyebrow) {
+    els.hudEyebrow.textContent = onRoadmap ? "Team hub" : "Focus Quest";
+  }
+}
+
+function wireNavigation() {
+  els.navTabs.forEach((tab) => {
+    tab.addEventListener("click", () => setView(tab.dataset.view));
+  });
+  setView(currentView);
+}
+
 function wireUI() {
   els.btnAdd.addEventListener("click", () => openTaskDialog());
   els.btnAddTop.addEventListener("click", () => openTaskDialog());
@@ -527,6 +563,7 @@ function wireUI() {
 }
 
 async function init() {
+  wireNavigation();
   wireUI();
   state = loadState();
   if (!state) {
@@ -542,6 +579,18 @@ async function init() {
   saveState();
   viewDate = todayISO();
   render();
+
+  await initRoadmap({
+    grid: document.getElementById("roadmap-grid"),
+    filters: document.getElementById("roadmap-filters"),
+    count: document.getElementById("roadmap-count"),
+    subtitle: document.getElementById("roadmap-subtitle"),
+    panel: document.getElementById("roadmap-panel"),
+    panelBody: document.getElementById("roadmap-panel-body"),
+    panelTitle: document.getElementById("roadmap-panel-title"),
+    panelClose: document.getElementById("roadmap-panel-close"),
+    scrim: document.getElementById("roadmap-scrim"),
+  });
 }
 
 init().catch((err) => {
