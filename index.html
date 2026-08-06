@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PLG Focus Quest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <div id="confetti-root" aria-hidden="true"></div>
+
+  <header class="hud">
+    <div class="hud__brand">
+      <span class="hud__logo">PLG</span>
+      <div>
+        <p class="hud__eyebrow">Focus Quest</p>
+        <h1 id="week-title">Week loading…</h1>
+      </div>
+    </div>
+    <div class="hud__actions">
+      <button type="button" id="btn-add-top" class="btn-add-top" title="Add quest" aria-label="Add quest">+</button>
+    </div>
+    <div class="hud__stats">
+      <div class="stat stat--level">
+        <span class="stat__label">Rank</span>
+        <strong id="level-label">Rookie</strong>
+        <span class="stat__sub" id="level-num">Lv 1</span>
+      </div>
+      <div class="stat stat--xp">
+        <span class="stat__label">XP</span>
+        <div class="xp-bar"><div id="xp-fill" class="xp-bar__fill"></div></div>
+        <span class="stat__sub" id="xp-text">0 / 100</span>
+      </div>
+      <div class="stat stat--streak">
+        <span class="stat__label">Streak</span>
+        <strong id="streak-count">0</strong>
+        <span class="stat__sub">days</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel panel--today">
+      <div class="panel__head">
+        <div>
+          <p class="panel__eyebrow">Today's run</p>
+          <h2 id="today-label">Today</h2>
+        </div>
+        <div class="ring" id="today-ring" role="img" aria-label="Today's progress">
+          <svg viewBox="0 0 36 36">
+            <path class="ring__track" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path id="ring-progress" class="ring__progress" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+          </svg>
+          <span id="ring-pct" class="ring__label">0%</span>
+        </div>
+      </div>
+      <ul id="today-tasks" class="task-list"></ul>
+      <p id="today-empty" class="empty hidden">All clear for today — nice work.</p>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel panel--week">
+        <p class="panel__eyebrow">Week map</p>
+        <div id="week-nav" class="week-nav"></div>
+      </section>
+
+      <section class="panel panel--bosses">
+        <p class="panel__eyebrow">Boss objectives</p>
+        <p class="panel__hint">Friday wins — high XP</p>
+        <ul id="outcome-tasks" class="task-list task-list--compact"></ul>
+      </section>
+
+      <section class="panel panel--tools">
+        <p class="panel__eyebrow">Tools</p>
+        <button type="button" id="btn-add" class="btn btn--ghost">+ Add quest</button>
+        <button type="button" id="btn-export" class="btn btn--ghost">Export save</button>
+        <button type="button" id="btn-reset" class="btn btn--danger">Reset week</button>
+      </section>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+
+  <dialog id="task-dialog" class="dialog">
+    <form method="dialog" id="task-form">
+      <h3 id="task-dialog-title">New quest</h3>
+      <input type="hidden" name="id" id="task-id" value="" />
+      <label>Title<input name="title" required maxlength="120" /></label>
+      <label>Note<textarea name="note" rows="2"></textarea></label>
+      <label>Schedule for<input name="due" type="date" required /></label>
+      <label>Type
+        <select name="type">
+          <option value="daily">Daily quest</option>
+          <option value="outcome">Boss objective</option>
+        </select>
+      </label>
+      <menu class="dialog__menu">
+        <button type="button" class="btn btn--danger hidden" id="task-delete">Remove</button>
+        <span class="dialog__menu-spacer"></span>
+        <button type="button" class="btn btn--ghost" id="task-cancel">Cancel</button>
+        <button type="submit" class="btn btn--primary" id="task-save">Add</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
