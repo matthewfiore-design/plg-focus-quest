@@ -1,0 +1,35 @@
+{
+  "source": "https://animated-adventure-ww27rkk.pages.github.io/org-chart.html",
+  "repo": "zendesk/plg-viz",
+  "syncedAt": "2026-08-06T21:40:20Z",
+  "photos": {
+    "Alexa Stahl": {
+      "url": "https://ca.slack-edge.com/E030MJJ0BQF-U4Y39F7HB-8b6e820e0307-512",
+      "local": "assets/designers/alexa-stahl.jpg"
+    },
+    "Ankit Bansod": {
+      "url": "https://ca.slack-edge.com/E030MJJ0BQF-U0BDPPVNFD5-b1ce18a8da1b-512",
+      "local": "assets/designers/ankit-bansod.jpg"
+    },
+    "Dheeraj Kumar": {
+      "url": "https://ca.slack-edge.com/E030MJJ0BQF-U06B2E8RK60-8297ed541002-512",
+      "local": "assets/designers/dheeraj-kumar.jpg"
+    },
+    "Lynette Liwanag": {
+      "url": "https://ca.slack-edge.com/E030MJJ0BQF-U9QTDNM9S-aac2d3cd836c-512",
+      "local": "assets/designers/lynette-liwanag.jpg"
+    },
+    "Nicaela Rivera": {
+      "url": "https://ca.slack-edge.com/E030MJJ0BQF-U02F58AMYBW-48a1f2fa5d6b-512",
+      "local": "assets/designers/nicaela-rivera.jpg"
+    },
+    "Suhail Shaikh": {
+      "url": "https://ca.slack-edge.com/E030MJJ0BQF-U0BEYF95RQX-6f6fc0ac487b-512",
+      "local": "assets/designers/suhail-shaikh.jpg"
+    },
+    "Matthew Fiore": {
+      "url": "https://ca.slack-edge.com/E030MJJ0BQF-U09UE89H37S-d1e9e5597099-512",
+      "local": "assets/designers/matthew-fiore.jpg"
+    }
+  }
+}

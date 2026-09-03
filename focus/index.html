@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <title>FOCUS · PLG design principles</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23c6aed7'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial' font-size='34' font-weight='700' fill='%23202121'%3EF%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Design principles</p>
+        <h1 id="page-title">FOCUS</h1>
+        <p class="hero-copy">
+          Five principles for making clear decisions and creating better PLG experiences.
+        </p>
+
+        <nav class="overview" aria-label="FOCUS principles">
+          <a class="tile tile--fast" href="#fast" data-principle="fast">
+            <span class="tile-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <path class="bolt" d="M27.5 4 12 25.5h11.2L20.5 44 36 22.5H24.8L27.5 4Z" fill="currentColor"/>
+                <path class="bolt-outline" pathLength="100" d="M27.5 4 12 25.5h11.2L20.5 44 36 22.5H24.8L27.5 4Z" fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/>
+              </svg>
+              <span class="bolt-flash"></span>
+            </span>
+            <span class="tile-letter">F</span>
+            <span class="tile-name">Fast</span>
+            <span class="tile-summary">Prioritize speed and keeping pace.</span>
+          </a>
+          <a class="tile tile--outcome" href="#outcome" data-principle="outcome">
+            <span class="tile-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <circle class="outer-ring" cx="24" cy="24" r="16.5" stroke="currentColor" stroke-width="2.4"/>
+                <circle class="inner-ring" cx="24" cy="24" r="10" stroke="currentColor" stroke-width="2.4"/>
+                <circle class="bullseye" cx="24" cy="24" r="3.4" fill="currentColor"/>
+                <circle class="ring-flash ring-flash--outer" cx="24" cy="24" r="16.5" fill="none" stroke="#fff" stroke-width="2.8" pathLength="100"/>
+                <circle class="ring-flash ring-flash--inner" cx="24" cy="24" r="10" fill="none" stroke="#fff" stroke-width="2.8" pathLength="100"/>
+                <circle class="ring-flash ring-flash--core" cx="24" cy="24" r="3.6" fill="#fff"/>
+              </svg>
+            </span>
+            <span class="tile-letter">O</span>
+            <span class="tile-name">Outcome</span>
+            <span class="tile-summary">Focus on metrics and target problems.</span>
+          </a>
+          <a class="tile tile--context" href="#context" data-principle="context">
+            <span class="tile-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <rect x="8" y="14" width="32" height="24" rx="3" stroke="currentColor" stroke-width="2.4"/>
+                <path d="M8 20h32" stroke="currentColor" stroke-width="2.4"/>
+                <path d="M18 27.5h12M18 32.5h7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+                <circle cx="34" cy="14" r="6" fill="currentColor"/>
+                <path d="M34 11.4v5.6M31.2 14.2h5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+              <span class="context-popover">
+                <span class="context-popover-bar"></span>
+                <span class="context-popover-line"></span>
+                <span class="context-popover-line context-popover-line--short"></span>
+              </span>
+            </span>
+            <span class="tile-letter">C</span>
+            <span class="tile-name">Context</span>
+            <span class="tile-summary">Finish the job on this surface.</span>
+          </a>
+          <a class="tile tile--unified" href="#unified" data-principle="unified">
+            <span class="tile-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <path class="unified-piece unified-piece--one" d="M20.5 9.5h-8a3 3 0 0 0-3 3v8L16 27l6.5-6.5V12.5a3 3 0 0 0-2-2.9Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+                <path class="unified-piece unified-piece--two" d="M27.5 38.5h8a3 3 0 0 0 3-3v-8L32 21l-6.5 6.5v8.5a3 3 0 0 0 2 2.5Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="tile-letter">U</span>
+            <span class="tile-name">Unified</span>
+            <span class="tile-summary">Act as one PLG for growth.</span>
+          </a>
+          <a class="tile tile--spark" href="#spark" data-principle="spark">
+            <span class="tile-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <path class="spark-shape" d="M24 8.5 26.7 18H37l-8.3 6 3.2 9.5L24 28.2 16.1 33.5 19.3 24 11 18h10.3L24 8.5Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="tile-letter">S</span>
+            <span class="tile-name">Spark</span>
+            <span class="tile-summary">Foster visible progress and delight.</span>
+          </a>
+        </nav>
+      </section>
+    </main>
+
+    <dialog class="detail-dialog" id="principle-dialog" aria-labelledby="dialog-title">
+      <article class="detail-card">
+        <header class="detail-header">
+          <p class="eyebrow" id="dialog-kicker"></p>
+          <button class="close-button" type="button" aria-label="Close principle detail">×</button>
+        </header>
+        <div class="detail-content">
+          <p class="detail-letter" id="dialog-letter" aria-hidden="true"></p>
+          <h2 id="dialog-title"></h2>
+          <p class="detail-statement" id="dialog-statement"></p>
+          <div class="detail-grid">
+            <section>
+              <p class="detail-label">In critique</p>
+              <p id="dialog-critique"></p>
+            </section>
+            <section>
+              <p class="detail-label">Watch for</p>
+              <p id="dialog-watch"></p>
+            </section>
+          </div>
+        </div>
+        <footer class="dialog-footer">
+          <button class="dialog-button" type="button" id="previous-principle">← Previous</button>
+          <span class="dialog-count" id="dialog-count"></span>
+          <button class="dialog-button dialog-button--primary" type="button" id="next-principle">Next →</button>
+        </footer>
+      </article>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
