@@ -2,11 +2,25 @@ const TOKEN_KEY = "plg-focus-quest-google-token";
 const CLIENT_ID_KEY = "plg-focus-quest-google-client-id";
 const TOKEN_EXPIRY_KEY = "plg-focus-quest-google-token-expiry";
 const OVERRIDES_KEY = "plg-focus-quest-sheet-overrides";
+const APPS_SCRIPT_URL_KEY = "plg-focus-quest-apps-script-url";
+const DEFAULT_APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbxiLvqa012DnYU5Fw0yUDBED-qhMiF12XU5g-W2jVwbT9U18_acAC75u2a2qb45WgPWng/exec";
+const DESIGNER_EMAILS = {
+  "Alexa Stahl": "alexastahl@zendesk.com",
+  "Ankit Bansod": "ankit.bansod@zendesk.com",
+  "Dheeraj Kumar": "dheeraj.kumar@zendesk.com",
+  "Lynette Liwanag": "lliwanag@zendesk.com",
+  "Nicaela Rivera": "nicaela.rivera@zendesk.com",
+  "Suhail Shaikh": "suhail.shaikh@zendesk.com",
+  "Matthew Fiore": "matthew.fiore@zendesk.com",
+};
 
 const SCOPES = "https://www.googleapis.com/auth/spreadsheets";
 
 let tokenClient = null;
 let pendingTokenCallback = null;
+let designerEmails = { ...DESIGNER_EMAILS };
+let designerEmailsLoaded = false;
 let proxyStatus = {
   probed: false,
   available: false,
@@ -15,8 +29,149 @@ let proxyStatus = {
   scriptStatus: "",
   message: "",
   method: "",
+  via: "",
   appsScriptUrl: "",
 };
+
+export function getAppsScriptUrl() {
+  return (
+    (typeof localStorage !== "undefined" && localStorage.getItem(APPS_SCRIPT_URL_KEY)?.trim()) ||
+    proxyStatus.appsScriptUrl ||
+    DEFAULT_APPS_SCRIPT_URL
+  );
+}
+
+export function setAppsScriptUrl(url) {
+  const trimmed = String(url || "").trim();
+  if (trimmed) localStorage.setItem(APPS_SCRIPT_URL_KEY, trimmed);
+  else localStorage.removeItem(APPS_SCRIPT_URL_KEY);
+  proxyStatus.appsScriptUrl = trimmed || DEFAULT_APPS_SCRIPT_URL;
+}
+
+function designerDisplayName(value) {
+  return String(value || "")
+    .trim()
+    .replace(/^@+/, "")
+    .replace(/\s+/g, " ");
+}
+
+async function loadDesignerEmails() {
+  if (designerEmailsLoaded) return designerEmails;
+  designerEmailsLoaded = true;
+  try {
+    const res = await fetch("./designer-emails.json", { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && typeof data === "object") designerEmails = { ...DESIGNER_EMAILS, ...data };
+    }
+  } catch {
+    // bundled fallback is enough
+  }
+  return designerEmails;
+}
+
+function callAppsScript(params, { timeoutMs = 25000 } = {}) {
+  const base = getAppsScriptUrl();
+  if (!base) {
+    return Promise.reject(new Error("Add the Apps Script web app URL in Settings."));
+  }
+
+  return new Promise((resolve, reject) => {
+    const callback = `plgFocusQuestCb${Date.now()}${Math.floor(Math.random() * 1e6)}`;
+    const script = document.createElement("script");
+    let settled = false;
+
+    const cleanup = () => {
+      window.clearTimeout(timer);
+      delete window[callback];
+      script.remove();
+    };
+
+    const fail = (message) => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      reject(new Error(message));
+    };
+
+    const timer = window.setTimeout(() => {
+      fail("Sheet script timed out. Copy the script in Settings, paste into Apps Script, Save, then deploy a new version.");
+    }, timeoutMs);
+
+    window[callback] = (data) => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      resolve(data && typeof data === "object" ? data : {});
+    };
+
+    script.onerror = () => {
+      fail(
+        "GitHub Pages cannot read this /exec URL yet. Copy the script in Settings, paste into Apps Script, Save, then Deploy → Manage deployments → New version."
+      );
+    };
+
+    const url = new URL(base);
+    Object.entries(params || {}).forEach(([key, value]) => {
+      if (value == null || value === "") return;
+      url.searchParams.set(key, String(value));
+    });
+    url.searchParams.set("callback", callback);
+    url.searchParams.set("_", String(Date.now()));
+    script.src = url.toString();
+    document.head.appendChild(script);
+  });
+}
+
+async function probeAppsScriptDirect() {
+  const url = getAppsScriptUrl();
+  if (!url) {
+    proxyStatus = {
+      probed: true,
+      available: false,
+      authorized: false,
+      canReadLinks: false,
+      scriptStatus: "missing",
+      message: "Add the Apps Script web app URL in Settings.",
+      method: "",
+      via: "",
+      appsScriptUrl: "",
+    };
+    return proxyStatus;
+  }
+
+  try {
+    const data = await callAppsScript({ field: "ping", action: "ping" });
+    const version = Number(data.version) || 0;
+    const ready = Boolean(data.ok && (data.canReadLinks || version));
+    proxyStatus = {
+      probed: true,
+      available: Boolean(data.ok),
+      authorized: Boolean(data.ok),
+      canReadLinks: ready,
+      scriptStatus: ready ? "ok" : data.ok ? "old" : "error",
+      message: ready
+        ? "Link reader is live — PRD and Figma URLs load from the sheet."
+        : data.message || "This /exec URL needs a new script version for GitHub Pages.",
+      method: "apps-script",
+      via: "apps-script",
+      appsScriptUrl: url,
+    };
+  } catch (err) {
+    proxyStatus = {
+      probed: true,
+      available: false,
+      authorized: false,
+      canReadLinks: false,
+      scriptStatus: "old",
+      message: err.message || "Could not reach the sheet script from GitHub Pages.",
+      method: "apps-script",
+      via: "",
+      appsScriptUrl: url,
+    };
+  }
+  return proxyStatus;
+}
 
 export function getGoogleClientId() {
   return localStorage.getItem(CLIENT_ID_KEY) || "";
@@ -45,26 +200,50 @@ function persistFieldOverride(item, field, value) {
 }
 
 export async function fetchSheetLinks(item = null) {
+  if (!proxyStatus.probed) await probeSheetProxy();
+
+  const fail = (message, status) => {
+    const err = new Error(
+      message || "Could not read sheet hyperlinks. Copy script, paste into Apps Script, and deploy a new version."
+    );
+    if (status) err.status = status;
+    document.dispatchEvent(new CustomEvent("plg-sheet-links-error", { detail: err.message }));
+    throw err;
+  };
+
+  if (proxyStatus.via === "local-proxy") {
+    try {
+      const params = new URLSearchParams();
+      if (item?.name) {
+        params.set("name", item.name);
+        params.set("quarter", item.expectedLaunchQuarter || "");
+      }
+      const qs = params.toString();
+      const res = await fetch(`/api/sheet-links${qs ? `?${qs}` : ""}`, { cache: "no-store" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.ok === false) fail(data.message, res.status);
+      return data.links && typeof data.links === "object" ? data.links : null;
+    } catch (err) {
+      if (err?.status || err?.message) throw err;
+      return null;
+    }
+  }
+
   try {
-    const params = new URLSearchParams();
-    if (item?.name) {
-      params.set("name", item.name);
-      params.set("quarter", item.expectedLaunchQuarter || "");
-    }
-    const qs = params.toString();
-    const res = await fetch(`/api/sheet-links${qs ? `?${qs}` : ""}`, { cache: "no-store" });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok || data.ok === false) {
-      const err = new Error(
-        data.message || "Could not read sheet hyperlinks. Copy script, paste into Apps Script, and deploy a new version."
-      );
-      err.status = res.status;
-      document.dispatchEvent(new CustomEvent("plg-sheet-links-error", { detail: err.message }));
-      throw err;
-    }
+    const data = await callAppsScript(
+      {
+        field: "links",
+        action: "links",
+        name: item?.name || "",
+        expectedLaunchQuarter: item?.expectedLaunchQuarter || "",
+        quarter: item?.expectedLaunchQuarter || "",
+      },
+      { timeoutMs: 45000 }
+    );
+    if (data.ok === false) fail(data.message);
     return data.links && typeof data.links === "object" ? data.links : null;
   } catch (err) {
-    if (err?.status || err?.message) throw err;
+    if (err?.status || err?.message) fail(err.message, err.status);
     return null;
   }
 }
@@ -114,25 +293,27 @@ export async function ensureItemLinks(item) {
 export async function probeSheetProxy({ refresh = false } = {}) {
   try {
     const res = await fetch(`/api/sheet-status${refresh ? "?refresh=1" : ""}`, { cache: "no-store" });
-    if (!res.ok) {
-      proxyStatus = { probed: true, available: false, authorized: false, canReadLinks: false, scriptStatus: "", message: "", method: "", appsScriptUrl: "" };
-      return proxyStatus;
+    if (res.ok) {
+      const data = await res.json();
+      if (data?.via === "local-proxy") {
+        proxyStatus = {
+          probed: true,
+          available: true,
+          authorized: Boolean(data?.authorized),
+          canReadLinks: Boolean(data?.canReadLinks),
+          scriptStatus: data?.scriptStatus || "",
+          message: data?.message || "",
+          method: data?.method || "local-proxy",
+          via: "local-proxy",
+          appsScriptUrl: data?.appsScriptUrl || getAppsScriptUrl(),
+        };
+        return proxyStatus;
+      }
     }
-    const data = await res.json();
-    proxyStatus = {
-      probed: true,
-      available: data?.via === "local-proxy",
-      authorized: Boolean(data?.authorized),
-      canReadLinks: Boolean(data?.canReadLinks),
-      scriptStatus: data?.scriptStatus || "",
-      message: data?.message || "",
-      method: data?.method || "",
-      appsScriptUrl: data?.appsScriptUrl || "",
-    };
   } catch {
-    proxyStatus = { probed: true, available: false, authorized: false, canReadLinks: false, scriptStatus: "", message: "" };
+    // GitHub Pages has no local proxy — talk to Apps Script from the browser.
   }
-  return proxyStatus;
+  return probeAppsScriptDirect();
 }
 
 export async function authorizeSheetProxy() {
@@ -173,7 +354,7 @@ export function clearGoogleToken() {
 }
 
 export function isSheetSyncConfigured() {
-  return Boolean(getGoogleClientId()) || proxyStatus.available;
+  return Boolean(getGoogleClientId()) || Boolean(getAppsScriptUrl()) || proxyStatus.available;
 }
 
 export function isSheetSyncAuthorized() {
@@ -307,22 +488,43 @@ async function ensureAccessToken({ interactive = false } = {}) {
 
 async function updateViaLocalProxy(item, field, value) {
   if (!proxyStatus.probed) await probeSheetProxy();
-  if (!proxyStatus.available) return null;
 
-  const res = await fetch("/api/roadmap-field", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  if (proxyStatus.via === "local-proxy" && proxyStatus.available) {
+    const res = await fetch("/api/roadmap-field", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        field,
+        value,
+        name: item.name,
+        sheetRow: item.sheetRow || null,
+        expectedLaunchQuarter: item.expectedLaunchQuarter || "",
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || data.ok === false) {
+      throw new Error(data.message || `Local sheet proxy failed (${res.status})`);
+    }
+    return data;
+  }
+
+  if (!getAppsScriptUrl()) return null;
+
+  const emails = await loadDesignerEmails();
+  const name = designerDisplayName(value);
+  const data = await callAppsScript(
+    {
       field,
       value,
       name: item.name,
-      sheetRow: item.sheetRow || null,
+      sheetRow: item.sheetRow || "",
       expectedLaunchQuarter: item.expectedLaunchQuarter || "",
-    }),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok || data.ok === false) {
-    throw new Error(data.message || `Local sheet proxy failed (${res.status})`);
+      email: field === "designer" ? emails[name] || "" : "",
+    },
+    { timeoutMs: 45000 }
+  );
+  if (!data || data.ok === false) {
+    throw new Error(data?.message || "Could not save to the roadmap sheet.");
   }
   return data;
 }

@@ -27,7 +27,9 @@ Roadmap cards show **Project name, description, state, designer**. Click a card 
 
 ## Run locally
 
-Use the local server (not `python3 -m http.server`) so designer assignment can write back to the sheet:
+**Production** talks to the Apps Script web app from the browser. After you change `scripts/DesignUpdate.gs`, copy it in Settings and deploy a **new version** of the existing web app (same `/exec` URL).
+
+Locally, use the proxy server (not `python3 -m http.server`) so writes go through `/api`:
 
 ```bash
 cd plg-focus-quest

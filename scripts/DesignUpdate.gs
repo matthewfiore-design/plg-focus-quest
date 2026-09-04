@@ -7,7 +7,8 @@
  *   Apps Script editor → Services (+) → Google Sheets API → Add
  * Then Deploy → Manage deployments → Edit → New version.
  */
-const SCRIPT_VERSION = 3;
+const SCRIPT_VERSION = 4;
+var responseCallback_ = "";
 const SPREADSHEET_ID = "1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8";
 const TAB = "Sheet1";
 const FIELDS = {
@@ -26,9 +27,13 @@ const DESIGNER_EMAILS = {
 };
 
 function json_(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(
-    ContentService.MimeType.JSON
-  );
+  var text = JSON.stringify(obj);
+  if (responseCallback_ && /^[A-Za-z_][A-Za-z0-9_]*$/.test(responseCallback_)) {
+    return ContentService.createTextOutput(responseCallback_ + "(" + text + ")").setMimeType(
+      ContentService.MimeType.JAVASCRIPT
+    );
+  }
+  return ContentService.createTextOutput(text).setMimeType(ContentService.MimeType.JSON);
 }
 
 function doGet(e) {
@@ -54,6 +59,8 @@ function targetSheet_(ss) {
 }
 
 function handle_(p) {
+  p = p || {};
+  responseCallback_ = String(p.callback || "");
   try {
     var field = String(p.field || "");
     var action = String(p.action || "");

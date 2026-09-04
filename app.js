@@ -6,12 +6,14 @@ import {
 } from "./subtask-generator.js";
 import {
   connectGoogleAccount,
+  getAppsScriptUrl,
   getGoogleClientId,
   getSheetProxyStatus,
   isSheetSyncAuthorized,
   isSheetSyncConfigured,
   probeSheetProxy,
   saveGoogleClientId,
+  setAppsScriptUrl,
   updateRoadmapField,
   ensureItemLinks,
 } from "./sheet-sync.js";
@@ -519,23 +521,32 @@ function saveOpenAIKey(key) {
 }
 
 async function saveAppsScriptUrl(url) {
-  localStorage.setItem("plg-focus-quest-apps-script-url", url);
-  const res = await fetch("/api/config", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ appsScriptUrl: url }),
-  });
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data.message || "Could not save Apps Script URL");
+  setAppsScriptUrl(url);
+  try {
+    await fetch("/api/config", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ appsScriptUrl: url }),
+    });
+  } catch {
+    // GitHub Pages has no local config endpoint — the URL is stored in the browser.
   }
   await probeSheetProxy({ refresh: true });
   updateGoogleSyncStatus();
 }
 
 async function copySheetScript(button) {
-  const res = await fetch("/api/sheet-script", { cache: "no-store" });
-  const text = await res.text();
+  let text = "";
+  try {
+    const res = await fetch("/api/sheet-script", { cache: "no-store" });
+    if (res.ok) text = await res.text();
+  } catch {
+    text = "";
+  }
+  if (!text.trim()) {
+    const res = await fetch("./scripts/DesignUpdate.gs", { cache: "no-store" });
+    text = await res.text();
+  }
   if (!text.trim()) throw new Error("Could not load sheet script.");
   try {
     await navigator.clipboard.writeText(text);
@@ -999,15 +1010,20 @@ function wireProjectEditors(card, project) {
 
   const proxy = getSheetProxyStatus();
   if (proxy.available && proxy.authorized) {
-    setStatus("Edits sync to sheet via local proxy", "muted");
+    setStatus(
+      proxy.via === "local-proxy" ? "Edits sync to sheet via local proxy" : "Edits save to the roadmap sheet",
+      "muted"
+    );
   } else if (isSheetSyncConfigured() && isSheetSyncAuthorized()) {
     setStatus("Edits sync to sheet", "muted");
+  } else if (proxy.message && (proxy.scriptStatus === "old" || proxy.scriptStatus === "error")) {
+    setStatus(proxy.message, "warn");
   } else if (proxy.available) {
     setStatus(proxy.message || "Authorize sheets, then restart serve.py", "warn");
   } else if (isSheetSyncConfigured()) {
-    setStatus("Connect Google in Settings to sync", "warn");
+    setStatus("Checking the sheet script…", "warn");
   } else {
-    setStatus("Use scripts/serve.py to sync edits to the sheet", "warn");
+    setStatus("Add the Apps Script URL in Settings to save assignments", "warn");
   }
 }
 
@@ -1057,7 +1073,7 @@ function updateGoogleSyncStatus() {
         : proxy.message ||
           "Copy the script, then in the Google Sheet use Extensions → Apps Script (not Tools).";
   if (els.googleSyncStatus) els.googleSyncStatus.textContent = connected;
-  const url = proxy.appsScriptUrl || localStorage.getItem("plg-focus-quest-apps-script-url") || "";
+  const url = proxy.appsScriptUrl || getAppsScriptUrl();
   if (els.appsScriptUrl && !els.appsScriptUrl.value) els.appsScriptUrl.value = url;
   if (sheetScriptBroken(proxy)) {
     notifyMatthewSheetIssue(connected);
@@ -1954,7 +1970,7 @@ async function loadGoogleConfig() {
     const data = await res.json();
     const fileUrl = String(data.appsScriptUrl || "").trim();
     if (!fileUrl || saved) return;
-    localStorage.setItem("plg-focus-quest-apps-script-url", fileUrl);
+    setAppsScriptUrl(fileUrl);
     await fetch("/api/config", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -1986,10 +2002,7 @@ async function init() {
   viewDate = focusDate();
   await loadGoogleConfig();
   await probeSheetProxy();
-  const savedUrl =
-    getSheetProxyStatus().appsScriptUrl ||
-    localStorage.getItem("plg-focus-quest-apps-script-url") ||
-    "";
+  const savedUrl = getSheetProxyStatus().appsScriptUrl || getAppsScriptUrl();
   if (els.appsScriptUrl && !els.appsScriptUrl.value) els.appsScriptUrl.value = savedUrl;
   updateGoogleSyncStatus();
   probeSheetProxy({ refresh: true }).then(() => updateGoogleSyncStatus()).catch(() => {});
