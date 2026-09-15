@@ -7,10 +7,55 @@
  *   Apps Script editor → Services (+) → Google Sheets API → Add
  * Then Deploy → Manage deployments → Edit → New version.
  */
-const SCRIPT_VERSION = 4;
+const SCRIPT_VERSION = 5;
 var responseCallback_ = "";
 const SPREADSHEET_ID = "1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8";
 const TAB = "Sheet1";
+
+/**
+ * Quest tasks live in their own workbook, separate from the roadmap above.
+ * Roadmap sheet = what the team is shipping. Progress sheet = who did what.
+ */
+const PROGRESS_SHEET_ID = "1uCM4CIrz2ekhaP6CNj76rwuLLTSLFVBAJZ4HLbzi8YU";
+const TASKS_TAB = "Tasks";
+const TASK_HEADERS = [
+  "Task ID",
+  "Designer",
+  "Title",
+  "Type",
+  "Roadmap ID",
+  "Roadmap name",
+  "Milestone",
+  "Scheduled date",
+  "Original date",
+  "Completed",
+  "Completed at",
+  "XP",
+  "Rollover count",
+  "Credited to",
+  "Generated",
+  "Note",
+  "Updated at",
+];
+// Positional order the client uses when it sends compact array rows.
+const TASK_FIELD_ORDER = [
+  "id",
+  "designer",
+  "title",
+  "type",
+  "roadmapId",
+  "roadmapName",
+  "milestone",
+  "scheduledDate",
+  "originalDate",
+  "completed",
+  "completedAt",
+  "xp",
+  "rolloverCount",
+  "creditedTo",
+  "generated",
+  "note",
+];
 const FIELDS = {
   designer: "Designer",
   figmaLinks: "Figma Links",
@@ -70,6 +115,12 @@ function handle_(p) {
     if (field === "links" || action === "links") {
       return json_(collectLinks_(p));
     }
+    if (field === "tasks" || action === "tasks") {
+      return json_(upsertTasks_(p));
+    }
+    if (field === "tasksRead" || action === "tasksRead") {
+      return json_(readTasks_(p));
+    }
     var header = FIELDS[field];
     if (!header) return json_({ ok: false, message: "Unsupported field: " + field });
 
@@ -127,6 +178,211 @@ function designerName_(raw) {
     .trim()
     .replace(/^@+/, "")
     .replace(/\s+/g, " ");
+}
+
+function tasksSheet_() {
+  var ss = SpreadsheetApp.openById(PROGRESS_SHEET_ID);
+  var sheet = ss.getSheetByName(TASKS_TAB);
+  if (!sheet) sheet = ss.insertSheet(TASKS_TAB);
+  var lastCol = sheet.getLastColumn();
+  var headers = lastCol > 0 ? sheet.getRange(1, 1, 1, lastCol).getValues()[0] : [];
+  if (headerIndex_(headers, "Title") < 1 || headerIndex_(headers, "Task ID") < 1) {
+    sheet.getRange(1, 1, 1, TASK_HEADERS.length).setValues([TASK_HEADERS]);
+    sheet.setFrozenRows(1);
+    headers = TASK_HEADERS.slice();
+  }
+  return { sheet: sheet, headers: headers };
+}
+
+function taskTruthy_(value) {
+  var text = String(value == null ? "" : value).trim().toUpperCase();
+  return text === "TRUE" || text === "YES" || text === "1" || text === "CHECKED";
+}
+
+function taskMatchKey_(designer, title, type, original) {
+  return [
+    designerName_(designer).toLowerCase(),
+    String(title || "").trim().toLowerCase(),
+    String(type || "daily").trim().toLowerCase(),
+    String(original || "").trim().slice(0, 10),
+  ].join("|");
+}
+
+/** Accepts either a positional array or a named object. */
+function normalizeTask_(raw, fallbackDesigner) {
+  var task = {};
+  if (Object.prototype.toString.call(raw) === "[object Array]") {
+    for (var i = 0; i < TASK_FIELD_ORDER.length; i++) task[TASK_FIELD_ORDER[i]] = raw[i];
+  } else if (raw && typeof raw === "object") {
+    task = raw;
+  } else {
+    return null;
+  }
+  var title = String(task.title || "").trim();
+  var id = String(task.id || "").trim();
+  if (!title && !id) return null;
+  task.id = id;
+  task.title = title;
+  task.designer = designerName_(task.designer) || designerName_(fallbackDesigner);
+  task.type = String(task.type || "daily").trim();
+  task.originalDate = String(task.originalDate || task.scheduledDate || "").slice(0, 10);
+  return task;
+}
+
+function taskRowValues_(task, headers, now) {
+  var byHeader = {
+    "Task ID": task.id || "",
+    Designer: task.designer || "",
+    Title: task.title || "",
+    Type: task.type || "daily",
+    "Roadmap ID": task.roadmapId || "",
+    "Roadmap name": task.roadmapName || "",
+    Milestone: task.milestone || "",
+    "Scheduled date": String(task.scheduledDate || "").slice(0, 10),
+    "Original date": task.originalDate || "",
+    Completed: taskTruthy_(task.completed) ? "TRUE" : "FALSE",
+    "Completed at": task.completedAt || "",
+    XP: Number(task.xp) || 0,
+    "Rollover count": Number(task.rolloverCount) || 0,
+    "Credited to": task.creditedTo || "",
+    Generated: taskTruthy_(task.generated) ? "TRUE" : "FALSE",
+    Note: task.note || "",
+    "Updated at": now,
+  };
+  var values = [];
+  for (var i = 0; i < headers.length; i++) {
+    var key = String(headers[i] || "").trim();
+    values.push(Object.prototype.hasOwnProperty.call(byHeader, key) ? byHeader[key] : "");
+  }
+  return values;
+}
+
+function upsertTasks_(p) {
+  var fallback = designerName_(p.designer);
+  var payload = p.rows || p.tasks || "[]";
+  var incoming;
+  try {
+    incoming = typeof payload === "string" ? JSON.parse(payload) : payload;
+  } catch (err) {
+    return { ok: false, message: "rows must be valid JSON: " + err };
+  }
+  if (Object.prototype.toString.call(incoming) !== "[object Array]") {
+    return { ok: false, message: "rows must be an array." };
+  }
+
+  var ctx = tasksSheet_();
+  var sheet = ctx.sheet;
+  var headers = ctx.headers;
+  var lastRow = sheet.getLastRow();
+  var existing = lastRow > 1 ? sheet.getRange(2, 1, lastRow - 1, headers.length).getValues() : [];
+
+  var idCol = headerIndex_(headers, "Task ID");
+  var designerCol = headerIndex_(headers, "Designer");
+  var titleCol = headerIndex_(headers, "Title");
+  var typeCol = headerIndex_(headers, "Type");
+  var origCol = headerIndex_(headers, "Original date");
+  var schedCol = headerIndex_(headers, "Scheduled date");
+
+  var byId = {};
+  var byKey = {};
+  for (var r = 0; r < existing.length; r++) {
+    var row = existing[r];
+    var rowNum = r + 2;
+    var rid = idCol > 0 ? String(row[idCol - 1] || "").trim() : "";
+    if (rid) byId[rid] = rowNum;
+    var rDesigner = designerCol > 0 ? row[designerCol - 1] : "";
+    var rTitle = titleCol > 0 ? row[titleCol - 1] : "";
+    if (rDesigner && rTitle) {
+      var rOrig = origCol > 0 ? row[origCol - 1] : schedCol > 0 ? row[schedCol - 1] : "";
+      byKey[taskMatchKey_(rDesigner, rTitle, typeCol > 0 ? row[typeCol - 1] : "", rOrig)] = rowNum;
+    }
+  }
+
+  var now = new Date().toISOString();
+  var appended = 0;
+  var updated = 0;
+  var appendBuffer = [];
+  var nextAppendRow = Math.max(lastRow + 1, 2);
+
+  for (var i = 0; i < incoming.length; i++) {
+    var task = normalizeTask_(incoming[i], fallback);
+    if (!task) continue;
+    var values = taskRowValues_(task, headers, now);
+    var target = task.id && byId[task.id] ? byId[task.id] : 0;
+    if (!target) {
+      var key = taskMatchKey_(task.designer, task.title, task.type, task.originalDate);
+      if (byKey[key]) target = byKey[key];
+    }
+    if (target) {
+      sheet.getRange(target, 1, 1, headers.length).setValues([values]);
+      updated++;
+    } else {
+      appendBuffer.push(values);
+      if (task.id) byId[task.id] = nextAppendRow;
+      byKey[taskMatchKey_(task.designer, task.title, task.type, task.originalDate)] = nextAppendRow;
+      nextAppendRow++;
+      appended++;
+    }
+  }
+
+  if (appendBuffer.length) {
+    sheet.getRange(lastRow + 1, 1, appendBuffer.length, headers.length).setValues(appendBuffer);
+  }
+  SpreadsheetApp.flush();
+  return {
+    ok: true,
+    updated: updated,
+    appended: appended,
+    tab: TASKS_TAB,
+    sheetUrl: SpreadsheetApp.openById(PROGRESS_SHEET_ID).getUrl(),
+    via: "apps-script",
+  };
+}
+
+function readTasks_(p) {
+  var want = designerName_(p.designer);
+  var ctx = tasksSheet_();
+  var sheet = ctx.sheet;
+  var headers = ctx.headers;
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) return { ok: true, tasks: [], via: "apps-script" };
+
+  var rows = sheet.getRange(2, 1, lastRow - 1, headers.length).getValues();
+  var cols = {};
+  for (var h = 0; h < headers.length; h++) cols[String(headers[h] || "").trim()] = h;
+
+  function cell(row, key) {
+    var idx = cols[key];
+    return idx == null ? "" : String(row[idx] == null ? "" : row[idx]).trim();
+  }
+
+  var tasks = [];
+  for (var i = 0; i < rows.length; i++) {
+    var row = rows[i];
+    var title = cell(row, "Title");
+    var id = cell(row, "Task ID");
+    if (!title && !id) continue;
+    var designer = designerName_(cell(row, "Designer"));
+    if (want && designer !== want) continue;
+    tasks.push({
+      id: id,
+      designer: designer,
+      title: title,
+      type: cell(row, "Type") || "daily",
+      roadmapId: cell(row, "Roadmap ID"),
+      roadmapName: cell(row, "Roadmap name"),
+      milestone: cell(row, "Milestone"),
+      scheduledDate: cell(row, "Scheduled date").slice(0, 10),
+      originalDate: cell(row, "Original date").slice(0, 10),
+      completed: taskTruthy_(cell(row, "Completed")),
+      completedAt: cell(row, "Completed at"),
+      xp: Number(cell(row, "XP")) || 0,
+      rolloverCount: Number(cell(row, "Rollover count")) || 0,
+      creditedTo: cell(row, "Credited to"),
+      note: cell(row, "Note"),
+    });
+  }
+  return { ok: true, tasks: tasks, via: "apps-script" };
 }
 
 function setDesignerValue_(sheet, row, col, rawValue, emailHint) {
