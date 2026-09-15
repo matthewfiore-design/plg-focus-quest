@@ -4,7 +4,10 @@ const TOKEN_EXPIRY_KEY = "plg-focus-quest-google-token-expiry";
 const OVERRIDES_KEY = "plg-focus-quest-sheet-overrides";
 const APPS_SCRIPT_URL_KEY = "plg-focus-quest-apps-script-url";
 const DEFAULT_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxiLvqa012DnYU5Fw0yUDBED-qhMiF12XU5g-W2jVwbT9U18_acAC75u2a2qb45WgPWng/exec";
+  "https://script.google.com/macros/s/AKfycbyd_htKu_ZxJG1GGSbQ2jxz4Ttn7F82uBn0fLd3u8kPX-3c6CA1S3tIWnYmsjxh1vG7FQ/exec";
+const LEGACY_APPS_SCRIPT_URLS = new Set([
+  "https://script.google.com/macros/s/AKfycbxiLvqa012DnYU5Fw0yUDBED-qhMiF12XU5g-W2jVwbT9U18_acAC75u2a2qb45WgPWng/exec",
+]);
 const DESIGNER_EMAILS = {
   "Alexa Stahl": "alexastahl@zendesk.com",
   "Ankit Bansod": "ankit.bansod@zendesk.com",
@@ -34,11 +37,13 @@ let proxyStatus = {
 };
 
 export function getAppsScriptUrl() {
-  return (
-    (typeof localStorage !== "undefined" && localStorage.getItem(APPS_SCRIPT_URL_KEY)?.trim()) ||
-    proxyStatus.appsScriptUrl ||
-    DEFAULT_APPS_SCRIPT_URL
-  );
+  const stored =
+    typeof localStorage !== "undefined" ? localStorage.getItem(APPS_SCRIPT_URL_KEY)?.trim() : "";
+  if (stored && LEGACY_APPS_SCRIPT_URLS.has(stored)) {
+    localStorage.setItem(APPS_SCRIPT_URL_KEY, DEFAULT_APPS_SCRIPT_URL);
+    return DEFAULT_APPS_SCRIPT_URL;
+  }
+  return stored || proxyStatus.appsScriptUrl || DEFAULT_APPS_SCRIPT_URL;
 }
 
 export function setAppsScriptUrl(url) {
