@@ -164,6 +164,34 @@ export function getProgressSyncStatus() {
   return { ...lastStatus };
 }
 
+/**
+ * The local Python server always answers /api with JSON carrying an `ok` flag.
+ * A static host answers with an HTML error page — 404 for GET, 405 for POST —
+ * which means there is no proxy here and the Apps Script should handle it.
+ */
+async function tryLocalProxy(path, init) {
+  if (localProxyAvailable === false) return { absent: true };
+  let res;
+  try {
+    res = await fetch(path, init);
+  } catch {
+    localProxyAvailable = false;
+    return { absent: true };
+  }
+  let data = null;
+  try {
+    data = JSON.parse(await res.text());
+  } catch {
+    data = null;
+  }
+  if (!data || typeof data.ok === "undefined") {
+    localProxyAvailable = false;
+    return { absent: true };
+  }
+  localProxyAvailable = true;
+  return { absent: false, status: res.status, ok: res.ok && data.ok !== false, data };
+}
+
 async function fetchTasksViaScript() {
   const data = await callScript({ field: "tasksRead" });
   if (!data || data.ok === false) {
@@ -179,27 +207,18 @@ async function fetchTasksViaScript() {
 }
 
 export async function fetchProgressBoard() {
-  if (localProxyAvailable !== false) {
-    try {
-      const res = await fetch("/api/progress", { cache: "no-store" });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.ok !== false) {
-        localProxyAvailable = true;
-        lastStatus = { state: STATUS.live, message: LIVE_MESSAGE, sheetUrl: data.sheetUrl || "" };
-        return data;
-      }
-      if (res.status !== 404) {
-        lastStatus = {
-          state: res.status === 401 ? STATUS.idle : STATUS.error,
-          message: data.message || "Squad board is local to this browser.",
-          sheetUrl: data.sheetUrl || "",
-        };
-        return null;
-      }
-      localProxyAvailable = false;
-    } catch {
-      localProxyAvailable = false;
+  const local = await tryLocalProxy("/api/progress", { cache: "no-store" });
+  if (!local.absent) {
+    if (local.ok) {
+      lastStatus = { state: STATUS.live, message: LIVE_MESSAGE, sheetUrl: local.data.sheetUrl || "" };
+      return local.data;
     }
+    lastStatus = {
+      state: local.status === 401 || local.status === 404 ? STATUS.idle : STATUS.error,
+      message: local.data.message || "Squad board is local to this browser.",
+      sheetUrl: local.data.sheetUrl || "",
+    };
+    return null;
   }
 
   try {
@@ -299,32 +318,22 @@ export async function pushProgressTasks(designer, tasks) {
   const name = String(designer || "").trim();
   if (!name || !Array.isArray(tasks)) return null;
 
-  if (localProxyAvailable !== false) {
-    try {
-      const res = await fetch("/api/progress-tasks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ designer: name, tasks }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.ok !== false) {
-        localProxyAvailable = true;
-        lastStatus = { state: STATUS.live, message: LIVE_MESSAGE, sheetUrl: lastStatus.sheetUrl };
-        return data;
-      }
-      if (res.status === 404) {
-        localProxyAvailable = false;
-      } else {
-        lastStatus = {
-          state: lastStatus.state === STATUS.live ? STATUS.live : STATUS.error,
-          message: data.message || lastStatus.message || "Could not write Tasks tab.",
-          sheetUrl: lastStatus.sheetUrl,
-        };
-        return null;
-      }
-    } catch {
-      localProxyAvailable = false;
+  const local = await tryLocalProxy("/api/progress-tasks", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ designer: name, tasks }),
+  });
+  if (!local.absent) {
+    if (local.ok) {
+      lastStatus = { state: STATUS.live, message: LIVE_MESSAGE, sheetUrl: lastStatus.sheetUrl };
+      return local.data;
     }
+    lastStatus = {
+      state: lastStatus.state === STATUS.live ? STATUS.live : STATUS.error,
+      message: local.data.message || lastStatus.message || "Could not write Tasks tab.",
+      sheetUrl: lastStatus.sheetUrl,
+    };
+    return null;
   }
 
   try {
