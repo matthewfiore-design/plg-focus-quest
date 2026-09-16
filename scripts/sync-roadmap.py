@@ -3,10 +3,13 @@
 
 By default includes Expected Launch Quarter = Q2, Q3, and Q4.
 
-Usage (after fetching Sheet1 CSV via Google Drive MCP or manual export):
-  python3 scripts/sync-roadmap.py /path/to/sheet1.csv
+Reads the sheet from any of three sources:
+  python3 scripts/sync-roadmap.py                      # Apps Script endpoint (default)
+  python3 scripts/sync-roadmap.py /path/to/sheet1.csv  # manual CSV export
+  python3 scripts/sync-roadmap.py /path/to/sheet.json  # saved endpoint response
 
-Or set PLG_ROADMAP_CSV env var. Override quarters with PLG_ROADMAP_QUARTERS=Q2,Q3,Q4.
+Or set PLG_ROADMAP_CSV env var. Override the endpoint with PLG_ROADMAP_URL and
+quarters with PLG_ROADMAP_QUARTERS=Q2,Q3,Q4.
 """
 
 from __future__ import annotations
@@ -16,12 +19,19 @@ import json
 import os
 import re
 import sys
+import urllib.request
 from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "roadmap-q3.json"
 DEFAULT_QUARTERS = ("Q2", "Q3", "Q4")
+# Apps Script web app bound to the roadmap sheet; `field=sheet` returns
+# headers plus every row in one call.
+DEFAULT_SHEET_URL = (
+    "https://script.google.com/macros/s/"
+    "AKfycbyd_htKu_ZxJG1GGSbQ2jxz4Ttn7F82uBn0fLd3u8kPX-3c6CA1S3tIWnYmsjxh1vG7FQ/exec"
+)
 # Source of truth — PLG Roadmap 2026, Sheet1 (gid=0)
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8/edit?gid=0#gid=0"
 SHEET_TAB = "Sheet1"
@@ -168,22 +178,63 @@ def row_to_item(row: dict[str, str], *, sheet_row: int | None = None) -> dict[st
     return item
 
 
-def main() -> None:
-    csv_path = Path(sys.argv[1] if len(sys.argv) > 1 else os.environ.get("PLG_ROADMAP_CSV", ""))
-    if not csv_path or not csv_path.exists():
-        print("Provide Sheet1 CSV path: python3 scripts/sync-roadmap.py sheet1.csv", file=sys.stderr)
-        sys.exit(1)
+def pair_rows(
+    headers: list[str], raw_rows: list[list[str]], first_row: int
+) -> list[tuple[int, dict[str, str]]]:
+    """Attach sheet row numbers, skipping rows with no project name."""
+    rows: list[tuple[int, dict[str, str]]] = []
+    for sheet_row, row in enumerate(raw_rows, start=first_row):
+        if not row or not (row[0] or "").strip():
+            continue
+        row = list(row) + [""] * (len(headers) - len(row))
+        rows.append((sheet_row, dict(zip(headers, row))))
+    return rows
 
-    with csv_path.open(newline="", encoding="utf-8") as f:
+
+def read_csv(path: Path) -> tuple[list[str], list[tuple[int, dict[str, str]]]]:
+    with path.open(newline="", encoding="utf-8") as f:
         reader = csv.reader(f)
         headers = next(reader)
-        rows = []
-        for sheet_row, row in enumerate(reader, start=2):
-            if not row or not row[0].strip():
-                continue
-            while len(row) < len(headers):
-                row.append("")
-            rows.append((sheet_row, dict(zip(headers, row))))
+        return headers, pair_rows(headers, list(reader), 2)
+
+
+def read_payload(payload: dict) -> tuple[list[str], list[tuple[int, dict[str, str]]]]:
+    if not payload.get("ok"):
+        raise SystemExit(f"Sheet endpoint error: {payload.get('message') or payload}")
+    headers = payload.get("headers") or []
+    if not headers:
+        raise SystemExit("Sheet endpoint returned no headers.")
+    return headers, pair_rows(headers, payload.get("rows") or [], int(payload.get("firstRow", 2)))
+
+
+def load_sheet() -> tuple[list[str], list[tuple[int, dict[str, str]]]]:
+    arg = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("PLG_ROADMAP_CSV", "")
+
+    if arg and not arg.startswith("http"):
+        path = Path(arg)
+        if not path.exists():
+            raise SystemExit(f"No such file: {path}")
+        if path.suffix.lower() == ".json":
+            return read_payload(json.loads(path.read_text(encoding="utf-8")))
+        return read_csv(path)
+
+    url = arg or os.environ.get("PLG_ROADMAP_URL") or DEFAULT_SHEET_URL
+    sep = "&" if "?" in url else "?"
+    print(f"Fetching sheet from {url.split('/macros/')[0]}/macros/…", file=sys.stderr)
+    with urllib.request.urlopen(f"{url}{sep}field=sheet", timeout=120) as res:
+        body = res.read().decode("utf-8")
+    try:
+        payload = json.loads(body)
+    except json.JSONDecodeError:
+        raise SystemExit(
+            "Sheet endpoint did not return JSON. Deploy a new version of the "
+            "Apps Script (v6+) so it supports field=sheet."
+        )
+    return read_payload(payload)
+
+
+def main() -> None:
+    headers, rows = load_sheet()
 
     quarters = parse_quarters()
     items = [

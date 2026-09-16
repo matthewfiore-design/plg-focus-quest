@@ -7,7 +7,7 @@
  *   Apps Script editor → Services (+) → Google Sheets API → Add
  * Then Deploy → Manage deployments → Edit → New version.
  */
-const SCRIPT_VERSION = 5;
+const SCRIPT_VERSION = 6;
 var responseCallback_ = "";
 const SPREADSHEET_ID = "1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8";
 const TAB = "Sheet1";
@@ -114,6 +114,9 @@ function handle_(p) {
     }
     if (field === "links" || action === "links") {
       return json_(collectLinks_(p));
+    }
+    if (field === "sheet" || action === "sheet") {
+      return json_(collectSheet_(p));
     }
     if (field === "tasks" || action === "tasks") {
       return json_(upsertTasks_(p));
@@ -489,6 +492,44 @@ function columnToLetter_(column) {
     temp = Math.floor((temp - 1) / 26);
   }
   return letter;
+}
+
+/**
+ * Whole-sheet read for the nightly roadmap sync. Uses a single
+ * getDisplayValues() call; collectLinks_ asks the Sheets API per row, which
+ * exceeds the execution budget once every row is requested.
+ * Rows come back in sheet order starting at row 2, blanks included, so a
+ * consumer can map array index to sheet row.
+ */
+function collectSheet_(p) {
+  var sheet = targetSheet_(SpreadsheetApp.openById(SPREADSHEET_ID));
+  var lastRow = sheet.getLastRow();
+  var lastCol = sheet.getLastColumn();
+  if (lastRow < 1 || lastCol < 1) return { ok: true, headers: [], rows: [] };
+
+  var values = sheet.getRange(1, 1, lastRow, lastCol).getDisplayValues();
+  var headers = [];
+  for (var c = 0; c < values[0].length; c++) {
+    headers.push(String(values[0][c] == null ? "" : values[0][c]).trim());
+  }
+
+  var rows = [];
+  for (var r = 1; r < values.length; r++) {
+    var row = [];
+    for (var i = 0; i < lastCol; i++) {
+      row.push(String(values[r][i] == null ? "" : values[r][i]));
+    }
+    rows.push(row);
+  }
+
+  return {
+    ok: true,
+    version: SCRIPT_VERSION,
+    tab: sheet.getName(),
+    firstRow: 2,
+    headers: headers,
+    rows: rows,
+  };
 }
 
 function collectLinks_(p) {
