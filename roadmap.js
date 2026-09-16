@@ -1,3 +1,4 @@
+import { initDatePicker, setDatePickerValue } from "./date-picker.js?v=20260916g";
 import { mountDesignerPicker, setDesignerPickerValue } from "./designer-picker.js";
 import { openDesignEstimator, initDesignEstimatorDialog, getSavedEstimate, estimateChipLabel } from "./design-estimator.js?v=20260916f";
 import { missingFigmaInProgress } from "./initiative-health.js";
@@ -438,6 +439,8 @@ function applyFieldOverrides() {
     const patch = all[item.id] || all[linkKey(item.name, item.expectedLaunchQuarter)];
     if (!patch) continue;
     if (patch.designer != null) item.designer = normalizeDesignerName(patch.designer);
+    if (patch.designHandoffDate != null) item.designHandoffDate = patch.designHandoffDate;
+    if (patch.designStatus != null) item.designStatus = patch.designStatus;
     if (patch.figmaLinks != null) item.figmaLinks = patch.figmaLinks;
     if (patch.prototypeLinks != null) item.prototypeLinks = patch.prototypeLinks;
     if (patch.prdLinks) item.prdLinks = patch.prdLinks;
@@ -503,6 +506,96 @@ function detailLink(label, value, extras = [], { jira = false } = {}) {
   `;
 }
 
+const DESIGN_STATUS_OPTIONS = [
+  "Not Started",
+  "Research",
+  "Concepting",
+  "Design Review",
+  "Iterating",
+  "Handed off",
+  "Blocked",
+  "Archived",
+];
+
+function designStatusValue(item) {
+  const current = String(item?.designStatus || "").trim().toLowerCase();
+  return DESIGN_STATUS_OPTIONS.find((option) => option.toLowerCase() === current) || DESIGN_STATUS_OPTIONS[0];
+}
+
+function designStatusFieldHtml(item) {
+  const selected = designStatusValue(item);
+  const options = DESIGN_STATUS_OPTIONS.map(
+    (option) =>
+      `<option value="${escapeHtml(option)}"${option === selected ? " selected" : ""}>${escapeHtml(option)}</option>`
+  ).join("");
+  return `
+    <div class="detail-field">
+      <span class="detail-field__label">Design status</span>
+      <select class="detail-field__select" data-design-status aria-label="Design status">${options}</select>
+    </div>
+  `;
+}
+
+function wireDesignStatus(item) {
+  const select = els.panelBody.querySelector("[data-design-status]");
+  select?.addEventListener("change", () => {
+    item.designStatus = select.value;
+    saveFieldOverride(item, "designStatus", select.value);
+  });
+}
+
+function formatHandoffDate(iso) {
+  const [y, m, d] = String(iso || "").split("-").map(Number);
+  if (!y || !m || !d) return "";
+  return new Date(y, m - 1, d).toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+// The picker's calendar is appended outside the panel, so the previous one has
+// to go whenever the panel re-renders.
+let handoffPopover = null;
+
+function wireHandoffDate(item) {
+  const root = els.panelBody.querySelector("[data-handoff-picker]");
+  if (!root) return;
+  const clearBtn = els.panelBody.querySelector("[data-handoff-clear]");
+  const statusEl = els.panelBody.querySelector("[data-handoff-status]");
+
+  handoffPopover?.remove();
+  handoffPopover = initDatePicker(root, {
+    name: `handoff-${item.id}`,
+    value: item.designHandoffDate || "",
+    required: false,
+  });
+
+  const save = (iso) => {
+    item.designHandoffDate = iso;
+    saveFieldOverride(item, "designHandoffDate", iso);
+    clearBtn?.classList.toggle("hidden", !iso);
+    if (statusEl) {
+      statusEl.textContent = iso ? `Handoff ${formatHandoffDate(iso)} · saved in this browser` : "No handoff date set";
+    }
+  };
+
+  if (statusEl) {
+    statusEl.textContent = item.designHandoffDate
+      ? `Handoff ${formatHandoffDate(item.designHandoffDate)} · saved in this browser`
+      : "No handoff date set";
+  }
+
+  root.querySelector('input[type="hidden"]')?.addEventListener("change", (event) => {
+    save(event.target.value || "");
+  });
+
+  clearBtn?.addEventListener("click", () => {
+    setDatePickerValue(root, "");
+    save("");
+  });
+}
+
 function wirePanelEditors(item) {
   const figmaInput = els.panelBody.querySelector('[data-edit-field="figmaLinks"]');
   const prototypeInput = els.panelBody.querySelector('[data-edit-field="prototypeLinks"]');
@@ -565,6 +658,9 @@ function wirePanelEditors(item) {
     onChange: (name) => persistField("designer", name),
   });
 
+  wireHandoffDate(item);
+  wireDesignStatus(item);
+
   if (panelActions?.isSheetSyncReady?.()) {
     setStatus("Changes save to the roadmap sheet", "muted");
   } else {
@@ -615,11 +711,24 @@ function renderPanel(item) {
   renderEstimateChip(item);
   els.panelBody.innerHTML = `
     <section class="detail-section detail-section--editable">
-      ${prdFieldHtml(item.prdLink, item.prdLinks)}
+      <div class="detail-top-fields">
+        ${prdFieldHtml(item.prdLink, item.prdLinks)}
+        <div class="detail-field detail-field--handoff">
+          <div class="detail-field__label-row">
+            <span class="detail-field__label">Design handoff date</span>
+            <button type="button" class="detail-field__clear${item.designHandoffDate ? "" : " hidden"}" data-handoff-clear>Clear</button>
+          </div>
+          <div data-handoff-picker></div>
+          <p class="detail-field__hint" data-handoff-status></p>
+        </div>
+      </div>
       ${item.linksResolved === "error" ? `<p class="detail-sheet-status" data-tone="warn">PRD/Figma URLs need the updated sheet script — see the yellow steps at the top of this tab.</p>` : ""}
-      <div class="detail-field">
-        <span class="detail-field__label">Assigned designer</span>
-        <div data-designer-picker></div>
+      <div class="detail-top-fields">
+        <div class="detail-field">
+          <span class="detail-field__label">Assigned designer</span>
+          <div data-designer-picker></div>
+        </div>
+        ${designStatusFieldHtml(item)}
       </div>
       <div class="detail-link-fields">
         <label class="detail-field${missingFigmaInProgress(item) ? " detail-field--warn" : ""}">

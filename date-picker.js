@@ -175,8 +175,11 @@ function createPopover(root) {
   return popover;
 }
 
+// Returns the popover element, which lives outside `root` and so must be
+// removed by callers that re-render their picker host.
 export function initDatePicker(root, { name = "due", value = "", required = true } = {}) {
-  if (!root || pickerState.has(root)) return;
+  if (!root) return null;
+  if (pickerState.has(root)) return pickerState.get(root).popover;
 
   const input = document.createElement("input");
   input.type = "hidden";
@@ -241,6 +244,7 @@ export function initDatePicker(root, { name = "due", value = "", required = true
   root.closest("dialog")?.addEventListener("close", () => closePicker(root));
 
   renderPicker(root);
+  return popover;
 }
 
 export function setDatePickerValue(root, iso) {

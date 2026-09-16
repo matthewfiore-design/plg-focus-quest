@@ -1,4 +1,4 @@
-import { initRoadmap, getRoadmapData, getProjectsForDesigner, getRoadmapItem, getDesignerOptions, getRoadmapDesignerPhotos, setRoadmapPanelActions, refreshRoadmapPanel, refreshAfterRoadmapFieldSave, resetSheetLinkState, openRoadmapItem, setRoadmapDesignerFilter } from "./roadmap.js?v=20260916c";
+import { initRoadmap, getRoadmapData, getProjectsForDesigner, getRoadmapItem, getDesignerOptions, getRoadmapDesignerPhotos, setRoadmapPanelActions, refreshRoadmapPanel, refreshAfterRoadmapFieldSave, resetSheetLinkState, openRoadmapItem, setRoadmapDesignerFilter } from "./roadmap.js?v=20260916h";
 import {
   generateSubtasksWithLLM,
   reviewCountForProject,
@@ -17,7 +17,7 @@ import {
   updateRoadmapField,
   ensureItemLinks,
 } from "./sheet-sync.js?v=20260916c";
-import { initDatePicker, resetDatePicker } from "./date-picker.js";
+import { initDatePicker, resetDatePicker } from "./date-picker.js?v=20260916g";
 import { mountDesignerPicker, setDesignerPickerValue } from "./designer-picker.js";
 import { initDesignEstimatorDialog, openDesignEstimator, getSavedEstimate, estimateChipLabel } from "./design-estimator.js?v=20260916f";
 import { firstLinkHref, linkInputHtml, linkListHtml, mergeLinkItems, prdFieldHtml, wireOpenLinks } from "./link-utils.js?v=20260916c";
