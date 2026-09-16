@@ -1,4 +1,4 @@
-import { initRoadmap, getRoadmapData, getProjectsForDesigner, getRoadmapItem, getDesignerOptions, getRoadmapDesignerPhotos, setRoadmapPanelActions, refreshRoadmapPanel, refreshAfterRoadmapFieldSave, resetSheetLinkState, openRoadmapItem, setRoadmapDesignerFilter } from "./roadmap.js?v=20260819c";
+import { initRoadmap, getRoadmapData, getProjectsForDesigner, getRoadmapItem, getDesignerOptions, getRoadmapDesignerPhotos, setRoadmapPanelActions, refreshRoadmapPanel, refreshAfterRoadmapFieldSave, resetSheetLinkState, openRoadmapItem, setRoadmapDesignerFilter } from "./roadmap.js?v=20260916b";
 import {
   generateSubtasksWithLLM,
   reviewCountForProject,
@@ -20,7 +20,7 @@ import {
 import { initDatePicker, resetDatePicker } from "./date-picker.js";
 import { mountDesignerPicker, setDesignerPickerValue } from "./designer-picker.js";
 import { initDesignEstimatorDialog, openDesignEstimator, getSavedEstimate, estimateChipLabel } from "./design-estimator.js";
-import { linkListHtml, mergeLinkItems, prdFieldHtml } from "./link-utils.js";
+import { firstLinkHref, linkInputHtml, linkListHtml, mergeLinkItems, prdFieldHtml, wireOpenLinks } from "./link-utils.js?v=20260916b";
 import {
   defaultXpForType,
   isGoalsPanelType,
@@ -994,6 +994,7 @@ function wireProjectEditors(card, project) {
   const prototypeInput = card.querySelector('[data-edit-field="prototypeLinks"]');
   const designerRoot = card.querySelector("[data-designer-picker]");
   const statusEl = card.querySelector("[data-sheet-sync-status]");
+  wireOpenLinks(card);
 
   const setStatus = (message, tone = "muted") => {
     if (!statusEl) return;
@@ -1500,24 +1501,21 @@ function renderMyProjects() {
           <label class="detail-field detail-field--compact${figmaWarn ? " detail-field--warn" : ""}">
             <span class="detail-field__label">Figma link${figmaWarn ? " · add to sheet" : ""}</span>
             ${linkListHtml(mergeLinkItems(project.figmaLinks, project.figmaHrefs))}
-            <input
-              class="detail-field__input"
-              type="url"
-              data-edit-field="figmaLinks"
-              value="${escapeHtml(figmaDisplayValue(project.figmaLinks))}"
-              placeholder="https://figma.com/file/…"
-            />
+            ${linkInputHtml({
+              field: "figmaLinks",
+              inputValue: figmaDisplayValue(project.figmaLinks),
+              href: firstLinkHref(project.figmaLinks, project.figmaHrefs),
+              placeholder: "https://figma.com/file/…",
+            })}
           </label>
           <label class="detail-field detail-field--compact">
             <span class="detail-field__label">Prototype link</span>
             ${linkListHtml(mergeLinkItems(project.prototypeLinks, project.prototypeHrefs))}
-            <input
-              class="detail-field__input"
-              type="url"
-              data-edit-field="prototypeLinks"
-              value="${escapeHtml(figmaDisplayValue(project.prototypeLinks))}"
-              placeholder="https://…"
-            />
+            ${linkInputHtml({
+              field: "prototypeLinks",
+              inputValue: figmaDisplayValue(project.prototypeLinks),
+              href: firstLinkHref(project.prototypeLinks, project.prototypeHrefs),
+            })}
           </label>
         </div>
         <p class="detail-sheet-status detail-sheet-status--compact" data-sheet-sync-status data-tone="muted"></p>

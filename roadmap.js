@@ -2,7 +2,18 @@ import { mountDesignerPicker, setDesignerPickerValue } from "./designer-picker.j
 import { openDesignEstimator, initDesignEstimatorDialog, getSavedEstimate, estimateChipLabel } from "./design-estimator.js";
 import { missingFigmaInProgress } from "./initiative-health.js";
 import { ensureItemLinks } from "./sheet-sync.js";
-import { escapeHtml, linkKey, linkListHtml, mergeJiraLinkItems, mergeLinkItems, normalizeDesignerName, prdFieldHtml } from "./link-utils.js";
+import {
+  escapeHtml,
+  firstLinkHref,
+  linkInputHtml,
+  linkKey,
+  linkListHtml,
+  mergeJiraLinkItems,
+  mergeLinkItems,
+  normalizeDesignerName,
+  prdFieldHtml,
+  wireOpenLinks,
+} from "./link-utils.js?v=20260916b";
 
 const STATE_META = {
   "1. planned": { label: "Planned", tone: "muted" },
@@ -486,6 +497,7 @@ function wirePanelEditors(item) {
   const prototypeInput = els.panelBody.querySelector('[data-edit-field="prototypeLinks"]');
   const designerRoot = els.panelBody.querySelector("[data-designer-picker]");
   const statusEl = els.panelBody.querySelector("[data-sheet-sync-status]");
+  wireOpenLinks(els.panelBody);
 
   const setStatus = (message, tone = "muted") => {
     if (!statusEl) return;
@@ -602,24 +614,21 @@ function renderPanel(item) {
         <label class="detail-field${missingFigmaInProgress(item) ? " detail-field--warn" : ""}">
           <span class="detail-field__label">Figma link${missingFigmaInProgress(item) ? " · add to the roadmap sheet" : ""}</span>
           ${linkListHtml(mergeLinkItems(item.figmaLinks, item.figmaHrefs))}
-          <input
-            class="detail-field__input"
-            type="url"
-            data-edit-field="figmaLinks"
-            value="${escapeHtml(figmaDisplayValue(item.figmaLinks))}"
-            placeholder="https://figma.com/file/…"
-          />
+          ${linkInputHtml({
+            field: "figmaLinks",
+            inputValue: figmaDisplayValue(item.figmaLinks),
+            href: firstLinkHref(item.figmaLinks, item.figmaHrefs),
+            placeholder: "https://figma.com/file/…",
+          })}
         </label>
         <label class="detail-field">
           <span class="detail-field__label">Prototype link</span>
           ${linkListHtml(mergeLinkItems(item.prototypeLinks, item.prototypeHrefs))}
-          <input
-            class="detail-field__input"
-            type="url"
-            data-edit-field="prototypeLinks"
-            value="${escapeHtml(figmaDisplayValue(item.prototypeLinks))}"
-            placeholder="https://…"
-          />
+          ${linkInputHtml({
+            field: "prototypeLinks",
+            inputValue: figmaDisplayValue(item.prototypeLinks),
+            href: firstLinkHref(item.prototypeLinks, item.prototypeHrefs),
+          })}
         </label>
       </div>
       <p class="detail-sheet-status" data-sheet-sync-status data-tone="muted"></p>

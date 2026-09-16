@@ -88,6 +88,55 @@ export function mergeLinkItems(value, extras = []) {
   return merged;
 }
 
+/** First real URL for a field, preferring hyperlinks pulled from the sheet. */
+export function firstLinkHref(value, extras = []) {
+  return mergeLinkItems(value, extras)[0]?.href || "";
+}
+
+/**
+ * Editable link field. The input stays writable so edits reach the sheet, and
+ * the adjacent anchor gives the URL somewhere to actually be clicked.
+ */
+export function linkInputHtml({ field, inputValue = "", href = "", placeholder = "https://…" }) {
+  return `
+    <div class="detail-field__input-row">
+      <input
+        class="detail-field__input"
+        type="url"
+        data-edit-field="${escapeHtml(field)}"
+        value="${escapeHtml(inputValue)}"
+        placeholder="${escapeHtml(placeholder)}"
+      />
+      <a
+        class="detail-field__open"
+        data-open-link
+        href="${escapeHtml(href)}"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Open in a new tab"${href ? "" : "\n        hidden"}
+      >Open ↗</a>
+    </div>
+  `;
+}
+
+/** Keep each Open button pointed at whatever the user has typed. */
+export function wireOpenLinks(root) {
+  root?.querySelectorAll?.(".detail-field__input-row").forEach((row) => {
+    const input = row.querySelector("input");
+    const open = row.querySelector("[data-open-link]");
+    if (!input || !open) return;
+    const sync = () => {
+      const href = normalizeHref(input.value);
+      open.setAttribute("href", href);
+      open.hidden = !href;
+    };
+    input.addEventListener("input", sync);
+    // These fields sit inside a <label>, which would otherwise forward the
+    // click to the input and swallow it before the anchor navigates.
+    open.addEventListener("click", (event) => event.stopPropagation());
+  });
+}
+
 const JIRA_BROWSE = "https://zendesk.atlassian.net/browse";
 const JIRA_KEY_RE = /\b([A-Z]{2,}[A-Z0-9]*-\d+)\b/g;
 const JIRA_PLACEHOLDER = /^(tbd|n\/a|na|none|-|—)$/i;
