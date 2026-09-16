@@ -19,7 +19,7 @@ import {
 } from "./sheet-sync.js?v=20260916c";
 import { initDatePicker, resetDatePicker } from "./date-picker.js";
 import { mountDesignerPicker, setDesignerPickerValue } from "./designer-picker.js";
-import { initDesignEstimatorDialog, openDesignEstimator, getSavedEstimate, estimateChipLabel } from "./design-estimator.js";
+import { initDesignEstimatorDialog, openDesignEstimator, getSavedEstimate, estimateChipLabel } from "./design-estimator.js?v=20260916d";
 import { firstLinkHref, linkInputHtml, linkListHtml, mergeLinkItems, prdFieldHtml, wireOpenLinks } from "./link-utils.js?v=20260916c";
 import {
   defaultXpForType,

@@ -222,7 +222,7 @@ function infoPopoverHtml(key, label) {
       <button type="button" class="estimator-info-btn" data-info-key="${key}" aria-label="How ${escapeHtml(label)} is weighted" aria-expanded="false">
         <span aria-hidden="true">i</span>
       </button>
-      <div class="estimator-info-popover" data-info-popover="${key}" hidden>
+      <div class="estimator-info-popover" data-info-popover="${key}" role="tooltip">
         <p class="estimator-info-popover__title">${escapeHtml(label)}</p>
         <p class="estimator-info-popover__summary">${escapeHtml(info.summary)}</p>
         <ul class="estimator-info-popover__list">${rows}</ul>
@@ -387,22 +387,40 @@ function renderParameters(root, inputs) {
   `;
 }
 
-function wireInfoPopovers(root) {
+function closeInfoPopovers(root) {
+  root.querySelectorAll(".estimator-info-popover.is-open").forEach((panel) => {
+    panel.classList.remove("is-open");
+  });
   root.querySelectorAll(".estimator-info-btn").forEach((btn) => {
+    btn.setAttribute("aria-expanded", "false");
+  });
+}
+
+// Popovers open rightward from the icon; nudge left if that would clear the card edge.
+function positionInfoPopover(panel) {
+  panel.style.marginLeft = "";
+  const bounds = panel.closest(".estimator-card") || panel.closest(".estimator-root");
+  if (!bounds) return;
+  const overflow = panel.getBoundingClientRect().right - (bounds.getBoundingClientRect().right - 12);
+  if (overflow > 0) panel.style.marginLeft = `${-Math.round(overflow)}px`;
+}
+
+function wireInfoPopovers(root) {
+  root.querySelectorAll(".estimator-info-wrap").forEach((wrap) => {
+    const btn = wrap.querySelector(".estimator-info-btn");
+    const panel = wrap.querySelector(".estimator-info-popover");
+    if (!btn || !panel) return;
+
+    wrap.addEventListener("pointerenter", () => positionInfoPopover(panel));
+    wrap.addEventListener("focusin", () => positionInfoPopover(panel));
+
     btn.addEventListener("click", (event) => {
       event.stopPropagation();
-      const key = btn.getAttribute("data-info-key");
-      const panel = root.querySelector(`[data-info-popover="${key}"]`);
-      if (!panel) return;
-      const willOpen = panel.hidden;
-      root.querySelectorAll(".estimator-info-popover").forEach((openPanel) => {
-        openPanel.hidden = true;
-      });
-      root.querySelectorAll(".estimator-info-btn").forEach((openBtn) => {
-        openBtn.setAttribute("aria-expanded", "false");
-      });
-      panel.hidden = !willOpen;
+      const willOpen = !panel.classList.contains("is-open");
+      closeInfoPopovers(root);
+      panel.classList.toggle("is-open", willOpen);
       btn.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      if (willOpen) positionInfoPopover(panel);
     });
   });
 }
@@ -466,14 +484,7 @@ export function mountDesignEstimator(root, project) {
   wireParameters(root, inputs, onChange);
   wireInfoPopovers(root);
 
-  root.addEventListener("click", () => {
-    root.querySelectorAll(".estimator-info-popover").forEach((panel) => {
-      panel.hidden = true;
-    });
-    root.querySelectorAll(".estimator-info-btn").forEach((btn) => {
-      btn.setAttribute("aria-expanded", "false");
-    });
-  });
+  root.addEventListener("click", () => closeInfoPopovers(root));
 }
 
 let dialogEls = null;

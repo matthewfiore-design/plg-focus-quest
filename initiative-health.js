@@ -1,4 +1,4 @@
-import { getSavedEstimate } from "./design-estimator.js";
+import { getSavedEstimate } from "./design-estimator.js?v=20260916d";
 import { mergeLinkItems } from "./link-utils.js?v=20260916c";
 
 const INACTIVE = /launched|ended|depriorit/i;

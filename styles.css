@@ -2187,16 +2187,18 @@ h1 {
 }
 
 .estimator-info-btn:hover,
+.estimator-info-btn:focus-visible,
 .estimator-info-btn[aria-expanded="true"] {
   color: var(--ink);
-  border-color: rgba(198, 232, 161, 0.35);
-  background: rgba(198, 232, 161, 0.08);
+  border-color: var(--accent);
+  background: rgba(164, 126, 191, 0.14);
 }
 
 .estimator-info-popover {
   position: absolute;
   top: calc(100% + 0.45rem);
-  right: 0;
+  left: 0;
+  right: auto;
   z-index: 30;
   width: min(18rem, 72vw);
   padding: 0.75rem 0.85rem;
@@ -2204,6 +2206,24 @@ h1 {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: #151d31;
   box-shadow: var(--shadow);
+  /* display, not visibility: a hidden panel must not add scroll width to the modal. */
+  display: none;
+}
+
+/* Bridges the gap under the icon so the pointer can travel into the panel. */
+.estimator-info-popover::before {
+  content: "";
+  position: absolute;
+  top: -0.45rem;
+  left: 0;
+  right: 0;
+  height: 0.45rem;
+}
+
+.estimator-info-wrap:hover .estimator-info-popover,
+.estimator-info-wrap:focus-within .estimator-info-popover,
+.estimator-info-popover.is-open {
+  display: block;
 }
 
 .estimator-info-popover__title {
@@ -2506,11 +2526,6 @@ h1 {
 
   .estimator-layout__result {
     position: static;
-  }
-
-  .estimator-info-popover {
-    right: auto;
-    left: 0;
   }
 }
 

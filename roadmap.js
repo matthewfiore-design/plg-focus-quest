@@ -1,5 +1,5 @@
 import { mountDesignerPicker, setDesignerPickerValue } from "./designer-picker.js";
-import { openDesignEstimator, initDesignEstimatorDialog, getSavedEstimate, estimateChipLabel } from "./design-estimator.js";
+import { openDesignEstimator, initDesignEstimatorDialog, getSavedEstimate, estimateChipLabel } from "./design-estimator.js?v=20260916d";
 import { missingFigmaInProgress } from "./initiative-health.js";
 import { applyLinkMap, ensureItemLinks, fetchSheetLinks } from "./sheet-sync.js?v=20260916c";
 import {
