@@ -389,7 +389,10 @@ function renderGrid() {
     card.dataset.roadmapId = item.id;
     card.innerHTML = `
       <div class="roadmap-card__top">
-        <span class="state-pill state-pill--${meta.tone}">${meta.label}</span>
+        <div class="roadmap-card__pills">
+          <span class="state-pill state-pill--${meta.tone}" title="Product status">${meta.label}</span>
+          ${designStatusPillHtml(item)}
+        </div>
         <span class="roadmap-card__team">${escapeHtml(item.expectedLaunchQuarter || "")}${item.expectedLaunchQuarter && item.engTeam ? " · " : ""}${escapeHtml(item.engTeam || "")}${
           figmaWarn ? `<span class="badge badge--figma-warn">Figma not on sheet</span>` : ""
         }</span>
@@ -517,9 +520,26 @@ const DESIGN_STATUS_OPTIONS = [
   "Archived",
 ];
 
+const DESIGN_STATUS_META = {
+  "Not Started": { tone: "muted" },
+  Research: { tone: "warn" },
+  Concepting: { tone: "design" },
+  "Design Review": { tone: "design" },
+  Iterating: { tone: "dev" },
+  "Handed off": { tone: "done" },
+  Blocked: { tone: "warn" },
+  Archived: { tone: "muted" },
+};
+
 function designStatusValue(item) {
   const current = String(item?.designStatus || "").trim().toLowerCase();
   return DESIGN_STATUS_OPTIONS.find((option) => option.toLowerCase() === current) || DESIGN_STATUS_OPTIONS[0];
+}
+
+function designStatusPillHtml(item) {
+  const label = designStatusValue(item);
+  const tone = DESIGN_STATUS_META[label]?.tone || "muted";
+  return `<span class="state-pill state-pill--${tone}" title="Design status">${escapeHtml(label)}</span>`;
 }
 
 function designStatusFieldHtml(item) {
@@ -541,6 +561,7 @@ function wireDesignStatus(item) {
   select?.addEventListener("change", () => {
     item.designStatus = select.value;
     saveFieldOverride(item, "designStatus", select.value);
+    renderGrid();
   });
 }
 

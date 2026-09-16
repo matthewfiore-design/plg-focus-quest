@@ -1545,7 +1545,15 @@ h1 {
   display: flex;
   justify-content: space-between;
   gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.roadmap-card__pills {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
 }
 
 .roadmap-card__team {
