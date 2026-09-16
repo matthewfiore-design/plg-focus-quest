@@ -3,9 +3,11 @@
  * Sheets needs a chip run whose placeholder is "@" and whose email
  * matches a Workspace person.
  *
- * One extra step after paste:
- *   Apps Script editor → Services (+) → Google Sheets API → Add
- * Then Deploy → Manage deployments → Edit → New version.
+ * Ship changes with scripts/deploy-apps-script.sh, which pushes this file and
+ * repoints the live web app at a new version.
+ *
+ * The remote project also holds PMreminders, ENGreminders, LaunchSummary and
+ * "ge offer calendar"; the deploy script pulls before pushing so those survive.
  */
 const SCRIPT_VERSION = 6;
 var responseCallback_ = "";

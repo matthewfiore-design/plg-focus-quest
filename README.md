@@ -27,7 +27,13 @@ Roadmap cards show **Project name, description, state, designer**. Click a card 
 
 ## Run locally
 
-**Production** talks to the Apps Script web app from the browser. After you change `scripts/DesignUpdate.gs`, copy it in Settings and deploy a **new version** of the existing web app (same `/exec` URL).
+**Production** talks to the Apps Script web app from the browser. After you change `scripts/DesignUpdate.gs`, ship it with:
+
+```sh
+scripts/deploy-apps-script.sh "what changed"
+```
+
+That pushes the file, cuts a version, and repoints the existing web app, so the `/exec` URL never changes. One-time setup: `npx @google/clasp login` and turn on the Apps Script API at [script.google.com/home/usersettings](https://script.google.com/home/usersettings).
 
 Locally, use the proxy server (not `python3 -m http.server`) so writes go through `/api`:
 
@@ -66,7 +72,7 @@ GitHub Pages redeploys automatically.
    - Who has access: **Anyone**
 4. Paste the `/exec` URL into Tools and click **Save script URL**.
 
-Assigned designer changes then write to the **Designer** column as a people `@` mention (smart chip). After updating `DesignUpdate.gs`, use **Deploy → Manage deployments → Edit → New version**.
+Assigned designer changes then write to the **Designer** column as a people `@` mention (smart chip). After updating `DesignUpdate.gs`, run `scripts/deploy-apps-script.sh`.
 
 ## Customize a new week
 
