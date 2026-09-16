@@ -396,23 +396,50 @@ function closeInfoPopovers(root) {
   });
 }
 
-// Popovers open rightward from the icon; nudge left if that would clear the card edge.
-function positionInfoPopover(panel) {
-  panel.style.marginLeft = "";
-  const bounds = panel.closest(".estimator-card") || panel.closest(".estimator-root");
-  if (!bounds) return;
-  const overflow = panel.getBoundingClientRect().right - (bounds.getBoundingClientRect().right - 12);
-  if (overflow > 0) panel.style.marginLeft = `${-Math.round(overflow)}px`;
+const INFO_GAP = 7;
+const INFO_EDGE = 12;
+
+// Opens rightward and below the icon, clamped to the viewport and flipped above
+// the icon when there is no room underneath.
+function positionInfoPopover(wrap, panel) {
+  const icon = wrap.getBoundingClientRect();
+  const { width, height } = panel.getBoundingClientRect();
+
+  const left = Math.max(INFO_EDGE, Math.min(icon.left, window.innerWidth - width - INFO_EDGE));
+  const below = icon.bottom + INFO_GAP;
+  const top =
+    below + height + INFO_EDGE > window.innerHeight
+      ? Math.max(INFO_EDGE, icon.top - height - INFO_GAP)
+      : below;
+
+  panel.style.left = `${Math.round(left)}px`;
+  panel.style.top = `${Math.round(top)}px`;
+}
+
+// Fixed panels don't follow the icon, so re-place any open one when things move.
+let infoReflowBound = false;
+function bindInfoReflow() {
+  if (infoReflowBound) return;
+  infoReflowBound = true;
+  const reflow = () => {
+    document.querySelectorAll(".estimator-info-popover").forEach((panel) => {
+      const wrap = panel.closest(".estimator-info-wrap");
+      if (wrap && getComputedStyle(panel).display !== "none") positionInfoPopover(wrap, panel);
+    });
+  };
+  window.addEventListener("resize", reflow);
+  document.addEventListener("scroll", reflow, true);
 }
 
 function wireInfoPopovers(root) {
+  bindInfoReflow();
   root.querySelectorAll(".estimator-info-wrap").forEach((wrap) => {
     const btn = wrap.querySelector(".estimator-info-btn");
     const panel = wrap.querySelector(".estimator-info-popover");
     if (!btn || !panel) return;
 
-    wrap.addEventListener("pointerenter", () => positionInfoPopover(panel));
-    wrap.addEventListener("focusin", () => positionInfoPopover(panel));
+    wrap.addEventListener("pointerenter", () => positionInfoPopover(wrap, panel));
+    wrap.addEventListener("focusin", () => positionInfoPopover(wrap, panel));
 
     btn.addEventListener("click", (event) => {
       event.stopPropagation();
@@ -420,7 +447,7 @@ function wireInfoPopovers(root) {
       closeInfoPopovers(root);
       panel.classList.toggle("is-open", willOpen);
       btn.setAttribute("aria-expanded", willOpen ? "true" : "false");
-      if (willOpen) positionInfoPopover(panel);
+      if (willOpen) positionInfoPopover(wrap, panel);
     });
   });
 }

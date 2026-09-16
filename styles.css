@@ -2194,12 +2194,13 @@ h1 {
   background: rgba(164, 126, 191, 0.14);
 }
 
+/* Fixed, so the panel escapes the scrolling card and the modal's overflow clip.
+   Coordinates come from positionInfoPopover(). */
 .estimator-info-popover {
-  position: absolute;
-  top: calc(100% + 0.45rem);
+  position: fixed;
+  top: 0;
   left: 0;
-  right: auto;
-  z-index: 30;
+  z-index: 90;
   width: min(18rem, 72vw);
   padding: 0.75rem 0.85rem;
   border-radius: 10px;
@@ -2210,14 +2211,16 @@ h1 {
   display: none;
 }
 
-/* Bridges the gap under the icon so the pointer can travel into the panel. */
+/* Bridges the gap to the icon so the pointer can travel into the panel,
+   on both edges since the panel flips above the icon near the viewport bottom. */
 .estimator-info-popover::before {
   content: "";
   position: absolute;
-  top: -0.45rem;
+  top: -0.6rem;
+  bottom: -0.6rem;
   left: 0;
   right: 0;
-  height: 0.45rem;
+  z-index: -1;
 }
 
 .estimator-info-wrap:hover .estimator-info-popover,
