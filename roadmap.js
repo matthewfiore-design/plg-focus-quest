@@ -531,9 +531,23 @@ const DESIGN_STATUS_META = {
   Archived: { tone: "muted" },
 };
 
+function defaultDesignStatus(item) {
+  const key = (item?.state || "").trim().toLowerCase();
+  const stripped = key.replace(/^\d+\.\s*/, "");
+  if (
+    stripped.includes("development") ||
+    stripped.includes("launched") ||
+    stripped.includes("staging") ||
+    stripped.includes("live experiment")
+  ) {
+    return "Handed off";
+  }
+  return "Not Started";
+}
+
 function designStatusValue(item) {
   const current = String(item?.designStatus || "").trim().toLowerCase();
-  return DESIGN_STATUS_OPTIONS.find((option) => option.toLowerCase() === current) || DESIGN_STATUS_OPTIONS[0];
+  return DESIGN_STATUS_OPTIONS.find((option) => option.toLowerCase() === current) || defaultDesignStatus(item);
 }
 
 function designStatusPillHtml(item) {
@@ -556,13 +570,29 @@ function designStatusFieldHtml(item) {
   `;
 }
 
+function commitDesignStatus(item, value) {
+  const next = DESIGN_STATUS_OPTIONS.find((option) => option === value) || defaultDesignStatus(item);
+  if (designStatusValue(item) === next) {
+    renderGrid();
+    return;
+  }
+  item.designStatus = next;
+  saveFieldOverride(item, "designStatus", next);
+  renderGrid();
+}
+
 function wireDesignStatus(item) {
   const select = els.panelBody.querySelector("[data-design-status]");
-  select?.addEventListener("change", () => {
-    item.designStatus = select.value;
-    saveFieldOverride(item, "designStatus", select.value);
-    renderGrid();
-  });
+  if (!select) return;
+
+  const persist = () => {
+    if (select.value === designStatusValue(item)) return;
+    commitDesignStatus(item, select.value);
+  };
+
+  select.addEventListener("change", persist);
+  select.addEventListener("input", persist);
+  select.addEventListener("blur", persist);
 }
 
 function formatHandoffDate(iso) {
@@ -866,6 +896,10 @@ function renderPanel(item) {
 }
 
 function closePanel() {
+  const openItem = selectedId ? getRoadmapItem(selectedId) : null;
+  const select = els.panelBody?.querySelector("[data-design-status]");
+  if (openItem && select) commitDesignStatus(openItem, select.value);
+
   selectedId = null;
   els.panel?.classList.remove("is-open");
   els.panel?.setAttribute("aria-hidden", "true");
