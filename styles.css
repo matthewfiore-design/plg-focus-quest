@@ -2132,9 +2132,12 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+  min-height: 1.5rem;
 }
 
 .estimator-field--toggle .estimator-field__head {
+  flex: 1 1 auto;
+  min-width: 0;
   margin-bottom: 0;
 }
 
@@ -2280,6 +2283,7 @@ h1 {
 .estimator-switch {
   position: relative;
   display: inline-flex;
+  flex: none;
   align-items: center;
   cursor: pointer;
 }
@@ -2293,11 +2297,19 @@ h1 {
 
 .estimator-switch__track {
   position: relative;
+  display: block;
+  flex: none;
+  box-sizing: border-box;
   width: 2.35rem;
   height: 1.25rem;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
   transition: background 0.15s ease;
+}
+
+.estimator-switch input:focus-visible + .estimator-switch__track {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .estimator-switch__track::after {
@@ -2313,12 +2325,11 @@ h1 {
 }
 
 .estimator-switch input:checked + .estimator-switch__track {
-  background: rgba(198, 232, 161, 0.35);
+  background: var(--accent);
 }
 
 .estimator-switch input:checked + .estimator-switch__track::after {
   transform: translateX(1.1rem);
-  background: var(--accent);
 }
 
 .estimator-result__head {
