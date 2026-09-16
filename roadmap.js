@@ -570,7 +570,7 @@ function designStatusFieldHtml(item) {
   `;
 }
 
-function commitDesignStatus(item, value) {
+function commitDesignStatus(item, value, persist = null) {
   const next = DESIGN_STATUS_OPTIONS.find((option) => option === value) || defaultDesignStatus(item);
   if (designStatusValue(item) === next) {
     renderGrid();
@@ -579,15 +579,16 @@ function commitDesignStatus(item, value) {
   item.designStatus = next;
   saveFieldOverride(item, "designStatus", next);
   renderGrid();
+  persist?.("designStatus", next);
 }
 
-function wireDesignStatus(item) {
+function wireDesignStatus(item, persistField) {
   const select = els.panelBody.querySelector("[data-design-status]");
   if (!select) return;
 
   const persist = () => {
     if (select.value === designStatusValue(item)) return;
-    commitDesignStatus(item, select.value);
+    commitDesignStatus(item, select.value, persistField);
   };
 
   select.addEventListener("change", persist);
@@ -609,7 +610,7 @@ function formatHandoffDate(iso) {
 // to go whenever the panel re-renders.
 let handoffPopover = null;
 
-function wireHandoffDate(item) {
+function wireHandoffDate(item, persistField) {
   const root = els.panelBody.querySelector("[data-handoff-picker]");
   if (!root) return;
   const clearBtn = els.panelBody.querySelector("[data-handoff-clear]");
@@ -627,13 +628,16 @@ function wireHandoffDate(item) {
     saveFieldOverride(item, "designHandoffDate", iso);
     clearBtn?.classList.toggle("hidden", !iso);
     if (statusEl) {
-      statusEl.textContent = iso ? `Handoff ${formatHandoffDate(iso)} · saved in this browser` : "No handoff date set";
+      statusEl.textContent = iso ? `Handoff ${formatHandoffDate(iso)} · saving…` : "Clearing handoff date…";
     }
+    persistField("designHandoffDate", iso).then(() => {
+      if (statusEl) statusEl.textContent = iso ? `Handoff ${formatHandoffDate(iso)} · saved to roadmap` : "No handoff date set";
+    });
   };
 
   if (statusEl) {
     statusEl.textContent = item.designHandoffDate
-      ? `Handoff ${formatHandoffDate(item.designHandoffDate)} · saved in this browser`
+      ? `Handoff ${formatHandoffDate(item.designHandoffDate)} · saved to roadmap`
       : "No handoff date set";
   }
 
@@ -709,8 +713,8 @@ function wirePanelEditors(item) {
     onChange: (name) => persistField("designer", name),
   });
 
-  wireHandoffDate(item);
-  wireDesignStatus(item);
+  wireHandoffDate(item, persistField);
+  wireDesignStatus(item, persistField);
 
   if (panelActions?.isSheetSyncReady?.()) {
     setStatus("Changes save to the roadmap sheet", "muted");
@@ -898,7 +902,11 @@ function renderPanel(item) {
 function closePanel() {
   const openItem = selectedId ? getRoadmapItem(selectedId) : null;
   const select = els.panelBody?.querySelector("[data-design-status]");
-  if (openItem && select) commitDesignStatus(openItem, select.value);
+  if (openItem && select) {
+    commitDesignStatus(openItem, select.value, (field, value) =>
+      panelActions?.onUpdateField?.(openItem.id, field, value)
+    );
+  }
 
   selectedId = null;
   els.panel?.classList.remove("is-open");

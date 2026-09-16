@@ -568,6 +568,8 @@ async function loadHeaderMeta(roadmapData, token) {
     if (h === "Designer") map.designer = colIndexToLetter(idx);
     if (h === "Figma Links") map.figmaLinks = colIndexToLetter(idx);
     if (h === "Prototype Links" || h === "Prototype Link") map.prototypeLinks = colIndexToLetter(idx);
+    if (h === "Design Status") map.designStatus = colIndexToLetter(idx);
+    if (h === "Design Handoff Date") map.designHandoffDate = colIndexToLetter(idx);
     if (h === "Project Name") map.projectName = colIndexToLetter(idx);
     if (h === "Expected Launch Quarter") map.expectedLaunchQuarter = colIndexToLetter(idx);
   });
@@ -630,7 +632,7 @@ export async function connectGoogleAccount() {
 
 export async function updateRoadmapField(item, field, value, roadmapData, { interactive = true } = {}) {
   if (!item || !roadmapData) throw new Error("Missing roadmap item.");
-  if (field !== "designer" && field !== "figmaLinks" && field !== "prototypeLinks") {
+  if (!["designer", "figmaLinks", "prototypeLinks", "designStatus", "designHandoffDate"].includes(field)) {
     throw new Error(`Unsupported field: ${field}`);
   }
 

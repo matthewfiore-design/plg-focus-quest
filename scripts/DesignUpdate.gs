@@ -9,7 +9,7 @@
  * The remote project also holds PMreminders, ENGreminders, LaunchSummary and
  * "ge offer calendar"; the deploy script pulls before pushing so those survive.
  */
-const SCRIPT_VERSION = 7;
+const SCRIPT_VERSION = 8;
 var responseCallback_ = "";
 const SPREADSHEET_ID = "1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8";
 const TAB = "Sheet1";
@@ -62,6 +62,8 @@ const FIELDS = {
   designer: "Designer",
   figmaLinks: "Figma Links",
   prototypeLinks: "Prototype Links",
+  designStatus: "Design Status",
+  designHandoffDate: "Design Handoff Date",
 };
 const DESIGNER_EMAILS = {
   "Alexa Stahl": "alexastahl@zendesk.com",
@@ -140,6 +142,13 @@ function handle_(p) {
         col = i + 1;
         break;
       }
+    }
+    // Design workflow fields were added by Focus Tracker. Create those columns
+    // lazily so the first edit upgrades the existing roadmap sheet safely.
+    if (col < 1 && (field === "designStatus" || field === "designHandoffDate")) {
+      col = lastCol + 1;
+      sheet.getRange(1, col).setValue(header);
+      headers.push(header);
     }
     if (col < 1) return json_({ ok: false, message: 'Could not find "' + header + '" column.' });
 

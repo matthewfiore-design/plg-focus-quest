@@ -112,6 +112,10 @@ def column_letters(headers: list[str]) -> dict[str, str]:
             mapping["figmaLinks"] = col_index_to_letter(idx)
         elif h in ("Prototype Link", "Prototype Links"):
             mapping["prototypeLinks"] = col_index_to_letter(idx)
+        elif h == "Design Status":
+            mapping["designStatus"] = col_index_to_letter(idx)
+        elif h == "Design Handoff Date":
+            mapping["designHandoffDate"] = col_index_to_letter(idx)
         elif h == "Project Name":
             mapping["projectName"] = col_index_to_letter(idx)
         elif h == "Expected Launch Quarter":
@@ -166,6 +170,8 @@ def row_to_item(row: dict[str, str], *, sheet_row: int | None = None) -> dict[st
         "jiraLink": (row.get("JIRA PLAN Link") or "").strip(),
         "figmaLinks": (row.get("Figma Links") or "").strip(),
         "prototypeLinks": (row.get("Prototype Links") or row.get("Prototype Link") or "").strip(),
+        "designStatus": (row.get("Design Status") or "").strip(),
+        "designHandoffDate": (row.get("Design Handoff Date") or "").strip(),
         "productManager": (row.get("Product Manager") or "").strip(),
         "engineeringManager": (row.get("Engineering Manager") or "").strip(),
         "analyticsLead": (row.get("Analytics Lead") or "").strip(),
