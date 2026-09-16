@@ -50,6 +50,7 @@ const OPENAI_KEY = "plg-focus-quest-openai-key";
 const WORK_MODE_KEY = "plg-focus-quest-work-mode";
 const LEADERBOARD_TAB_KEY = "plg-focus-quest-leaderboard-tab";
 const DAY_FOCUS_LIMIT = 5;
+const DAY_SHOW_MORE = 5;
 const PERSONAL_OWNER = "Matthew Fiore";
 const LEVELS = [
   { level: 1, title: "Rookie", xp: 0 },
@@ -70,6 +71,7 @@ const els = {
   todayLabel: document.getElementById("today-label"),
   todayTasks: document.getElementById("today-tasks"),
   todayEmpty: document.getElementById("today-empty"),
+  btnShowMoreToday: document.getElementById("btn-show-more-today"),
   outcomeTasks: document.getElementById("outcome-tasks"),
   weekNav: document.getElementById("week-nav"),
   ringProgress: document.getElementById("ring-progress"),
@@ -137,6 +139,7 @@ let healthScope = localStorage.getItem("plg-focus-quest-health-scope") === "squa
 
 let state = null;
 let viewDate = todayISO();
+let todayFocusLimit = DAY_FOCUS_LIMIT;
 let pendingTodayFocus = true;
 const expandedProjects = new Set();
 
@@ -228,14 +231,20 @@ function sortDayTasks(a, b) {
   return String(a.title || "").localeCompare(String(b.title || ""));
 }
 
-function partitionDayItems(items) {
+function setViewDate(iso) {
+  const next = String(iso || "");
+  if (viewDate !== next) todayFocusLimit = DAY_FOCUS_LIMIT;
+  viewDate = next;
+}
+
+function partitionDayItems(items, limit = DAY_FOCUS_LIMIT) {
   const completed = items.filter((t) => t.completed);
   const open = items.filter((t) => !t.completed).sort(sortDayTasks);
   return {
     completed,
     open,
-    active: open.slice(0, DAY_FOCUS_LIMIT),
-    queued: open.slice(DAY_FOCUS_LIMIT),
+    active: open.slice(0, limit),
+    queued: open.slice(limit),
   };
 }
 
@@ -252,7 +261,7 @@ function uid() {
 }
 
 async function loadSeed() {
-  const res = await fetch("./seed.json");
+  const res = await fetch("./seed.json?v=20260916a");
   if (!res.ok) throw new Error("Could not load seed.json");
   return res.json();
 }
@@ -272,6 +281,27 @@ function tasksFromSeed(seed) {
     rolloverCount: 0,
     owner: t.owner || owner,
   }));
+}
+
+function taskTitleKey(title) {
+  return String(title || "")
+    .trim()
+    .toLowerCase();
+}
+
+function mergeNewSeedTasks(current, seed) {
+  const existing = new Set((current.tasks || []).map((task) => taskTitleKey(task.title)));
+  const added = [];
+  for (const raw of seed.tasks || []) {
+    if (existing.has(taskTitleKey(raw.title))) continue;
+    const [task] = tasksFromSeed({ ...seed, tasks: [raw] });
+    current.tasks.push(task);
+    existing.add(taskTitleKey(task.title));
+    added.push(task);
+  }
+  if (seed.weekOf) current.weekOf = seed.weekOf;
+  if (seed.title) current.title = seed.title;
+  return added;
 }
 
 function createInitialState(seed) {
@@ -686,7 +716,7 @@ function applyDayRollover({ snapToToday = false } = {}) {
   syncWeekOf();
   const rolled = processRollover();
   if (snapToToday || previousFocus !== focusDate()) {
-    viewDate = focusDate();
+    setViewDate(focusDate());
     pendingTodayFocus = true;
   }
   saveState();
@@ -1219,7 +1249,7 @@ function renderWeekNav() {
     else count.textContent = `${open.length} open`;
     btn.appendChild(count);
     btn.addEventListener("click", () => {
-      viewDate = iso;
+      setViewDate(iso);
       if (iso === focus) pendingTodayFocus = true;
       render();
       if (workMode === "days") {
@@ -1238,7 +1268,7 @@ function renderToday() {
   const items = designerWorkTasks().filter(
     (t) => isTodayTaskType(t.type) && t.scheduledDate === iso
   );
-  const { completed, active, queued, open } = partitionDayItems(items);
+  const { completed, active, queued, open } = partitionDayItems(items, todayFocusLimit);
   els.todayTasks.innerHTML = "";
 
   const visible = [...active, ...completed];
@@ -1248,8 +1278,15 @@ function renderToday() {
     els.todayEmpty.classList.add("hidden");
     visible.forEach((task) => els.todayTasks.appendChild(renderTask(task)));
   }
-  const hint = dayQueueHint(queued);
-  if (hint) els.todayTasks.appendChild(hint);
+  if (els.btnShowMoreToday) {
+    const remaining = queued.length;
+    els.btnShowMoreToday.classList.toggle("hidden", remaining === 0);
+    els.btnShowMoreToday.textContent = "Show 5 more";
+    els.btnShowMoreToday.setAttribute(
+      "aria-label",
+      remaining ? `Show 5 more, ${remaining} waiting` : "Show 5 more"
+    );
+  }
 
   const denom = completed.length + open.length;
   const pct = denom ? Math.round((completed.length / denom) * 100) : 100;
@@ -1339,7 +1376,7 @@ function renderDaysBoard() {
     `;
     if (col.iso !== "other") {
       heading.addEventListener("click", () => {
-        viewDate = col.iso;
+        setViewDate(col.iso);
         if (col.iso === focus) pendingTodayFocus = true;
         render();
       });
@@ -1847,7 +1884,7 @@ function setView(view) {
   els.btnSettings?.setAttribute("aria-pressed", currentView === "settings" ? "true" : "false");
 
   if (currentView === "tasks") {
-    viewDate = focusDate();
+    setViewDate(focusDate());
     pendingTodayFocus = true;
   }
   if (currentView === "settings") renderHealthRadar();
@@ -1865,6 +1902,11 @@ function wireNavigation() {
 
 function wireUI() {
   els.btnAdd?.addEventListener("click", () => openTaskDialog());
+  els.btnShowMoreToday?.addEventListener("click", () => {
+    todayFocusLimit += DAY_SHOW_MORE;
+    renderToday();
+    renderWeekNav();
+  });
   els.btnAddTop.addEventListener("click", () => openTaskDialog());
   els.btnQuestGuide?.addEventListener("click", () => startProductTour(tourHooks()));
   els.btnSettings?.addEventListener("click", () => {
@@ -1986,20 +2028,29 @@ async function init() {
   wireUI();
   initDatePicker(els.taskDuePicker, { name: "due", value: viewDate, required: true });
   state = loadState();
+  const seed = await loadSeed();
+  let seededNew = 0;
   if (!state) {
-    const seed = await loadSeed();
     state = createInitialState(seed);
+  } else {
+    seededNew = mergeNewSeedTasks(state, seed).length;
   }
   migratePersonalOwners(state.tasks);
 
   const rolled = applyDayRollover({ snapToToday: true });
   const visibleRolled = rolled.filter(isDesignerWorkTask);
-  if (visibleRolled.length) {
+  if (visibleRolled.length && seededNew) {
+    showToast(
+      `${visibleRolled.length} unfinished quest${visibleRolled.length > 1 ? "s" : ""} moved to today · ${seededNew} new from transcripts`
+    );
+  } else if (visibleRolled.length) {
     showToast(`${visibleRolled.length} unfinished quest${visibleRolled.length > 1 ? "s" : ""} moved to today`);
+  } else if (seededNew) {
+    showToast(`${seededNew} quest${seededNew > 1 ? "s" : ""} added from the last two weeks`);
   }
 
   saveState();
-  viewDate = focusDate();
+  setViewDate(focusDate());
   await loadGoogleConfig();
   await probeSheetProxy();
   const savedUrl = getSheetProxyStatus().appsScriptUrl || getAppsScriptUrl();
