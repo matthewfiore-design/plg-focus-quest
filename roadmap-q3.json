@@ -66,7 +66,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 84,
-      "id": "big-rock-quoting-cart-p1-provisionable-addons"
+      "id": "big-rock-quoting-cart-p1-provisionable-addons",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/7594082391/2026Q1+Quoting+Tool+PRD",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/ARTHA-14",
+          "label": "ARTHA-14"
+        }
+      ]
     },
     {
       "name": "[eOBP] Phase 1: Read sku in subscription page for sales assisted (May)",
@@ -91,7 +105,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 77,
-      "id": "eobp-phase-1-read-sku-in-subscription-page-for-sales-assisted-may"
+      "id": "eobp-phase-1-read-sku-in-subscription-page-for-sales-assisted-may",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[eOBP] Phase 2: Write sku for sales assisted cart (July)",
@@ -116,7 +134,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 9,
-      "id": "eobp-phase-2-write-sku-for-sales-assisted-cart-july"
+      "id": "eobp-phase-2-write-sku-for-sales-assisted-cart-july",
+      "prdLinks": [],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/1utyLAyF3tBeHZJi6GUyqy/Evolved-OBP-subscription-management--July-release-?node-id=8121-28682&t=R6zdDSrxO4g3RxMN-1",
+          "label": "Link"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[Expansion] Increase plan expansion top of funnel: New prompt patterns for paid expansion using ticket metric recommendations",
@@ -141,7 +168,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 68,
-      "id": "expansion-increase-plan-expansion-top-of-funnel-new-prompt-patterns-for-paid-exp"
+      "id": "expansion-increase-plan-expansion-top-of-funnel-new-prompt-patterns-for-paid-exp",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8299970580/PRD+2026Q2+Expansion+improvements",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/c7dzfOx8qghvrHLro2ombS/Expansion-offers?node-id=7006-15306&t=hpLKmGF9nNdSdeep-1",
+          "label": "Figma link"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[Big Rock] Phase 1 PLS Cart abandonment events for trial",
@@ -166,7 +207,16 @@
       "priority": "",
       "launchCompass": "⭐",
       "sheetRow": 21,
-      "id": "big-rock-phase-1-pls-cart-abandonment-events-for-trial"
+      "id": "big-rock-phase-1-pls-cart-abandonment-events-for-trial",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8163688505/PRD+2026Q2+Cart+abandonment+PLS+signals",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Forethought Trial Launch",
@@ -191,7 +241,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 78,
-      "id": "forethought-trial-launch"
+      "id": "forethought-trial-launch",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/1HLHaSmbEA1klZsxW32W3C_0SFXEy2fYmgBhB4fgrkTU/edit?tab=t.0#heading=h.rl45wgunijax",
+          "label": "One Pager"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Use Case Question for CS vs. ES Trial Type",
@@ -216,7 +275,21 @@
       "priority": "4",
       "launchCompass": "",
       "sheetRow": 23,
-      "id": "use-case-question-for-cs-vs-es-trial-type"
+      "id": "use-case-question-for-cs-vs-es-trial-type",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/x/AwCG1wE",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-21897",
+          "label": "PLAN-21897"
+        }
+      ]
     },
     {
       "name": "[EXPERIMENT] Offers on Trial Cart abandonment",
@@ -241,7 +314,26 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 3,
-      "id": "experiment-offers-on-trial-cart-abandonment"
+      "id": "experiment-offers-on-trial-cart-abandonment",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8332575368/Q22026+Offers+on+Exit+Intent+-+Cart+Interventions+Trial+to+Paid+Cart",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/tt4Zkh9bSN9C61HoACDFnG/Offers-on--Exit-Intent---Cart-Interventions--Trial-to-Paid-Cart-?node-id=13141-91&p=f&t=qud75u89MdBUGQA5-0",
+          "label": "Here"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-507",
+          "label": "AIKYA-507"
+        }
+      ]
     },
     {
       "name": "[REVOPS] Invoice True Status",
@@ -266,7 +358,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 5,
-      "id": "revops-invoice-true-status"
+      "id": "revops-invoice-true-status",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8211660812/Q2+2026+PRD+Admin+Centre+Billing-+Invoices+Invoice+True+Status+Breakdown",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-616",
+          "label": "AIKYA-616"
+        }
+      ]
     },
     {
       "name": "Localize Startup Sign-Up Flow",
@@ -291,7 +397,21 @@
       "priority": "6",
       "launchCompass": "",
       "sheetRow": 107,
-      "id": "localize-startup-sign-up-flow"
+      "id": "localize-startup-sign-up-flow",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/x/kwAtwQE",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-21010",
+          "label": "PLAN-21010"
+        }
+      ]
     },
     {
       "name": "Pause and Resume Subscription - Phase 1",
@@ -316,7 +436,26 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 4,
-      "id": "pause-and-resume-subscription-phase-1"
+      "id": "pause-and-resume-subscription-phase-1",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/7854555680/2026+Cancel-Save+flow+Pause+and+Resume+Subscription",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/84vUwwh5a6vUKJsJd5003H/Pause-Subscription?node-id=11607-7725&t=7XzUOwA7eKCe9LNF-0",
+          "label": "Here"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-305",
+          "label": "AIKYA-305"
+        }
+      ]
     },
     {
       "name": "Reduce Sign-Up Abandonment Through Value-Based Messaging Experiences",
@@ -341,7 +480,26 @@
       "priority": "1",
       "launchCompass": "",
       "sheetRow": 81,
-      "id": "reduce-sign-up-abandonment-through-value-based-messaging-experiences"
+      "id": "reduce-sign-up-abandonment-through-value-based-messaging-experiences",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/x/LQHWxwE",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/7dIG9S3UH1GanQoQfXAGwR/Trial-sign-up-abandonment-message---value-based-messaging?node-id=9455-8449&t=TdJjkMtVeejSt1GM-1",
+          "label": "Figma Link"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-19092",
+          "label": "PLAN-19092"
+        }
+      ]
     },
     {
       "name": "[EXPERIMENT] Downgrade Warning Modal",
@@ -366,7 +524,26 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 116,
-      "id": "experiment-downgrade-warning-modal"
+      "id": "experiment-downgrade-warning-modal",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/7242481730/2025Q3+Feature+Downgrade+Warning+Experiment",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/IRVQAXrXD8dVUAR6BysYB8/Downgrade-warning-in-trial-checkout---CTA-update?node-id=7377-16040&t=I8El2OTZpaOv70Mt-0",
+          "label": "Here"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-585",
+          "label": "AIKYA-585"
+        }
+      ]
     },
     {
       "name": "1-Click Workflow Activation",
@@ -391,7 +568,26 @@
       "priority": "3",
       "launchCompass": "",
       "sheetRow": 49,
-      "id": "1-click-workflow-activation"
+      "id": "1-click-workflow-activation",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/1-tq-RxqNi0SydEEgeOkvuJ3Wiadoc0_i_JjYPXO2fFA/edit?tab=t.0",
+          "label": "1-pager"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://docs.google.com/document/d/1GZWaE59LKG7P-4xNB64IwzJErbVj3qlnggZB6FJpwek/edit?usp=sharing",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-22244",
+          "label": "PLAN-22244"
+        }
+      ]
     },
     {
       "name": "AI Adoption Category in Launchpad",
@@ -416,7 +612,21 @@
       "priority": "6",
       "launchCompass": "⭐",
       "sheetRow": 40,
-      "id": "ai-adoption-category-in-launchpad"
+      "id": "ai-adoption-category-in-launchpad",
+      "prdLinks": [
+        {
+          "href": "https://lovable.dev/preview/omHSxO470EMnSL0MxAP4UVW0Ps6inbpo",
+          "label": "Lovable"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/gZX9r3zpOJIpZmUxMRLqq4/AI-Adoption-in-Launchpad?node-id=122-4986&t=rQ0lYAhP2IOV9kUf-0",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Copilot Prompt Suggestions on Launchpad",
@@ -441,7 +651,26 @@
       "priority": "2",
       "launchCompass": "",
       "sheetRow": 50,
-      "id": "copilot-prompt-suggestions-on-launchpad"
+      "id": "copilot-prompt-suggestions-on-launchpad",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/10itpfsrpihhVXIc64n6b3FULlSsV-2UPHNvPG-YnCmI/edit?tab=t.0",
+          "label": "1-pager"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/k6Mu4DXiUrmPP0zu0WBEho/Launchpad--fka-Discover-phase-2-?node-id=11722-24551&t=wzj5d3D5zBl4mBwH-4%5C",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-21560",
+          "label": "PLAN-21560"
+        }
+      ]
     },
     {
       "name": "Copilot Recommendations in Simple Setup",
@@ -466,7 +695,26 @@
       "priority": "1",
       "launchCompass": "",
       "sheetRow": 43,
-      "id": "copilot-recommendations-in-simple-setup"
+      "id": "copilot-recommendations-in-simple-setup",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/1sksYkEmBf5T882XxgsTjXp22LR3uiGty2wlTfOgh-lc/edit?tab=t.0",
+          "label": "1-pager"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/Vv0unFWufJwxXuwhCGumb4/Copilot-recs-in-simple-set-up?node-id=1-3443",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-21559",
+          "label": "PLAN-21559"
+        }
+      ]
     },
     {
       "name": "Help Panel EOL",
@@ -491,7 +739,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 48,
-      "id": "help-panel-eol"
+      "id": "help-panel-eol",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Localized Recommendations",
@@ -516,7 +768,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 45,
-      "id": "localized-recommendations"
+      "id": "localized-recommendations",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Macros Recommendations  (English Only)",
@@ -566,7 +822,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 46,
-      "id": "triggers-automations-recommendations"
+      "id": "triggers-automations-recommendations",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Views Recommendations",
@@ -591,7 +851,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 47,
-      "id": "views-recommendations"
+      "id": "views-recommendations",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Churn Survey revamp with discount based save offers",
@@ -616,7 +880,26 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 6,
-      "id": "churn-survey-revamp-with-discount-based-save-offers"
+      "id": "churn-survey-revamp-with-discount-based-save-offers",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8079180210/Initiative+Tracker+Churn+Survey+Save+Offers",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/3xbTKqhtgol2F4toSA9mCZ/Churn-Survey---Save-Flow?node-id=13656-9677&p=f&t=DXrPwNmG9c1ZBn2i-0",
+          "label": "Here"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-208",
+          "label": "AIKYA-208"
+        }
+      ]
     },
     {
       "name": "2 Step 3 Step cart retest",
@@ -641,7 +924,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 65,
-      "id": "2-step-3-step-cart-retest"
+      "id": "2-step-3-step-cart-retest",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Deep-Link to Mail App for Mobile Verification",
@@ -666,7 +953,16 @@
       "priority": "10",
       "launchCompass": "",
       "sheetRow": 108,
-      "id": "deep-link-to-mail-app-for-mobile-verification"
+      "id": "deep-link-to-mail-app-for-mobile-verification",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/SUTRA-132",
+          "label": "SUTRA-132"
+        }
+      ]
     },
     {
       "name": "Fix trial extension banner",
@@ -691,7 +987,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 79,
-      "id": "fix-trial-extension-banner"
+      "id": "fix-trial-extension-banner",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Launch Startup Sign-Up via Partner Pages",
@@ -716,7 +1016,21 @@
       "priority": "2",
       "launchCompass": "",
       "sheetRow": 106,
-      "id": "launch-startup-sign-up-via-partner-pages"
+      "id": "launch-startup-sign-up-via-partner-pages",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/x/VQPDwwE",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-19090",
+          "label": "PLAN-19090"
+        }
+      ]
     },
     {
       "name": "[Big rock] Phase 1: Presumptive setup of views and custom ticket fields  (Creation)",
@@ -766,7 +1080,26 @@
       "priority": "5",
       "launchCompass": "",
       "sheetRow": 63,
-      "id": "experiment-agent-home-banner-v-nba-auto-open"
+      "id": "experiment-agent-home-banner-v-nba-auto-open",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8390443178/PRD+Experiment+Auto+open+NBA+in+trial",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/MUa0fNtSsBxxdfvBm8E3W4/Presumptive-Setup-in-Trial?node-id=4120-40209&t=GAcTdAQ0ycCFhhXH-0",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/TPE-6285",
+          "label": "TPE-6285"
+        }
+      ]
     },
     {
       "name": "[Experiment] AI agent simple setup visibility improvements",
@@ -791,7 +1124,26 @@
       "priority": "4",
       "launchCompass": "",
       "sheetRow": 62,
-      "id": "experiment-ai-agent-simple-setup-visibility-improvements"
+      "id": "experiment-ai-agent-simple-setup-visibility-improvements",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8292466730/PRD+Experiment+AI+Agent+Simple+Setup+Visibility+Improvements",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/MUa0fNtSsBxxdfvBm8E3W4/Presumptive-Setup-in-Trial?node-id=3974-8253&p=f&t=GAcTdAQ0ycCFhhXH-0",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/TPE-6245",
+          "label": "TPE-6245"
+        }
+      ]
     },
     {
       "name": "AI agent simple setup prompt improvement",
@@ -816,7 +1168,11 @@
       "priority": "3",
       "launchCompass": "",
       "sheetRow": 61,
-      "id": "ai-agent-simple-setup-prompt-improvement"
+      "id": "ai-agent-simple-setup-prompt-improvement",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "AI agent unification",
@@ -841,7 +1197,21 @@
       "priority": "2",
       "launchCompass": "",
       "sheetRow": 60,
-      "id": "ai-agent-unification"
+      "id": "ai-agent-unification",
+      "prdLinks": [],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/MUa0fNtSsBxxdfvBm8E3W4/Presumptive-Setup-in-Trial?node-id=3067-130487",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/TPE-6070",
+          "label": "TPE-6070"
+        }
+      ]
     },
     {
       "name": "Presumptive setup- Copilot",
@@ -866,7 +1236,30 @@
       "priority": "1",
       "launchCompass": "",
       "sheetRow": 59,
-      "id": "presumptive-setup-copilot"
+      "id": "presumptive-setup-copilot",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/16Gh4-Tx4sd5Wb8q6Aw2ITAKrgi2tygjMhHuRqEnaQso/edit?tab=t.0",
+          "label": "1-pager"
+        },
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/7336526361/WIP+PRD+First+ticket+experience+with+Copilot",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/MUa0fNtSsBxxdfvBm8E3W4/Presumptive-Setup-in-Trial?node-id=2181-122490",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-21245",
+          "label": "PLAN-21245"
+        }
+      ]
     },
     {
       "name": "[Big rock]  [Experiment] Presumptive setup preview (FKA: Phase 2: Presumptive setup of macros, custom ticket fields, and triggers (Discoverability))",
@@ -916,7 +1309,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 82,
-      "id": "obp-mvp-subscription-management-for-self-serve-customers"
+      "id": "obp-mvp-subscription-management-for-self-serve-customers",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[OBP] Updated new business cart for Zendesk Unlimited",
@@ -941,7 +1338,16 @@
       "priority": "",
       "launchCompass": "⭐",
       "sheetRow": 17,
-      "id": "obp-updated-new-business-cart-for-zendesk-unlimited"
+      "id": "obp-updated-new-business-cart-for-zendesk-unlimited",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8446115991/PRD+OBP+Self+service+trial+conversion",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "AI Offering Contextual Prompts in NBA",
@@ -966,7 +1372,21 @@
       "priority": "",
       "launchCompass": "⭐",
       "sheetRow": 67,
-      "id": "ai-offering-contextual-prompts-in-nba"
+      "id": "ai-offering-contextual-prompts-in-nba",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/1K6heunluWP6gRbXFvhGqdlpP5A85TVw3vx-OgGebLl4/edit?tab=t.0#heading=h.2oe74xvw9b0o",
+          "label": "1-pager"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/5D5vuq9GD9VAJRkJbuOck2/Next-best-action---contextual-prompts-Flora-update-%F0%9F%8C%B8?node-id=5-25&p=f&t=e5ZpKiGouCKBku3u-0",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Copilot Recommendations Follow-up: Add Customer Context to Prompts",
@@ -991,7 +1411,11 @@
       "priority": "5",
       "launchCompass": "",
       "sheetRow": 53,
-      "id": "copilot-recommendations-follow-up-add-customer-context-to-prompts"
+      "id": "copilot-recommendations-follow-up-add-customer-context-to-prompts",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Next Best Action <> Growth Engine",
@@ -1016,7 +1440,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 75,
-      "id": "next-best-action-growth-engine"
+      "id": "next-best-action-growth-engine",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[GE integration] Integrate Tasks into Growth engine as actions",
@@ -1041,7 +1469,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 83,
-      "id": "ge-integration-integrate-tasks-into-growth-engine-as-actions"
+      "id": "ge-integration-integrate-tasks-into-growth-engine-as-actions",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[OBP] Account cancellation experience",
@@ -1066,7 +1498,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 58,
-      "id": "obp-account-cancellation-experience"
+      "id": "obp-account-cancellation-experience",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8690073617/PRD+Self+Service+Account+Cancellation",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[Platform] Expand prompts to admins",
@@ -1091,7 +1532,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 33,
-      "id": "platform-expand-prompts-to-admins"
+      "id": "platform-expand-prompts-to-admins",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/1u9FdoT7-glgXo84VYJ4_XcYvy8WnBynRyZIJBodF-7c/edit?usp=drive_web&ouid=113522184636540259733",
+          "label": "One pager"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[Platform] Offer data in ZDP",
@@ -1116,7 +1566,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 74,
-      "id": "platform-offer-data-in-zdp"
+      "id": "platform-offer-data-in-zdp",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/7264239664/Growth+engine+Offer+data+in+ZDP",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Expand recommendation technical capabilities",
@@ -1141,7 +1600,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 114,
-      "id": "expand-recommendation-technical-capabilities"
+      "id": "expand-recommendation-technical-capabilities",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Launchpad for Mature Customers",
@@ -1166,7 +1629,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 73,
-      "id": "launchpad-for-mature-customers"
+      "id": "launchpad-for-mature-customers",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Account management phase 3",
@@ -1191,7 +1658,26 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 104,
-      "id": "account-management-phase-3"
+      "id": "account-management-phase-3",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8692793807/PRD+account+management+phase+3",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/gu0HoO722ZpeRqw67NSVE3/P3---Simplify-account-management--post-purchase-?m=auto&t=YH0N2ywaUCPhvzXm-6",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/ARTHA-182",
+          "label": "ARTHA-182"
+        }
+      ]
     },
     {
       "name": "Adoption Benchmarking",
@@ -1216,7 +1702,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 76,
-      "id": "adoption-benchmarking"
+      "id": "adoption-benchmarking",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Interactive plan recommendation from plans page",
@@ -1241,7 +1731,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 31,
-      "id": "interactive-plan-recommendation-from-plans-page"
+      "id": "interactive-plan-recommendation-from-plans-page",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/1vxHw9alfbtlWFtbKlpcSPKCE12O4vc5a4WgrILm3m84/edit?tab=t.0#heading=h.z8skgfkfcwxp",
+          "label": "One Pager"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/ARTHA-199",
+          "label": "ARTHA-199"
+        }
+      ]
     },
     {
       "name": "Checkout page friction reduction",
@@ -1266,7 +1770,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 11,
-      "id": "checkout-page-friction-reduction"
+      "id": "checkout-page-friction-reduction",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8758919172/2026Q3+Checkout+page+clarity+PRD?themeState=dark%3Adark%20light%3Alight%20motion%3Amotion%20shape%3Ashape%20spacing%3Aspacing%20typography%3Atypography%20colorMode%3Alight",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/ARTHA-180",
+          "label": "ARTHA-180"
+        }
+      ]
     },
     {
       "name": "Flexible/Universal Coupon Enhancement",
@@ -1291,7 +1809,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 19,
-      "id": "flexible-universal-coupon-enhancement"
+      "id": "flexible-universal-coupon-enhancement",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8638267415/Q3+2026+Universal+Coupons+Billing+Frequency-Specific+Discount+Durations",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-953",
+          "label": "AIKYA-953"
+        }
+      ]
     },
     {
       "name": "BAV implementation",
@@ -1316,7 +1848,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 16,
-      "id": "bav-implementation"
+      "id": "bav-implementation",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-1029",
+          "label": "AIKYA-1029"
+        }
+      ]
     },
     {
       "name": "Coupon Instrumentation & Analytics",
@@ -1341,7 +1882,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 10,
-      "id": "coupon-instrumentation-analytics"
+      "id": "coupon-instrumentation-analytics",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8657600698/Q32026+Coupon+Intelligence+Platform",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-954",
+          "label": "AIKYA-954"
+        }
+      ]
     },
     {
       "name": "Bundle Coupon Support",
@@ -1366,7 +1921,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 97,
-      "id": "bundle-coupon-support"
+      "id": "bundle-coupon-support",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/x/lgD6xgE",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-949",
+          "label": "AIKYA-949"
+        }
+      ]
     },
     {
       "name": "Expired Trial UX Redesign (Phase 1: Non-Dismissable Recommended Plan Modal)",
@@ -1391,7 +1960,26 @@
       "priority": "11",
       "launchCompass": "",
       "sheetRow": 26,
-      "id": "expired-trial-ux-redesign-phase-1-non-dismissable-recommended-plan-modal"
+      "id": "expired-trial-ux-redesign-phase-1-non-dismissable-recommended-plan-modal",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/x/OwBq2gE",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/xMOvE0yOYxQQ5gwq4tOegI/Expired-extended-trial-experience-revamp?node-id=11262-5467&t=hKcTuV1gJRfF3dEO-1",
+          "label": "Figma Link"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-20988",
+          "label": "PLAN-20988"
+        }
+      ]
     },
     {
       "name": "PayNow functionality",
@@ -1416,7 +2004,26 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 30,
-      "id": "paynow-functionality"
+      "id": "paynow-functionality",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/x/4QCp-AE",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/JMhKuHBoSWEvCsR4257bWV/Pay-Now-Functionality-For-Card-on-File-Customers?node-id=8-25&t=Z1DcyDsH1u12fWbF-1",
+          "label": "Figma Link"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-955",
+          "label": "AIKYA-955"
+        }
+      ]
     },
     {
       "name": "Seat Contraction / Rightsizing",
@@ -1441,7 +2048,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 22,
-      "id": "seat-contraction-rightsizing"
+      "id": "seat-contraction-rightsizing",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8423342449",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-777",
+          "label": "AIKYA-777"
+        }
+      ]
     },
     {
       "name": "Churn Survey Enhancement - Integrate the offer experience with In product Checkout Cart",
@@ -1466,7 +2087,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 105,
-      "id": "churn-survey-enhancement-integrate-the-offer-experience-with-in-product-checkout"
+      "id": "churn-survey-enhancement-integrate-the-offer-experience-with-in-product-checkout",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8080457812/PRD+Q2+2026+Churn+Survey+Save+Flow",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-991",
+          "label": "AIKYA-991"
+        }
+      ]
     },
     {
       "name": "Coupon Enhancement - prevent coupon overuse by limiting seat count.",
@@ -1491,7 +2126,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 95,
-      "id": "coupon-enhancement-prevent-coupon-overuse-by-limiting-seat-count"
+      "id": "coupon-enhancement-prevent-coupon-overuse-by-limiting-seat-count",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8636531126/Q32026+Coupon+Maximum+Seat+Limit",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-956",
+          "label": "AIYKA-956"
+        }
+      ]
     },
     {
       "name": "Data-Driven Launchpad",
@@ -1516,7 +2165,21 @@
       "priority": "4",
       "launchCompass": "⭐",
       "sheetRow": 69,
-      "id": "data-driven-launchpad"
+      "id": "data-driven-launchpad",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/1-pmVabDn-eNQMDJkpMQyc2LUW19VAOYfMQTFyAUp6lo/edit?tab=t.0#bookmark=kix.ymwqkb8qgppd",
+          "label": "1-pager"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/Q80ZyNipuNFIAJO4mSVPPy/Data-driven-Launchpad?node-id=278-5405&p=f&t=TSMuvFmDzOGaEqww-0",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Value-Led Next Best Action",
@@ -1541,7 +2204,21 @@
       "priority": "7",
       "launchCompass": "",
       "sheetRow": 52,
-      "id": "value-led-next-best-action"
+      "id": "value-led-next-best-action",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/1-ozfT6xu3w4R4PlH3WKhidwwePrSQfAzW3fyovzWu7c/edit?tab=t.0",
+          "label": "1-pager"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-22267",
+          "label": "PLAN-22267"
+        }
+      ]
     },
     {
       "name": "[Experiment] Persistent Buy Bar Flora Updates",
@@ -1566,7 +2243,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 28,
-      "id": "experiment-persistent-buy-bar-flora-updates"
+      "id": "experiment-persistent-buy-bar-flora-updates",
+      "prdLinks": [],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/xyMYkFKg84qK9sdn8UDKa5/Trial-banner-update?node-id=6901-26602&t=1AojFJ88cPAbFpl4-0",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/ARTHA-152",
+          "label": "ARTHA-152"
+        }
+      ]
     },
     {
       "name": "Churn Survey × Zea Bot Integration",
@@ -1591,7 +2282,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 14,
-      "id": "churn-survey-zea-bot-integration"
+      "id": "churn-survey-zea-bot-integration",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-952",
+          "label": "AIKYA-952"
+        }
+      ]
     },
     {
       "name": "Plans Page - Plan lineup test",
@@ -1616,7 +2316,20 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 29,
-      "id": "plans-page-plan-lineup-test"
+      "id": "plans-page-plan-lineup-test",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/1vxHw9alfbtlWFtbKlpcSPKCE12O4vc5a4WgrILm3m84/edit?tab=t.0",
+          "label": "One Pager"
+        },
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8764948671/2026Q3+Simplified+plan+lineup+test",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Single-step sign-up with progressive profiling",
@@ -1641,7 +2354,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 89,
-      "id": "single-step-sign-up-with-progressive-profiling"
+      "id": "single-step-sign-up-with-progressive-profiling",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/presentation/d/1ctnF6hIVyPOFr26ofMg6plSxyGXZNoy8vYRml8JFa7s/edit?slide=id.g3fb0a2fb926_2_3#slide=id.g3fb0a2fb926_2_3",
+          "label": "1 Pager"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Buy my trial flow - Include copilot in checkout",
@@ -1666,7 +2388,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 36,
-      "id": "buy-my-trial-flow-include-copilot-in-checkout"
+      "id": "buy-my-trial-flow-include-copilot-in-checkout",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/1n5HY-xL2vZs03OYTjTheN5wGK-0XBlPplJN_g2K8GEI/edit?tab=t.0",
+          "label": "One Pager"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Pilot: Company domain requirement for X% of audience",
@@ -1691,7 +2422,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 32,
-      "id": "pilot-company-domain-requirement-for-x-of-audience"
+      "id": "pilot-company-domain-requirement-for-x-of-audience",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8745386545/PRD+2026Q3+Company+email+domain+test",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Work-email incentive: shorter form + reward for company domains",
@@ -1716,7 +2456,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 101,
-      "id": "work-email-incentive-shorter-form-reward-for-company-domains"
+      "id": "work-email-incentive-shorter-form-reward-for-company-domains",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Code Ownership Implementation for SUTRA",
@@ -1741,7 +2485,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 99,
-      "id": "code-ownership-implementation-for-sutra"
+      "id": "code-ownership-implementation-for-sutra",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/SUTRA-214?focusedCommentId=2421333&sourceType=mention&atlOrigin=eyJpIjoiMmE0NGIzM2Y4MTRiNGQ3Yzk2MzJlNDU4ZjQ0NTQ1NGYiLCJwIjoiaiJ9",
+          "label": "SUTRA-214"
+        }
+      ]
     },
     {
       "name": "Mobile deep-linking, Non-English Audiences",
@@ -1766,7 +2519,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 13,
-      "id": "mobile-deep-linking-non-english-audiences"
+      "id": "mobile-deep-linking-non-english-audiences",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://www.figma.com/design/MA4WGipvgeL7DoYAJMCVKV/Value-led-Next-Best-Action?node-id=84-5529&t=gG3N7iwBTh3FL8pt-0",
+          "label": "SUTRA-225"
+        }
+      ]
     },
     {
       "name": "Startups: Ongoing minor form optimization (sign up fields)",
@@ -1791,7 +2553,20 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 96,
-      "id": "startups-ongoing-minor-form-optimization-sign-up-fields"
+      "id": "startups-ongoing-minor-form-optimization-sign-up-fields",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/SUTRA-193",
+          "label": "SUTRA-193"
+        },
+        {
+          "href": "https://zendesk.atlassian.net/browse/SUTRA-224",
+          "label": "SUTRA-224"
+        }
+      ]
     },
     {
       "name": "Partner with Performance Marketing & Web to carry forward messaging on paid media sign up throughout trial sign up experience",
@@ -1816,7 +2591,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 41,
-      "id": "partner-with-performance-marketing-web-to-carry-forward-messaging-on-paid-media-"
+      "id": "partner-with-performance-marketing-web-to-carry-forward-messaging-on-paid-media-",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Cart Abandonment Marketing Campaign",
@@ -1841,7 +2620,21 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 93,
-      "id": "cart-abandonment-marketing-campaign"
+      "id": "cart-abandonment-marketing-campaign",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/edit-v2/8761737316?draftShareId=373dc99b-c8a4-4a95-b79f-b55804290158",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/ARTHA-179",
+          "label": "ARTHA-179"
+        }
+      ]
     },
     {
       "name": "Simplify Startup Sign-Up via Clearbit",
@@ -1866,7 +2659,21 @@
       "priority": "9",
       "launchCompass": "",
       "sheetRow": 110,
-      "id": "simplify-startup-sign-up-via-clearbit"
+      "id": "simplify-startup-sign-up-via-clearbit",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/x/kwAtwQE",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/SUTRA-184",
+          "label": "SUTRA-184"
+        }
+      ]
     },
     {
       "name": "Magic Links Launching on Trial Sign Up",
@@ -1891,7 +2698,16 @@
       "priority": "",
       "launchCompass": "⭐",
       "sheetRow": 2,
-      "id": "magic-links-launching-on-trial-sign-up"
+      "id": "magic-links-launching-on-trial-sign-up",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/SUTRA-186",
+          "label": "SUTRA-186"
+        }
+      ]
     },
     {
       "name": "CX Unified Agent Migration",
@@ -1916,7 +2732,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 51,
-      "id": "cx-unified-agent-migration"
+      "id": "cx-unified-agent-migration",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/DISHA-90",
+          "label": "DISHA-90"
+        }
+      ]
     },
     {
       "name": "Add knowledge step in trial",
@@ -1941,7 +2766,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 37,
-      "id": "add-knowledge-step-in-trial"
+      "id": "add-knowledge-step-in-trial",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Monitoring and alerts overhaul",
@@ -1966,7 +2795,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 72,
-      "id": "monitoring-and-alerts-overhaul"
+      "id": "monitoring-and-alerts-overhaul",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Presumptive setup of macros",
@@ -1991,7 +2824,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 38,
-      "id": "presumptive-setup-of-macros"
+      "id": "presumptive-setup-of-macros",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[Big Rock] Launchpad for trial revamp",
@@ -2016,7 +2853,26 @@
       "priority": "6",
       "launchCompass": "⭐",
       "sheetRow": 70,
-      "id": "big-rock-launchpad-for-trial-revamp"
+      "id": "big-rock-launchpad-for-trial-revamp",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8554348714/PRD+Launchpad+for+trial+revamp+experiment",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/VTVdLdEPaguhD0wWTGoYu9/Launchpad-for-Trial?node-id=0-1&p=f&t=HNWoqzdKRdBXDeUe-0",
+          "label": "Figma"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/TPE-6363",
+          "label": "TPE-6363"
+        }
+      ]
     },
     {
       "name": "Advanced AI agent presumptive setup",
@@ -2041,7 +2897,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 117,
-      "id": "advanced-ai-agent-presumptive-setup"
+      "id": "advanced-ai-agent-presumptive-setup",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Optimize Tooltip for Company Email Mix Shift",
@@ -2066,7 +2926,21 @@
       "priority": "5",
       "launchCompass": "",
       "sheetRow": 103,
-      "id": "optimize-tooltip-for-company-email-mix-shift"
+      "id": "optimize-tooltip-for-company-email-mix-shift",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/x/AwDl1wE",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-21522",
+          "label": "PLAN-21522"
+        }
+      ]
     },
     {
       "name": "Reduce Duplicate Trials & Reroute Users",
@@ -2091,7 +2965,26 @@
       "priority": "12",
       "launchCompass": "",
       "sheetRow": 111,
-      "id": "reduce-duplicate-trials-reroute-users"
+      "id": "reduce-duplicate-trials-reroute-users",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8740208958/PRD-Prevent-Duplicate-Trial-Accounts-Updated?xpis=eyJicmlkZ2UiOiJxdWlja0ZpbmQiLCJpZCI6IjE3ODc4MzAxNjA3NzUiLCJzb3VyY2UiOiJjb25mbHVlbmNlIn0%3D",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [
+        {
+          "href": "https://www.figma.com/design/bxupAUDeqArbVsJLZ3Os9V/Prevent-duplicate-trial-account?node-id=7233-17360&t=hKcTuV1gJRfF3dEO-1",
+          "label": "Figma Link"
+        }
+      ],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/PLAN-19091",
+          "label": "PLAN-19091"
+        }
+      ]
     },
     {
       "name": "Company email nudge while form filling",
@@ -2116,7 +3009,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 92,
-      "id": "company-email-nudge-while-form-filling"
+      "id": "company-email-nudge-while-form-filling",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/SUTRA-229",
+          "label": "SUTRA-229"
+        }
+      ]
     },
     {
       "name": "Retest Value Based Message Test Variant A",
@@ -2141,7 +3043,21 @@
       "priority": "3",
       "launchCompass": "",
       "sheetRow": 109,
-      "id": "retest-value-based-message-test-variant-a"
+      "id": "retest-value-based-message-test-variant-a",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/x/LQHWxwE",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "http://sutra-248endesk.atlassian.net/browse/SUTRA-248",
+          "label": "SUTRA-248"
+        }
+      ]
     },
     {
       "name": "[Offer] Admin assistant penetration and adoption",
@@ -2166,7 +3082,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 86,
-      "id": "offer-admin-assistant-penetration-and-adoption"
+      "id": "offer-admin-assistant-penetration-and-adoption",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[Adoption] Auto assist adoption growth flywheels on the growth engine",
@@ -2191,7 +3111,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 8,
-      "id": "adoption-auto-assist-adoption-growth-flywheels-on-the-growth-engine"
+      "id": "adoption-auto-assist-adoption-growth-flywheels-on-the-growth-engine",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/presentation/d/1wur-d55a28PwkK0KO0u27lnXo_hTM6I6OndkdO_CJ-A/edit?slide=id.g3f715c5b3f7_0_19#slide=id.g3f715c5b3f7_0_19",
+          "label": "Deck"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[Unlimited Seats] Remove seat-based indications and restrictions from Product",
@@ -2216,7 +3145,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 87,
-      "id": "unlimited-seats-remove-seat-based-indications-and-restrictions-from-product"
+      "id": "unlimited-seats-remove-seat-based-indications-and-restrictions-from-product",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-1039",
+          "label": "AIKYA-1039"
+        }
+      ]
     },
     {
       "name": "Add agent experience removal from RBP SKUs",
@@ -2241,7 +3179,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 18,
-      "id": "add-agent-experience-removal-from-rbp-skus"
+      "id": "add-agent-experience-removal-from-rbp-skus",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/browse/AIKYA-1039",
+          "label": "AIKYA-1039"
+        }
+      ]
     },
     {
       "name": "[Offer] Cart events test - 25% promo code for conversion",
@@ -2266,7 +3213,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 7,
-      "id": "offer-cart-events-test-25-promo-code-for-conversion"
+      "id": "offer-cart-events-test-25-promo-code-for-conversion",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Analytics for direct direct buy (DBNS) flow",
@@ -2291,7 +3242,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 12,
-      "id": "analytics-for-direct-direct-buy-dbns-flow"
+      "id": "analytics-for-direct-direct-buy-dbns-flow",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8759083026/Q32026+Direct+Buy+DBNS+Analytics+Tracking",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[OBP] Launch trial conversion experiment",
@@ -2316,7 +3276,16 @@
       "priority": "",
       "launchCompass": "⭐",
       "sheetRow": 66,
-      "id": "obp-launch-trial-conversion-experiment"
+      "id": "obp-launch-trial-conversion-experiment",
+      "prdLinks": [
+        {
+          "href": "https://zendesk.atlassian.net/wiki/spaces/GM/pages/8446115991/PRD+OBP+Self+service+trial+conversion",
+          "label": "PRD"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[Platform] Deploy free offers",
@@ -2341,7 +3310,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 35,
-      "id": "platform-deploy-free-offers"
+      "id": "platform-deploy-free-offers",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "[Platform] Offer limits",
@@ -2366,7 +3339,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 100,
-      "id": "platform-offer-limits"
+      "id": "platform-offer-limits",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Auto Enrollment in Experiments",
@@ -2391,7 +3368,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 71,
-      "id": "auto-enrollment-in-experiments"
+      "id": "auto-enrollment-in-experiments",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Intelligent Downgrade Recommendations",
@@ -2416,7 +3397,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 54,
-      "id": "intelligent-downgrade-recommendations"
+      "id": "intelligent-downgrade-recommendations",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "ZenBuddy for Boost Adoption",
@@ -2441,7 +3426,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 24,
-      "id": "zenbuddy-for-boost-adoption"
+      "id": "zenbuddy-for-boost-adoption",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Paused Account Win-back Experiment",
@@ -2466,7 +3455,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 85,
-      "id": "paused-account-win-back-experiment"
+      "id": "paused-account-win-back-experiment",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Suspended Account Recovery Experiment",
@@ -2491,7 +3484,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 115,
-      "id": "suspended-account-recovery-experiment"
+      "id": "suspended-account-recovery-experiment",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Reduce duplicate trials for startups",
@@ -2516,7 +3513,16 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 15,
-      "id": "reduce-duplicate-trials-for-startups"
+      "id": "reduce-duplicate-trials-for-startups",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/presentation/d/14k6g5rKdojS24tdu3UVPYsM3oFOh4CxkPwRXLeoT2Yk/edit?slide=id.g3f754ae3c5d_0_56#slide=id.g3f754ae3c5d_0_56",
+          "label": "Prevent Startups Duplicates"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Infer trial type based on user behavior on website (cookies)",
@@ -2541,7 +3547,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 27,
-      "id": "infer-trial-type-based-on-user-behavior-on-website-cookies"
+      "id": "infer-trial-type-based-on-user-behavior-on-website-cookies",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Admin Copilot next step experience",
@@ -2566,7 +3576,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 55,
-      "id": "admin-copilot-next-step-experience"
+      "id": "admin-copilot-next-step-experience",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "AI agent share page revamp",
@@ -2591,7 +3605,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 113,
-      "id": "ai-agent-share-page-revamp"
+      "id": "ai-agent-share-page-revamp",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Suggested questions for launchpad and share page",
@@ -2616,7 +3634,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 94,
-      "id": "suggested-questions-for-launchpad-and-share-page"
+      "id": "suggested-questions-for-launchpad-and-share-page",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Test ticket generator",
@@ -2641,7 +3663,11 @@
       "priority": "",
       "launchCompass": "",
       "sheetRow": 80,
-      "id": "test-ticket-generator"
+      "id": "test-ticket-generator",
+      "prdLinks": [],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Allow Users to Enter Product Without Immediate Verification",
@@ -2666,7 +3692,16 @@
       "priority": "8",
       "launchCompass": "⭐",
       "sheetRow": 20,
-      "id": "allow-users-to-enter-product-without-immediate-verification"
+      "id": "allow-users-to-enter-product-without-immediate-verification",
+      "prdLinks": [
+        {
+          "href": "https://docs.google.com/document/d/1X49P9MI2i8B1zTBuzexW1_cFp_zFeN1aPk8_uXHljb8/edit?usp=sharing",
+          "label": "One-Pager"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     },
     {
       "name": "Collect Company Domain for Personal Emails",
@@ -2691,7 +3726,16 @@
       "priority": "7",
       "launchCompass": "",
       "sheetRow": 57,
-      "id": "collect-company-domain-for-personal-emails"
+      "id": "collect-company-domain-for-personal-emails",
+      "prdLinks": [
+        {
+          "href": "https://app.asana.com/1/8443698280818/project/1210466268109106/task/1214720823888544?focus=true",
+          "label": "Marketing Ops Ticket"
+        }
+      ],
+      "figmaHrefs": [],
+      "prototypeHrefs": [],
+      "jiraLinks": []
     }
   ]
 }

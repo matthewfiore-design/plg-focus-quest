@@ -1,4 +1,4 @@
-import { initRoadmap, getRoadmapData, getProjectsForDesigner, getRoadmapItem, getDesignerOptions, getRoadmapDesignerPhotos, setRoadmapPanelActions, refreshRoadmapPanel, refreshAfterRoadmapFieldSave, resetSheetLinkState, openRoadmapItem, setRoadmapDesignerFilter } from "./roadmap.js?v=20260916b";
+import { initRoadmap, getRoadmapData, getProjectsForDesigner, getRoadmapItem, getDesignerOptions, getRoadmapDesignerPhotos, setRoadmapPanelActions, refreshRoadmapPanel, refreshAfterRoadmapFieldSave, resetSheetLinkState, openRoadmapItem, setRoadmapDesignerFilter } from "./roadmap.js?v=20260916c";
 import {
   generateSubtasksWithLLM,
   reviewCountForProject,
@@ -16,11 +16,11 @@ import {
   setAppsScriptUrl,
   updateRoadmapField,
   ensureItemLinks,
-} from "./sheet-sync.js";
+} from "./sheet-sync.js?v=20260916c";
 import { initDatePicker, resetDatePicker } from "./date-picker.js";
 import { mountDesignerPicker, setDesignerPickerValue } from "./designer-picker.js";
 import { initDesignEstimatorDialog, openDesignEstimator, getSavedEstimate, estimateChipLabel } from "./design-estimator.js";
-import { firstLinkHref, linkInputHtml, linkListHtml, mergeLinkItems, prdFieldHtml, wireOpenLinks } from "./link-utils.js?v=20260916b";
+import { firstLinkHref, linkInputHtml, linkListHtml, mergeLinkItems, prdFieldHtml, wireOpenLinks } from "./link-utils.js?v=20260916c";
 import {
   defaultXpForType,
   isGoalsPanelType,
@@ -2091,6 +2091,11 @@ async function init() {
   populateDesignerSelect();
   renderMyProjects();
   renderHealthRadar();
+  document.addEventListener("plg-sheet-links-ready", () => {
+    renderMyProjects();
+    renderToday();
+    renderHealthRadar();
+  });
   pullProgressBoard();
 
   document.addEventListener("visibilitychange", () => {

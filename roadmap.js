@@ -1,7 +1,7 @@
 import { mountDesignerPicker, setDesignerPickerValue } from "./designer-picker.js";
 import { openDesignEstimator, initDesignEstimatorDialog, getSavedEstimate, estimateChipLabel } from "./design-estimator.js";
 import { missingFigmaInProgress } from "./initiative-health.js";
-import { ensureItemLinks } from "./sheet-sync.js";
+import { applyLinkMap, ensureItemLinks, fetchSheetLinks } from "./sheet-sync.js?v=20260916c";
 import {
   escapeHtml,
   firstLinkHref,
@@ -13,7 +13,7 @@ import {
   normalizeDesignerName,
   prdFieldHtml,
   wireOpenLinks,
-} from "./link-utils.js?v=20260916b";
+} from "./link-utils.js?v=20260916c";
 
 const STATE_META = {
   "1. planned": { label: "Planned", tone: "muted" },
@@ -448,23 +448,34 @@ function applyFieldOverrides() {
   }
 }
 
-function applySheetLinks(map) {
-  if (!roadmapData?.items || !map) return false;
-  let changed = false;
+function applyCachedHyperlinks() {
+  if (!roadmapData?.items) return;
   for (const item of roadmapData.items) {
-    const entry = map[linkKey(item.name, item.expectedLaunchQuarter)];
-    if (!entry) continue;
-    if (typeof entry.designer === "string") {
-      item.designer = normalizeDesignerName(entry.designer);
-      saveFieldOverride(item, "designer", item.designer);
+    if (item.prdLinks?.length || item.figmaHrefs?.length || item.prototypeHrefs?.length || item.jiraLinks?.length) {
+      item.linksResolved = true;
     }
-    item.prdLinks = entry.prd || [];
-    item.figmaHrefs = entry.figma || [];
-    item.prototypeHrefs = entry.prototype || [];
-    item.jiraLinks = entry.jira || [];
-    changed = true;
   }
-  return changed;
+}
+
+function notifyLinksReady() {
+  renderGrid();
+  if (selectedId) {
+    const item = getRoadmapItem(selectedId);
+    if (item) renderPanel(item);
+  }
+  document.dispatchEvent(new CustomEvent("plg-sheet-links-ready"));
+}
+
+async function refreshLiveSheetLinks() {
+  try {
+    const map = await fetchSheetLinks(null);
+    if (!map) return;
+    applyLinkMap(roadmapData?.items, map);
+    for (const item of roadmapData.items || []) item.linksResolved = true;
+    notifyLinksReady();
+  } catch (err) {
+    console.warn("Could not refresh roadmap hyperlinks", err);
+  }
 }
 
 function detailRow(label, value) {
@@ -774,6 +785,7 @@ export async function initRoadmap(dom) {
 
   [roadmapData, designerPhotos] = await Promise.all([loadRoadmap(), loadDesignerPhotos()]);
   applyFieldOverrides();
+  applyCachedHyperlinks();
   if (dom.designerName) activeDesigner = designerFilterValue(dom.designerName);
   const sheetUrl = roadmapData.sourceOfTruth || roadmapData.sheetUrl;
   if (els.subtitle) {
@@ -785,6 +797,7 @@ export async function initRoadmap(dom) {
   }
   renderFilters();
   renderGrid();
+  refreshLiveSheetLinks();
   document.addEventListener("plg-estimate-saved", (event) => {
     if (selectedId && event.detail?.projectId === selectedId) {
       const item = getRoadmapItem(selectedId);

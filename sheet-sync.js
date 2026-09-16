@@ -1,3 +1,5 @@
+import { isPlaceholderLinkText } from "./link-utils.js?v=20260916c";
+
 const TOKEN_KEY = "plg-focus-quest-google-token";
 const CLIENT_ID_KEY = "plg-focus-quest-google-client-id";
 const TOKEN_EXPIRY_KEY = "plg-focus-quest-google-token-expiry";
@@ -243,7 +245,7 @@ export async function fetchSheetLinks(item = null) {
         expectedLaunchQuarter: item?.expectedLaunchQuarter || "",
         quarter: item?.expectedLaunchQuarter || "",
       },
-      { timeoutMs: 45000 }
+      { timeoutMs: item?.name ? 45000 : 90000 }
     );
     if (data.ok === false) fail(data.message);
     return data.links && typeof data.links === "object" ? data.links : null;
@@ -253,11 +255,43 @@ export async function fetchSheetLinks(item = null) {
   }
 }
 
-function placeholderLinkText(value) {
-  const v = String(value || "").trim();
-  if (!v) return true;
-  if (/^https?:\/\//i.test(v)) return false;
-  return /^(figma(?: link)?|here|link|tbd|n\/?a|prd|one pager|1-pager|offer sheet|lovable)$/i.test(v);
+export function applyLinkEntry(item, entry, { persist = false } = {}) {
+  if (!item || !entry) return item;
+  item.prdLinks = entry.prd || [];
+  item.figmaHrefs = entry.figma || [];
+  item.prototypeHrefs = entry.prototype || [];
+  item.jiraLinks = entry.jira || [];
+  if (typeof entry.designer === "string" && entry.designer.trim()) {
+    item.designer = entry.designer.trim().replace(/^@+/, "");
+  }
+  if (item.figmaHrefs[0]?.href && isPlaceholderLinkText(item.figmaLinks)) {
+    item.figmaLinks = item.figmaHrefs[0].href;
+  }
+  if (item.prototypeHrefs[0]?.href && isPlaceholderLinkText(item.prototypeLinks)) {
+    item.prototypeLinks = item.prototypeHrefs[0].href;
+  }
+  if (persist) {
+    persistFieldOverride(item, "prdLinks", item.prdLinks);
+    persistFieldOverride(item, "figmaHrefs", item.figmaHrefs);
+    persistFieldOverride(item, "figmaLinks", item.figmaLinks);
+    persistFieldOverride(item, "prototypeHrefs", item.prototypeHrefs);
+    persistFieldOverride(item, "prototypeLinks", item.prototypeLinks);
+    persistFieldOverride(item, "jiraLinks", item.jiraLinks);
+  }
+  item.linksResolved = true;
+  return item;
+}
+
+export function applyLinkMap(items, map, { persist = false } = {}) {
+  if (!items?.length || !map) return false;
+  let changed = false;
+  for (const item of items) {
+    const entry = map[`${String(item.name || "").trim()}|${String(item.expectedLaunchQuarter || "").trim().toUpperCase()}`];
+    if (!entry) continue;
+    applyLinkEntry(item, entry, { persist });
+    changed = true;
+  }
+  return changed;
 }
 
 export async function ensureItemLinks(item) {
@@ -272,27 +306,7 @@ export async function ensureItemLinks(item) {
     item.linksResolved = true;
     return item;
   }
-  item.prdLinks = entry.prd || [];
-  item.figmaHrefs = entry.figma || [];
-  item.prototypeHrefs = entry.prototype || [];
-  item.jiraLinks = entry.jira || [];
-  if (typeof entry.designer === "string" && entry.designer.trim()) {
-    item.designer = entry.designer.trim().replace(/^@+/, "");
-  }
-  if (item.figmaHrefs[0]?.href && placeholderLinkText(item.figmaLinks)) {
-    item.figmaLinks = item.figmaHrefs[0].href;
-  }
-  if (item.prototypeHrefs[0]?.href && placeholderLinkText(item.prototypeLinks)) {
-    item.prototypeLinks = item.prototypeHrefs[0].href;
-  }
-  persistFieldOverride(item, "prdLinks", item.prdLinks);
-  persistFieldOverride(item, "figmaHrefs", item.figmaHrefs);
-  persistFieldOverride(item, "figmaLinks", item.figmaLinks);
-  persistFieldOverride(item, "prototypeHrefs", item.prototypeHrefs);
-  persistFieldOverride(item, "prototypeLinks", item.prototypeLinks);
-  persistFieldOverride(item, "jiraLinks", item.jiraLinks);
-  item.linksResolved = true;
-  return item;
+  return applyLinkEntry(item, entry, { persist: true });
 }
 
 export async function probeSheetProxy({ refresh = false } = {}) {

@@ -198,16 +198,16 @@ def read_csv(path: Path) -> tuple[list[str], list[tuple[int, dict[str, str]]]]:
         return headers, pair_rows(headers, list(reader), 2)
 
 
-def read_payload(payload: dict) -> tuple[list[str], list[tuple[int, dict[str, str]]]]:
+def read_payload(payload: dict) -> tuple[list[str], list[tuple[int, dict[str, str]]], dict]:
     if not payload.get("ok"):
         raise SystemExit(f"Sheet endpoint error: {payload.get('message') or payload}")
     headers = payload.get("headers") or []
     if not headers:
         raise SystemExit("Sheet endpoint returned no headers.")
-    return headers, pair_rows(headers, payload.get("rows") or [], int(payload.get("firstRow", 2)))
+    return headers, pair_rows(headers, payload.get("rows") or [], int(payload.get("firstRow", 2))), payload.get("links") or {}
 
 
-def load_sheet() -> tuple[list[str], list[tuple[int, dict[str, str]]]]:
+def load_sheet() -> tuple[list[str], list[tuple[int, dict[str, str]]], dict]:
     arg = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("PLG_ROADMAP_CSV", "")
 
     if arg and not arg.startswith("http"):
@@ -216,7 +216,8 @@ def load_sheet() -> tuple[list[str], list[tuple[int, dict[str, str]]]]:
             raise SystemExit(f"No such file: {path}")
         if path.suffix.lower() == ".json":
             return read_payload(json.loads(path.read_text(encoding="utf-8")))
-        return read_csv(path)
+        headers, rows = read_csv(path)
+        return headers, rows, {}
 
     url = arg or os.environ.get("PLG_ROADMAP_URL") or DEFAULT_SHEET_URL
     sep = "&" if "?" in url else "?"
@@ -228,13 +229,34 @@ def load_sheet() -> tuple[list[str], list[tuple[int, dict[str, str]]]]:
     except json.JSONDecodeError:
         raise SystemExit(
             "Sheet endpoint did not return JSON. Deploy a new version of the "
-            "Apps Script (v6+) so it supports field=sheet."
+            "Apps Script (v7+) so it supports field=sheet with hyperlinks."
         )
     return read_payload(payload)
 
 
+def attach_hyperlinks(items: list[dict], links: dict) -> int:
+    """Copy real PRD/Figma/prototype/Jira URLs onto items keyed by name|quarter."""
+    if not links:
+        return 0
+    attached = 0
+    for item in items:
+        key = f"{(item.get('name') or '').strip()}|{(item.get('expectedLaunchQuarter') or '').strip().upper()}"
+        entry = links.get(key)
+        if not entry:
+            continue
+        item["prdLinks"] = entry.get("prd") or []
+        item["figmaHrefs"] = entry.get("figma") or []
+        item["prototypeHrefs"] = entry.get("prototype") or []
+        item["jiraLinks"] = entry.get("jira") or []
+        designer = (entry.get("designer") or "").strip().lstrip("@").strip()
+        if designer:
+            item["designer"] = designer
+        attached += 1
+    return attached
+
+
 def main() -> None:
-    headers, rows = load_sheet()
+    headers, rows, links = load_sheet()
 
     quarters = parse_quarters()
     items = [
@@ -243,6 +265,7 @@ def main() -> None:
         if (r.get("Expected Launch Quarter") or "").strip().upper() in quarters
     ]
     assign_item_ids(items)
+    with_links = attach_hyperlinks(items, links)
 
     quarter_list = sorted(quarters, key=lambda q: int(q[1:]) if q[1:].isdigit() else q)
     quarter_label = "–".join(quarter_list) if len(quarter_list) > 1 else quarter_list[0]
@@ -271,7 +294,7 @@ def main() -> None:
     OUT.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     counts = {q: sum(1 for i in items if i.get("expectedLaunchQuarter", "").upper() == q) for q in quarter_list}
     summary = ", ".join(f"{q}: {counts[q]}" for q in quarter_list)
-    print(f"Wrote {len(items)} items ({summary}) to {OUT}")
+    print(f"Wrote {len(items)} items ({summary}) to {OUT} · {with_links} with sheet hyperlinks")
 
 
 if __name__ == "__main__":

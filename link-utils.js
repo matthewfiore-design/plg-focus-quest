@@ -88,6 +88,13 @@ export function mergeLinkItems(value, extras = []) {
   return merged;
 }
 
+export function isPlaceholderLinkText(value) {
+  const v = String(value || "").trim();
+  if (!v) return true;
+  if (/^https?:\/\//i.test(v)) return false;
+  return /^(figma(?: link)?|here|link|tbd|n\/?a|prd|one pager|1-pager|offer sheet|lovable)$/i.test(v);
+}
+
 /** First real URL for a field, preferring hyperlinks pulled from the sheet. */
 export function firstLinkHref(value, extras = []) {
   return mergeLinkItems(value, extras)[0]?.href || "";

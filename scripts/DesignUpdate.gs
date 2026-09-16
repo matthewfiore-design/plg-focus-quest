@@ -9,7 +9,7 @@
  * The remote project also holds PMreminders, ENGreminders, LaunchSummary and
  * "ge offer calendar"; the deploy script pulls before pushing so those survive.
  */
-const SCRIPT_VERSION = 6;
+const SCRIPT_VERSION = 7;
 var responseCallback_ = "";
 const SPREADSHEET_ID = "1WO_g6zMRL_T9gw0lfP7jf25_sSoLlSacQH59sWP-eH8";
 const TAB = "Sheet1";
@@ -497,51 +497,48 @@ function columnToLetter_(column) {
 }
 
 /**
- * Whole-sheet read for the nightly roadmap sync. Uses a single
- * getDisplayValues() call; collectLinks_ asks the Sheets API per row, which
- * exceeds the execution budget once every row is requested.
- * Rows come back in sheet order starting at row 2, blanks included, so a
- * consumer can map array index to sheet row.
+ * One snapshot of Sheet1: display text, formulas, rich text, and a single
+ * Sheets API read for chip/hyperlink URLs. collectLinks_ used to call the API
+ * once per row, which exceeded the execution budget on a full-sheet read.
  */
-function collectSheet_(p) {
+function snapshotSheet_() {
   var sheet = targetSheet_(SpreadsheetApp.openById(SPREADSHEET_ID));
   var lastRow = sheet.getLastRow();
   var lastCol = sheet.getLastColumn();
-  if (lastRow < 1 || lastCol < 1) return { ok: true, headers: [], rows: [] };
+  var empty = {
+    sheet: sheet,
+    lastRow: lastRow,
+    lastCol: lastCol,
+    headers: [],
+    values: [],
+    formulas: [],
+    rich: [],
+    apiGrid: [],
+  };
+  if (lastRow < 1 || lastCol < 1) return empty;
 
-  var values = sheet.getRange(1, 1, lastRow, lastCol).getDisplayValues();
+  var range = sheet.getRange(1, 1, lastRow, lastCol);
+  var values = range.getDisplayValues();
   var headers = [];
   for (var c = 0; c < values[0].length; c++) {
     headers.push(String(values[0][c] == null ? "" : values[0][c]).trim());
   }
-
-  var rows = [];
-  for (var r = 1; r < values.length; r++) {
-    var row = [];
-    for (var i = 0; i < lastCol; i++) {
-      row.push(String(values[r][i] == null ? "" : values[r][i]));
-    }
-    rows.push(row);
-  }
-
   return {
-    ok: true,
-    version: SCRIPT_VERSION,
-    tab: sheet.getName(),
-    firstRow: 2,
+    sheet: sheet,
+    lastRow: lastRow,
+    lastCol: lastCol,
     headers: headers,
-    rows: rows,
+    values: values,
+    formulas: range.getFormulas(),
+    rich: range.getRichTextValues(),
+    apiGrid: apiLinkRange_(sheet, 1, lastRow, lastCol),
   };
 }
 
-function collectLinks_(p) {
+function linksFromSnapshot_(snap, p) {
   p = p || {};
-  var sheet = targetSheet_(SpreadsheetApp.openById(SPREADSHEET_ID));
-  var lastRow = sheet.getLastRow();
-  var lastCol = sheet.getLastColumn();
-  if (lastRow < 2 || lastCol < 1) return { ok: true, links: {} };
-
-  var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
+  if (!snap || snap.lastRow < 2) return {};
+  var headers = snap.headers;
   var projectCol = headerIndex_(headers, "Project Name");
   var quarterCol = headerIndex_(headers, "Expected Launch Quarter");
   var cols = {
@@ -551,24 +548,14 @@ function collectLinks_(p) {
     prototype: headerIndex_(headers, "Prototype Links") || headerIndex_(headers, "Prototype Link"),
     jira: headerIndex_(headers, "JIRA PLAN Link"),
   };
-
-  var rows = [];
   var targetName = String(p.name || "").trim().replace(/\s+/g, " ");
-  if (targetName) {
-    var row = findRow_(sheet, headers, p);
-    if (!(row > 1)) return { ok: true, links: {} };
-    rows.push(row);
-  } else {
-    for (var r = 2; r <= lastRow; r++) rows.push(r);
-  }
+  var targetQuarter = String(p.quarter || p.expectedLaunchQuarter || "")
+    .trim()
+    .toUpperCase();
 
   var links = {};
-  for (var i = 0; i < rows.length; i++) {
-    var rowNum = rows[i];
-    var range = sheet.getRange(rowNum, 1, 1, lastCol);
-    var display = range.getDisplayValues()[0];
-    var formulas = range.getFormulas()[0];
-    var rich = range.getRichTextValues()[0];
+  for (var r = 1; r < snap.values.length; r++) {
+    var display = snap.values[r];
     var name = String((projectCol > 0 ? display[projectCol - 1] : "") || "")
       .trim()
       .replace(/\s+/g, " ");
@@ -577,29 +564,55 @@ function collectLinks_(p) {
     var quarter = String((quarterCol > 0 ? display[quarterCol - 1] : "") || "")
       .trim()
       .toUpperCase();
-    var apiRow = apiLinkRow_(sheet, rowNum, lastCol);
+    if (targetName && targetQuarter && quarter && quarter !== targetQuarter) continue;
+    var apiRow = ((snap.apiGrid[r] || {}).values) || [];
     links[name + "|" + quarter] = {
       designer: designerDisplay_(display, cols.designer),
-      prd: cellLinks_(rich, formulas, display, apiRow, cols.prd),
-      figma: cellLinks_(rich, formulas, display, apiRow, cols.figma),
-      prototype: cellLinks_(rich, formulas, display, apiRow, cols.prototype),
-      jira: cellLinks_(rich, formulas, display, apiRow, cols.jira),
+      prd: cellLinks_(snap.rich[r], snap.formulas[r], display, apiRow, cols.prd),
+      figma: cellLinks_(snap.rich[r], snap.formulas[r], display, apiRow, cols.figma),
+      prototype: cellLinks_(snap.rich[r], snap.formulas[r], display, apiRow, cols.prototype),
+      jira: cellLinks_(snap.rich[r], snap.formulas[r], display, apiRow, cols.jira),
     };
     if (targetName) break;
   }
-  return { ok: true, links: links };
+  return links;
 }
 
-function apiLinkRow_(sheet, row, lastCol) {
+function collectSheet_(p) {
+  var snap = snapshotSheet_();
+  var rows = [];
+  for (var r = 1; r < snap.values.length; r++) {
+    var row = [];
+    for (var i = 0; i < snap.lastCol; i++) {
+      row.push(String(snap.values[r][i] == null ? "" : snap.values[r][i]));
+    }
+    rows.push(row);
+  }
+  return {
+    ok: true,
+    version: SCRIPT_VERSION,
+    tab: snap.sheet.getName(),
+    firstRow: 2,
+    headers: snap.headers,
+    rows: rows,
+    links: linksFromSnapshot_(snap, {}),
+  };
+}
+
+function collectLinks_(p) {
+  return { ok: true, links: linksFromSnapshot_(snapshotSheet_(), p) };
+}
+
+function apiLinkRange_(sheet, startRow, endRow, lastCol) {
   if (typeof Sheets === "undefined" || !Sheets.Spreadsheets) return [];
+  if (!(endRow >= startRow) || lastCol < 1) return [];
   try {
-    var rangeA1 = sheet.getName() + "!A" + row + ":" + columnToLetter_(lastCol) + row;
+    var rangeA1 = sheet.getName() + "!A" + startRow + ":" + columnToLetter_(lastCol) + endRow;
     var resp = Sheets.Spreadsheets.get(sheet.getParent().getId(), {
       ranges: [rangeA1],
       fields: "sheets.data.rowData.values(formattedValue,hyperlink,chipRuns)",
     });
-    var values = (((((resp.sheets || [])[0] || {}).data || [])[0] || {}).rowData || [])[0];
-    return values && values.values ? values.values : [];
+    return ((((resp.sheets || [])[0] || {}).data || [])[0] || {}).rowData || [];
   } catch (err) {
     return [];
   }
