@@ -45,7 +45,7 @@
     "Q4"
   ],
   "quarterField": "Expected Launch Quarter",
-  "syncedAt": "2026-09-19",
+  "syncedAt": "2026-09-21",
   "items": [
     {
       "name": "[Big Rock] Quoting cart p1 - Provisionable Addons",
@@ -1602,7 +1602,7 @@
       "designer": "Alexa Stahl",
       "l2": "",
       "successMetric": "",
-      "statusUpdated": "9/10/2026",
+      "statusUpdated": "9/21/2026",
       "status": "1/2 RFCs completed. Work will begin this sprint while other RFC gets finalized",
       "launchDate": "",
       "expectedLaunchMonth": "10. October",
@@ -2480,7 +2480,7 @@
     {
       "name": "[Experiment] Persistent Buy Bar Flora Updates",
       "description": "Update persistent buy bar to flora, add dark mode support, unify behavior in trial home and admin center",
-      "state": "5. Live Experiment",
+      "state": "6. Launched",
       "designer": "Lynette Liwanag",
       "l2": "",
       "successMetric": "",
@@ -2823,8 +2823,8 @@
       "designer": "Nicaela Rivera",
       "l2": "",
       "successMetric": "% exposed to AI \n% adding agent (in-trial)\n% connecting email (in-trial)",
-      "statusUpdated": "9/4/2026",
-      "status": "Planned for Q3\nEngg / Product in touch with XFN teams working on Forethought migration. Early feedback/impression seems like Disha team would have minimal scope\nHere is thread - https://zendesk.slack.com/archives/C0BM4AUHJCD/p1788374202199509",
+      "statusUpdated": "9/21/2026",
+      "status": "[9/21] Carlos from the CX team confoirmed that there will be changes required. However the details are still pending. Followingup the PM(Mick O'Donnell) as well, anwer awaited.\nDisha team needs to make 1 API call to create 1 AI Agent and later on just configure as many connections(channels) as needed on that same AI Agent\n\n[9/4]Planned for Q3\nEngg / Product in touch with XFN teams working on Forethought migration. Early feedback/impression seems like Disha team would have minimal scope\nHere is thread - https://zendesk.slack.com/archives/C0BM4AUHJCD/p1788374202199509",
       "launchDate": "",
       "expectedLaunchMonth": "",
       "expectedLaunchQuarter": "Q3",
@@ -2952,8 +2952,8 @@
       "designer": "Nicaela Rivera",
       "l2": "",
       "successMetric": "AI agent simple setup, Self-service 60 day win rate",
-      "statusUpdated": "9/4/2026",
-      "status": "Stories have been created and engineering is assigning tasks on Aug 12 (post design revisions scope significantly increased)\n\nEngineering started development . Production ETA ( 10/12)\n\nDev On Track for Prod 10/12 ETA. Engg collaborating with XFN teams to enure alignment. \nProduct finalizing experiment setup",
+      "statusUpdated": "9/18/2026",
+      "status": "[09/18] - Development WIP for launchpad revamp for a trials project . \nBased on complexities uncovered so far in terms of interdependencies and integrations it looks like experiment live date of 10/12 may get pushed back by a few days to allow sufficient time for integration testing. The team would take that call mid Week of 10/21 and accordingly communicate to XFN teams.In terms of PR reviews/sequencing the team probably needed to put enough buffer to allow for X team reviews / discussions etc. Looks like the team underestimated that effort. \n\n[09/04]- Dev On Track for Prod 10/12 ETA. Engg collaborating with XFN teams to enure alignment. \nProduct finalizing experiment setup \n\n[08/13]- Engineering started development . Production ETA ( 10/12)\n\nStories have been created and engineering is assigning tasks on Aug 12 (post design revisions scope significantly increased)",
       "launchDate": "",
       "expectedLaunchMonth": "10. October",
       "expectedLaunchQuarter": "Q3",
