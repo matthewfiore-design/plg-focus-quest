@@ -3,295 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#000000" />
-  <title>PLG Focus Quest · Team Hub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260916i" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <meta name="robots" content="noindex" />
+  <title>PLG Focus Quest has moved</title>
+  <meta http-equiv="refresh" content="0; url=https://cautious-waddle-nyj5p1y.pages.github.io/focus-tracker/" />
+  <link rel="canonical" href="https://cautious-waddle-nyj5p1y.pages.github.io/focus-tracker/" />
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #0b0b10;
+      color: #f4f4f6;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      text-align: center;
+      padding: 24px;
+    }
+    h1 { font-size: 20px; font-weight: 600; margin: 0 0 8px; }
+    p { margin: 0 0 20px; color: #a0a0ad; font-size: 14px; }
+    a {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 8px;
+      background: #4b7bec;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-  <div class="stars" aria-hidden="true"></div>
-  <div id="confetti-root" aria-hidden="true"></div>
-
-  <header class="hud">
-    <div class="hud__brand">
-      <span class="hud__logo">PLG</span>
-      <div>
-        <p class="hud__eyebrow">Focus Quest</p>
-        <h1 id="week-title">Week loading…</h1>
-        <button type="button" id="btn-quest-guide" class="btn-quest-guide">Quest Guide</button>
-      </div>
-    </div>
-    <nav class="hud__nav" id="hud-nav" aria-label="Main">
-      <button type="button" class="nav-tab is-active" data-view="tasks">My Tasks</button>
-      <button type="button" class="nav-tab" data-view="roadmap"><span class="nav-tab__full">PLG </span>Roadmap</button>
-    </nav>
-    <div class="hud__end">
-    <div class="hud__actions">
-      <button type="button" id="btn-settings" class="btn-settings" title="Settings" aria-label="Settings">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-          <path fill="currentColor" d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.15 7.15 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.59.24-1.13.56-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 8.84a.5.5 0 0 0 .12.64L4.86 11.06c-.04.31-.06.63-.06.94s.02.63.06.94L2.83 14.52a.5.5 0 0 0-.12.64l1.92 3.32c.13.23.4.32.64.22l2.39-.96c.5.38 1.04.7 1.63.94l.36 2.54c.05.24.26.42.5.42h3.84c.24 0 .45-.18.5-.42l.36-2.54c.59-.24 1.13-.56 1.63-.94l2.39.96c.24.1.51 0 .64-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2Z"/>
-        </svg>
-      </button>
-      <button type="button" id="btn-add-top" class="btn-add-top" title="Add quest" aria-label="Add quest">+</button>
-    </div>
-    <div class="hud__stats" id="hud-stats">
-      <div class="stat stat--level">
-        <span class="stat__label">Rank</span>
-        <strong id="level-label">Rookie</strong>
-        <span class="stat__sub" id="level-num">Lv 1</span>
-      </div>
-      <div class="stat stat--xp">
-        <span class="stat__label">XP</span>
-        <div class="xp-bar"><div id="xp-fill" class="xp-bar__fill"></div></div>
-        <span class="stat__sub" id="xp-text">0 / 100</span>
-      </div>
-      <div class="stat stat--streak">
-        <span class="stat__label">Streak</span>
-        <strong id="streak-count">0</strong>
-        <span class="stat__sub">days</span>
-      </div>
-    </div>
-    </div>
-  </header>
-
-  <main id="view-tasks" class="layout view view--active">
-    <div class="layout__main">
-      <div class="work-toolbar">
-        <div>
-          <p class="panel__eyebrow">Designer work</p>
-          <h2 class="work-toolbar__title">Tasks &amp; subtasks</h2>
-        </div>
-      </div>
-
-      <section class="panel panel--today" id="panel-today">
-      <div class="panel__head" id="tour-today-head">
-        <div>
-          <p class="panel__eyebrow">Today's run</p>
-          <h2 id="today-label">Today</h2>
-        </div>
-        <div class="ring" id="today-ring" role="img" aria-label="Today's progress">
-          <svg viewBox="0 0 36 36">
-            <path class="ring__track" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-            <path id="ring-progress" class="ring__progress" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-          </svg>
-          <span id="ring-pct" class="ring__label">0%</span>
-        </div>
-      </div>
-      <ul id="today-tasks" class="task-list"></ul>
-      <p id="today-empty" class="empty hidden">All clear for today — nice work.</p>
-      <button type="button" id="btn-show-more-today" class="btn-show-more hidden">Show 5 more</button>
-    </section>
-
-      <section class="panel panel--projects" id="panel-projects">
-      <div class="panel__head panel__head--stack" id="tour-projects-head">
-        <div>
-          <p class="panel__eyebrow">My roadmap projects</p>
-          <h2 id="projects-heading">Roadmap work</h2>
-        </div>
-        <p id="projects-meta" class="panel__hint">Select your name in Settings to see assigned initiatives.</p>
-      </div>
-      <div id="my-projects" class="project-list"></div>
-      <p id="projects-empty" class="empty hidden">No roadmap items assigned to you.</p>
-    </section>
-    </div>
-
-    <aside class="sidebar">
-      <section class="panel panel--leaderboard" id="panel-leaderboard">
-        <div id="tour-board-head">
-        <p class="panel__eyebrow">Squad board</p>
-        <h2 class="leaderboard__heading">Leaderboard</h2>
-        <div class="leaderboard-tabs" role="tablist" aria-label="Leaderboard metric">
-          <button type="button" class="leaderboard-tabs__btn is-active" data-board="week" role="tab" aria-selected="true">This week</button>
-          <button type="button" class="leaderboard-tabs__btn" data-board="xp" role="tab" aria-selected="false">Lifetime XP</button>
-        </div>
-        <p id="leaderboard-hint" class="panel__hint">Task count resets Monday. XP is forever.</p>
-        </div>
-        <ol id="leaderboard-list" class="leaderboard"></ol>
-      </section>
-
-      <section class="panel panel--week">
-        <p class="panel__eyebrow">Week map</p>
-        <div id="week-nav" class="week-nav"></div>
-      </section>
-
-      <section class="panel panel--goals">
-        <p class="panel__eyebrow">Annual goals</p>
-        <p class="panel__hint">Long-horizon wins — high XP</p>
-        <ul id="outcome-tasks" class="task-list task-list--compact"></ul>
-      </section>
-
-    </aside>
+  <main>
+    <h1>Focus Quest has moved</h1>
+    <p>This version is retired. The tracker now lives in PLG Design.</p>
+    <a href="https://cautious-waddle-nyj5p1y.pages.github.io/focus-tracker/">Open Focus Quest</a>
   </main>
-
-  <main id="view-settings" class="settings-view view" hidden>
-    <header class="settings-header">
-      <div>
-        <p class="panel__eyebrow">Utilities</p>
-        <h2>Settings</h2>
-        <p class="settings-header__meta">Identity, sheet sync, data gaps, and local save tools.</p>
-      </div>
-    </header>
-
-    <section class="panel settings-panel" id="settings-identity">
-      <p class="panel__eyebrow">You</p>
-      <h3>Identity</h3>
-      <label class="profile-field" id="tour-identity">
-        <span>I am</span>
-        <select id="designer-profile">
-          <option value="">Select designer…</option>
-        </select>
-      </label>
-      <p class="panel__hint">Loads your initiatives and credits completions to you on the leaderboard.</p>
-    </section>
-
-    <section class="panel settings-panel" id="settings-gaps">
-      <div class="health-radar__head">
-        <div>
-          <p class="panel__eyebrow">Source of truth</p>
-          <h3 id="health-title">Data gaps</h3>
-        </div>
-        <div class="health-radar__filters" role="tablist" aria-label="Data gap scope">
-          <button type="button" class="health-radar__filter is-active" data-health-scope="you">You</button>
-          <button type="button" class="health-radar__filter" data-health-scope="squad">Squad</button>
-        </div>
-      </div>
-      <p class="panel__hint" id="health-meta">Missing PRD, Figma, or estimate on the roadmap sheet. Figma is expected once work is in progress.</p>
-      <div id="health-list" class="health-radar__list"></div>
-    </section>
-
-    <section class="panel settings-panel" id="settings-sheet">
-      <p class="panel__eyebrow">Sheet write-back</p>
-      <h3>Apps Script</h3>
-      <div id="sheet-script-alert" class="script-alert" hidden>
-        <strong>Sheet script issue</strong>
-        <p id="sheet-script-alert-body">The live script cannot read PRD or Figma URLs.</p>
-      </div>
-      <label class="profile-field profile-field--optional">
-        <span>Web app URL</span>
-        <input id="apps-script-url" type="url" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off" spellcheck="false" />
-      </label>
-      <p id="google-sync-status" class="panel__hint panel__hint--sync"></p>
-      <div class="settings-panel__actions">
-        <button type="button" id="btn-copy-sheet-script" class="btn btn--ghost" aria-live="polite">Copy sheet script</button>
-        <button type="button" id="btn-google-connect" class="btn btn--ghost">Save script URL</button>
-        <button type="button" id="btn-check-script" class="btn btn--ghost">Check script</button>
-      </div>
-      <p class="panel__hint">Paste <code>DesignUpdate.gs</code> in the Google Sheet under Extensions → Apps Script, then deploy a new version. Quest checkboxes write to the Progress workbook <strong>Tasks</strong> tab when I am is set.</p>
-    </section>
-
-    <section class="panel settings-panel" id="settings-ai">
-      <p class="panel__eyebrow">Optional</p>
-      <h3>Generate subtasks</h3>
-      <label class="profile-field profile-field--optional">
-        <span>OpenAI key</span>
-        <input id="openai-key" type="password" placeholder="sk-…" autocomplete="off" />
-      </label>
-    </section>
-
-    <section class="panel settings-panel" id="settings-data">
-      <p class="panel__eyebrow">This browser</p>
-      <h3>Local save</h3>
-      <div class="settings-panel__actions">
-        <button type="button" id="btn-add" class="btn btn--ghost">+ Add quest</button>
-        <button type="button" id="btn-export" class="btn btn--ghost">Export save</button>
-        <button type="button" id="btn-reset" class="btn btn--danger">Reset week</button>
-      </div>
-    </section>
-  </main>
-
-  <main id="view-roadmap" class="roadmap-view view" hidden>
-    <header class="roadmap-header" id="tour-roadmap">
-      <div>
-        <p class="panel__eyebrow">PLG Roadmap 2026</p>
-        <h2>Roadmap initiatives</h2>
-        <p id="roadmap-count" class="roadmap-header__count"></p>
-      </div>
-      <div class="roadmap-header__aside">
-        <a id="roadmap-source-link" class="roadmap-source-link hidden" href="#" target="_blank" rel="noopener noreferrer">Open source sheet ↗</a>
-        <p id="roadmap-subtitle" class="roadmap-header__meta"></p>
-      </div>
-    </header>
-    <div id="tour-roadmap-board" class="roadmap-board">
-      <div id="roadmap-filters" class="roadmap-filters" role="group" aria-label="Filter roadmap initiatives"></div>
-      <div id="roadmap-grid" class="roadmap-grid"></div>
-    </div>
-  </main>
-
-  <div id="roadmap-scrim" class="roadmap-scrim hidden" aria-hidden="true"></div>
-  <aside id="roadmap-panel" class="roadmap-panel" aria-hidden="true" aria-labelledby="roadmap-panel-title">
-    <header class="roadmap-panel__head">
-      <button type="button" id="roadmap-panel-close" class="icon-btn roadmap-panel__close" aria-label="Close details">×</button>
-      <div class="roadmap-panel__title-wrap">
-          <div class="roadmap-panel__title-row">
-          <h3 id="roadmap-panel-title"></h3>
-          <div class="roadmap-panel__estimate">
-            <span id="roadmap-estimate-value" class="roadmap-panel__estimate-value hidden"></span>
-            <button type="button" id="roadmap-estimate-btn" class="btn btn--ghost roadmap-panel__estimate-btn">Estimate</button>
-          </div>
-        </div>
-      </div>
-    </header>
-    <div id="roadmap-panel-body" class="roadmap-panel__body"></div>
-  </aside>
-
-  <div id="toast" class="toast hidden" role="status"></div>
-
-  <dialog id="task-dialog" class="dialog">
-    <form method="dialog" id="task-form">
-      <h3 id="task-dialog-title">New quest</h3>
-      <input type="hidden" name="id" id="task-id" value="" />
-      <label>Title<input name="title" required maxlength="120" /></label>
-      <label>Note<textarea name="note" rows="2"></textarea></label>
-      <div class="date-field">
-        <span class="date-field__label">Due Date</span>
-        <div id="task-due-picker"></div>
-      </div>
-      <label>Type
-        <select name="type">
-          <option value="daily">Daily Quest</option>
-          <option value="annual">Annual Goal</option>
-          <option value="other">Other</option>
-        </select>
-      </label>
-      <menu class="dialog__menu">
-        <button type="button" class="btn btn--danger hidden" id="task-delete">Remove</button>
-        <span class="dialog__menu-spacer"></span>
-        <button type="button" class="btn btn--ghost" id="task-cancel">Cancel</button>
-        <button type="submit" class="btn btn--primary" id="task-save">Add</button>
-      </menu>
-    </form>
-  </dialog>
-
-  <dialog id="subtask-dialog" class="dialog">
-    <form method="dialog" id="subtask-form">
-      <h3 id="subtask-dialog-title">Add subtask</h3>
-      <input type="hidden" name="roadmapId" id="subtask-roadmap-id" value="" />
-      <p id="subtask-project-name" class="dialog__context"></p>
-      <label>Title<input name="title" required maxlength="120" /></label>
-      <label>Note<textarea name="note" rows="2"></textarea></label>
-      <label>Schedule for<input name="due" type="date" required /></label>
-      <menu class="dialog__menu">
-        <span class="dialog__menu-spacer"></span>
-        <button type="button" class="btn btn--ghost" id="subtask-cancel">Cancel</button>
-        <button type="submit" class="btn btn--primary" id="subtask-save">Add subtask</button>
-      </menu>
-    </form>
-  </dialog>
-
-  <dialog id="estimator-dialog" class="dialog dialog--estimator">
-    <header class="estimator-dialog__head">
-      <div>
-        <p class="panel__eyebrow">Design Ops · Quarterly Planning</p>
-        <h3 id="estimator-project-name">Project</h3>
-      </div>
-      <button type="button" id="estimator-close" class="icon-btn" aria-label="Close estimator">×</button>
-    </header>
-    <div id="estimator-root" class="estimator-root"></div>
-  </dialog>
-
-  <script src="app.js?v=20260916c" type="module"></script>
+  <script>
+    location.replace("https://cautious-waddle-nyj5p1y.pages.github.io/focus-tracker/");
+  </script>
 </body>
 </html>
